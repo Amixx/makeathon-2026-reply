@@ -41,7 +41,7 @@
     "course_name_en": "Orbital Robotic Systems: Mechanics and Control",
     "course_id": 960120221,
     "description_en": "Introduces docking dynamics, manipulation in microgravity, proximity operations, and control design for orbital robotic systems.",
-    "note_en": "Good bridge course if Lina is deciding between agency robotics and startup GNC paths.",
+    "note_en": "Good bridge course if Lukas is deciding between agency robotics and startup GNC paths.",
     "groups": [
       {
         "group_name": "Standard group",
@@ -76,7 +76,7 @@
     "course_name_en": "Visual Navigation for Field Robotics",
     "course_id": 960120307,
     "description_en": "Visual odometry, localization under uncertainty, and perception pipelines for robots operating in GPS-denied environments.",
-    "note_en": "Useful if Lina wants a stronger autonomy signal before thesis outreach.",
+    "note_en": "Useful if Lukas wants a stronger autonomy signal before thesis outreach.",
     "groups": [
       {
         "group_name": "Standard group",
@@ -107,7 +107,7 @@
     "course_name_en": "Spanish A2.2 for Academic Mobility",
     "course_id": 960120602,
     "description_en": "Conversation-focused Spanish for study, travel, and academic exchange contexts.",
-    "note_en": "Unrelated to Lina's main career path, but included to make the catalog feel like a real university environment.",
+    "note_en": "Unrelated to Lukas's main career path, but included to make the catalog feel like a real university environment.",
     "groups": [
       {
         "group_name": "Standard group",
