@@ -25,6 +25,9 @@ SESSION_STORE_PATH: Path = Path(
 # ── Server ───────────────────────────────────────────────────────────────────
 MCP_HOST: str = os.getenv("MCP_HOST", "0.0.0.0")
 MCP_PORT: int = int(os.getenv("MCP_PORT", "8000"))
+INTERNAL_MCP_PORT: int = int(os.getenv("INTERNAL_MCP_PORT", "8001"))
+INSPECTOR_CLIENT_PORT: int = int(os.getenv("INSPECTOR_CLIENT_PORT", "6274"))
+INSPECTOR_PROXY_PORT: int = int(os.getenv("INSPECTOR_PROXY_PORT", "6277"))
 
 # ── External APIs ────────────────────────────────────────────────────────────
 EAT_API_BASE: str = "https://tum-dev.github.io/eat-api/en"

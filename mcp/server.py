@@ -1,4 +1,4 @@
-"""Campus Co-Pilot MCP Server — entry point."""
+"""Campus Co-Pilot MCP Server — MCP app entry point."""
 
 import logging
 import sys
@@ -32,26 +32,8 @@ for mod in [auth_tools, mensa, tumonline, navigatum, mvv, moodle, matrix, collab
 
 logger.info("All modules registered")
 
-# ── Landing page → MCP Inspector ─────────────────────────────────────────────
-from starlette.responses import HTMLResponse  # noqa: E402
-from starlette.routing import Route  # noqa: E402
-
-
-def _landing(request):
-    scheme = request.headers.get("x-forwarded-proto", request.url.scheme)
-    host = request.headers.get("x-forwarded-host", request.headers.get("host", request.url.netloc))
-    server_url = f"{scheme}://{host}/mcp"
-    inspector_url = f"https://inspector.tools.modelcontextprotocol.io/?serverUrl={server_url}&transportType=streamableHttp"
-    return HTMLResponse(
-        f'<html><head><meta http-equiv="refresh" content="0;url={inspector_url}"></head>'
-        f'<body>Redirecting to <a href="{inspector_url}">MCP Inspector</a>…</body></html>'
-    )
-
-
 def build_app():
-    app = mcp.streamable_http_app()
-    app.routes.insert(0, Route("/", _landing))
-    return app
+    return mcp.streamable_http_app()
 
 
 app = build_app()

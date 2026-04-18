@@ -72,6 +72,12 @@ mcp/                    # Campus Co-Pilot MCP Server (Python)
 `explorations/` contains API discovery notes (endpoints, auth requirements, response
 shapes) gathered during development. Check before adding new tools.
 
+## Git workflow
+
+- Do not perform git operations such as `git add`, `git commit`, `git push`,
+  branch creation, merges, rebases, or resets unless the user explicitly asks.
+- Leave git workflow decisions and execution to the user by default.
+
 ## Running locally
 
 ```bash
