@@ -13,7 +13,7 @@ export default function Swarm() {
   const navigate = useNavigate();
   const { program, interest } = useOnboarding();
   const setItems = useOpportunities((s) => s.set);
-  const { agents, items, isDiscovering, done, error, start } = useSwarm();
+  const { agents, items, done, error, start } = useSwarm();
 
   useEffect(() => {
     start({ program: program || undefined, interest: interest || undefined });
@@ -46,7 +46,6 @@ export default function Swarm() {
               status={agent.status}
               bullets={agent.bullets}
               streamLog={agent.streamLog}
-              summary={agent.summary}
               items={agent.items}
               index={i}
             />

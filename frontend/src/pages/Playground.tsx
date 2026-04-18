@@ -171,7 +171,6 @@ export default function Playground() {
             { text: 'Found 3 matching electives', status: 'done' },
             { text: 'Ranked by match score', status: 'done' },
           ]}
-          borderAccent
         />
         <AgentCard
           index={1}

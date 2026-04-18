@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
+import { resetDemoProfile } from '../lib/agent';
+import { useOnboarding } from '../store/onboarding';
 import styles from './Landing.module.css';
 
 function fadeUp(delay: number) {
@@ -12,6 +14,19 @@ function fadeUp(delay: number) {
 
 export default function Landing() {
   const navigate = useNavigate();
+  const hydrate = useOnboarding((state) => state.hydrate);
+  const setField = useOnboarding((state) => state.setField);
+
+  async function handleStart() {
+    try {
+      const bootstrap = await resetDemoProfile();
+      hydrate(bootstrap.profile);
+      setField('tumPassword', bootstrap.tumPassword ?? '');
+    } catch {
+      // If the backend reset fails, still let the user continue with local state.
+    }
+    navigate('/onboarding/vision');
+  }
 
   return (
     <div className={styles.page}>
@@ -40,7 +55,7 @@ export default function Landing() {
         <motion.div {...fadeUp(0.48)}>
           <button
             className={styles.ctaBtn}
-            onClick={() => navigate('/swarm')}
+            onClick={handleStart}
           >
             <svg
               width="20"
