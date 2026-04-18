@@ -1,0 +1,89 @@
+{
+  "sports": [
+    {
+      "name": "Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/achtsamkeitstraining"
+    },
+    {
+      "name": "AcroYoga Partner - Yoga - Akrobatik - München  Kurzinfo: Fl... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/acroyoga"
+    },
+    {
+      "name": "Aikido  Aikido - Kampfsport - Gleichgewicht - Technik - Mü... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/aikido"
+    },
+    {
+      "name": "Akrobatik Partnerakrobatik - Heben - Fliegen - München  Kurz... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/akrobatik"
+    },
+    {
+      "name": "Aquapower Fitness - Ganzkörpertraining - Kraft - München  Ku... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/aquapower-health-1"
+    },
+    {
+      "name": "Bachata Tanz -Rhythmus - Lateinamerikanisch - München  Kur... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/bachata"
+    },
+    {
+      "name": "Ballett Tanz- Klassisch - Ballett - München  Kurzinfo:Einf... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/ballett"
+    },
+    {
+      "name": "Baseball Baseball - Softball - Mixed - Strike - München  Ku... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/baseball-1"
+    },
+    {
+      "name": "Body Pump Body-Pump-Fitness-München  Kurzinfo:   BODY PUMP i... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/body-pump"
+    },
+    {
+      "name": "BODYART® Fitness - Gesundheit - München  Kurzinfo: BODYART®... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/bodyart"
+    },
+    {
+      "name": "Bogensport Bogensport - Kampfsport - Präzision - München  Kur... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/bogensport-3"
+    },
+    {
+      "name": "Bowling Kegeln - Gut Holz! - Strike - München  Kurzinfo:  ... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/bowling-1"
+    },
+    {
+      "name": "Boxen Boxen - Kampfsport - Beinarbeit - Sparring - Münch... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/boxen-1"
+    },
+    {
+      "name": "Capoeira Capoeira - Kampfkunst - Rhythmus - München  Kurzin... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/capoeira"
+    },
+    {
+      "name": "DEEPWORK® Ganzkörpertraining - Cardio - funktionelles Kraftt... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/deep-work"
+    },
+    {
+      "name": "Dodgeball Dodgeball - Völkerball - Ausweichball - Hit - Münc... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/dodgeball-1"
+    },
+    {
+      "name": "Fechten Kampfsport - Training - München  Kurzinfo:  Modern... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/fechten-1"
+    },
+    {
+      "name": "Flagfootball Flag - Defense - Offense - Touchdown - München  Ku... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/flagfootball-1"
+    },
+    {
+      "name": "Floorball Floorball - Unihockey - Stock - Lochball - München... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/floorball-1"
+    },
+    {
+      "name": "Futsal Futsal - Indoor oder Outdoor - München  Kurzinfo: ... Zum Angebot",
+      "url": "https://kurse.zhs-muenchen.de/de/courses/muenchen-ausfluege/offers/futsal-1"
+    },
+    {
+      "_truncated": "37 more items omitted"
+    }
+  ],
+  "count": 57,
+  "source": "https://kurse.zhs-muenchen.de/de/muenchen"
+}

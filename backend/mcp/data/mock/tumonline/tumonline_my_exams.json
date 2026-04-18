@@ -1,0 +1,31 @@
+{
+  "total": 3,
+  "semester_id": 206,
+  "exams": [
+    {
+      "id": 88401234,
+      "title": "Introduction to Deep Learning",
+      "course_number": "IN2346",
+      "date": "2026-07-27T09:00:00+02:00",
+      "room": "MW 2001 (Friedrich von Thiersch)",
+      "mode": "Written Exam"
+    },
+    {
+      "id": 88401567,
+      "title": "Distributed Systems",
+      "course_number": "IN2259",
+      "date": "2026-08-03T13:00:00+02:00",
+      "room": "Interims I 101",
+      "mode": "Written Exam"
+    },
+    {
+      "id": 88401890,
+      "title": "Advanced Database Systems",
+      "course_number": "IN2031",
+      "date": "2026-08-10T09:00:00+02:00",
+      "room": "00.02.001, MI HS 1",
+      "mode": "Written Exam"
+    }
+  ],
+  "source": "rest"
+}

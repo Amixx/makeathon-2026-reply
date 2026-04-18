@@ -24,7 +24,8 @@ def register(mcp: FastMCP) -> None:
             station_id = MvgApi.station(station)
             if not station_id:
                 return {"error": f"Station '{station}' not found"}
-            departures = MvgApi.departures(station_id["id"])
+            api = MvgApi(station_id["id"])
+            departures = api.departures()
             return {"station": station_id["name"], "departures": departures[:limit]}
         except Exception as e:
             logger.exception("MVV departures failed")

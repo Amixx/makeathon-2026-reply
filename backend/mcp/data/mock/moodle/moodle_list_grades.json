@@ -1,0 +1,10 @@
+{
+  "grades": [
+    {"course": "Algorithms and Data Structures (IN0007) – WS25/26", "grade": "1.3"},
+    {"course": "Introduction to Machine Learning (IN2064) – WS25/26", "grade": "1.7"},
+    {"course": "Computer Networks and Distributed Systems (IN0010) – WS25/26", "grade": "2.0"},
+    {"course": "Software Engineering (IN0009) – SS25", "grade": "1.0"},
+    {"course": "Functional Programming and Verification (IN0003) – SS25", "grade": "2.3"}
+  ],
+  "count": 5
+}

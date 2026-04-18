@@ -1,0 +1,26 @@
+{
+  "skills": [
+    {
+      "skill": "Machine Learning",
+      "course_count": 1,
+      "courses": [
+        "Introduction to Machine Learning"
+      ]
+    },
+    {
+      "skill": "Databases",
+      "course_count": 1,
+      "courses": [
+        "Database Systems"
+      ]
+    },
+    {
+      "skill": "Networking",
+      "course_count": 1,
+      "courses": [
+        "Computer Networks"
+      ]
+    }
+  ],
+  "count": 3
+}

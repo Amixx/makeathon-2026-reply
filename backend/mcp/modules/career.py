@@ -18,8 +18,9 @@ import mock
 logger = logging.getLogger(__name__)
 
 CAREER_BASE = "https://www.community.tum.de"
-JOBS_URL = f"{CAREER_BASE}/en/career/job-board/"
-EVENTS_URL = f"{CAREER_BASE}/en/career/career-events/"
+JOBS_BASE = "https://jobportal.community.tum.de"
+JOBS_URL = f"{JOBS_BASE}/search?language=en"
+EVENTS_URL = f"{CAREER_BASE}/veranstaltungen/?thema%5B%5D=bewerbung&thema%5B%5D=jobsuche&thema%5B%5D=orientation&thema%5B%5D=intcareer"
 
 
 def register(mcp: FastMCP) -> None:
@@ -34,22 +35,31 @@ def register(mcp: FastMCP) -> None:
             m = mock.get_mock("career", "career_list_jobs", keyword=keyword)
             if m is not None:
                 return m
-        ctx = await auth.get_anonymous_context()
         try:
-            page = await ctx.new_page()
-            await page.goto(JOBS_URL, wait_until="networkidle", timeout=30_000)
+            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
+                resp = await client.get(JOBS_URL)
+                resp.raise_for_status()
+            html = resp.text
 
-            # Generic extraction — cover likely card/list renderings
-            jobs = await page.eval_on_selector_all(
-                "article, .job, .job-posting, .card, li.posting, [class*='job']",
-                """els => els.map(e => ({
-                    title: (e.querySelector('h1,h2,h3,h4,.title,[class*=\"title\"]')?.textContent || '').trim(),
-                    company: (e.querySelector('.company,[class*=\"company\"],[class*=\"employer\"]')?.textContent || '').trim(),
-                    location: (e.querySelector('.location,[class*=\"location\"]')?.textContent || '').trim(),
-                    type: (e.querySelector('.type,.employment-type,[class*=\"type\"]')?.textContent || '').trim(),
-                    url: e.querySelector('a')?.href || '',
-                })).filter(x => x.title)"""
+            # jobportal.community.tum.de renders <li class="job"> with structured info
+            import re as _re
+            job_blocks = _re.findall(
+                r'<li\s+class="job[^"]*">\s*<a\s+href="(/show/\d+)">(.*?)</a>\s*</li>',
+                html, _re.DOTALL,
             )
+            jobs = []
+            for href, block in job_blocks:
+                title_m = _re.search(r'<strong>\s*(.*?)\s*</strong>', block, _re.DOTALL)
+                company_m = _re.search(r'class="company"[^>]*>(.*?)</li>', block)
+                location_m = _re.search(r'class="location"[^>]*>(.*?)</li>', block)
+                type_m = _re.search(r'class="type"[^>]*>(.*?)</li>', block)
+                jobs.append({
+                    "title": (title_m.group(1).strip() if title_m else ""),
+                    "company": (company_m.group(1).strip() if company_m else ""),
+                    "location": (location_m.group(1).strip() if location_m else ""),
+                    "type": (type_m.group(1).strip() if type_m else ""),
+                    "url": f"{JOBS_BASE}{href}",
+                })
 
             if keyword:
                 kw = keyword.lower()
@@ -62,8 +72,6 @@ def register(mcp: FastMCP) -> None:
         except Exception as e:
             logger.exception("career_list_jobs failed")
             return {"error": str(e), "source": JOBS_URL}
-        finally:
-            await ctx.close()
 
     @mcp.tool()
     async def career_list_events(keyword: str = "", limit: int = 20) -> dict:
@@ -82,13 +90,13 @@ def register(mcp: FastMCP) -> None:
             await page.goto(EVENTS_URL, wait_until="networkidle", timeout=30_000)
 
             events = await page.eval_on_selector_all(
-                "article, .event, .card, li.event, [class*='event']",
+                ".events-teaser__item",
                 """els => els.map(e => ({
-                    title: (e.querySelector('h1,h2,h3,h4,.title,[class*=\"title\"]')?.textContent || '').trim(),
-                    date: (e.querySelector('time,.date,[class*=\"date\"]')?.textContent || '').trim(),
+                    title: (e.querySelector('.events-teaser__title, h3')?.textContent || '').trim(),
+                    date: (e.querySelector('.events-teaser__date')?.textContent || '').trim(),
                     datetime: e.querySelector('time')?.getAttribute('datetime') || '',
-                    location: (e.querySelector('.location,[class*=\"location\"],[class*=\"venue\"]')?.textContent || '').trim(),
-                    summary: (e.querySelector('p,.summary,.description,[class*=\"description\"]')?.textContent || '').trim().slice(0, 280),
+                    location: (e.querySelector('.events-teaser__location')?.textContent || '').trim(),
+                    summary: (e.querySelector('.events-teaser__text, p')?.textContent || '').trim().slice(0, 280),
                     url: e.querySelector('a')?.href || '',
                 })).filter(x => x.title)"""
             )
@@ -116,6 +124,10 @@ def register(mcp: FastMCP) -> None:
         Pure rule-based — no LLM, no network. Use the agent to extract text
         from a PDF first, then call this for a structured audit.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("career", "career_audit_cv")
+            if m is not None:
+                return m
         text = cv_text or ""
         lower = text.lower()
         findings: list[dict] = []
@@ -240,6 +252,10 @@ def register(mcp: FastMCP) -> None:
         push activity. Uses the unauthenticated GitHub API (60 req/h/IP).
         Useful as the technical-presence half of a CV audit.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("career", "career_github_audit", username=username)
+            if m is not None:
+                return m
         async with httpx.AsyncClient(timeout=15, headers={"Accept": "application/vnd.github+json"}) as client:
             user_resp = await client.get(f"https://api.github.com/users/{username}")
             if user_resp.status_code == 404:
@@ -329,6 +345,10 @@ def register(mcp: FastMCP) -> None:
         Pair with tumonline_my_courses to build the student's skill profile,
         then match against a job posting in the agent layer.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("career", "career_skills_from_courses")
+            if m is not None:
+                return m
         skill_to_courses: dict[str, list[str]] = {}
         for c in courses or []:
             text = " ".join(str(c.get(k, "") or "") for k in ("title", "content", "objective", "description", "name"))
@@ -352,8 +372,8 @@ def register(mcp: FastMCP) -> None:
             m = mock.get_mock("career", "career_get_job", url=url)
             if m is not None:
                 return m
-        if not url.startswith(CAREER_BASE):
-            return {"error": f"URL must be on {CAREER_BASE}"}
+        if not (url.startswith(CAREER_BASE) or url.startswith(JOBS_BASE)):
+            return {"error": f"URL must be on {CAREER_BASE} or {JOBS_BASE}"}
         ctx = await auth.get_anonymous_context()
         try:
             page = await ctx.new_page()

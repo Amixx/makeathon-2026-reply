@@ -1,0 +1,48 @@
+{
+  "sections": [
+    {
+      "facet": "rooms",
+      "entries": [],
+      "n_visible": 0,
+      "estimatedTotalHits": 1000
+    },
+    {
+      "facet": "sites_buildings",
+      "entries": [
+        {
+          "id": "garching",
+          "type": "campus",
+          "name": "\u0019Garching\u0017 \u0019Forschungszentrum\u0017",
+          "subtext": "Campus"
+        },
+        {
+          "id": "garching-sued-west",
+          "type": "site",
+          "name": "\u0019Garching\u0017 \u0019Forschungszentrum\u0017 (süd-west)",
+          "subtext": "Standort"
+        },
+        {
+          "id": "garching-extra",
+          "type": "area",
+          "name": "\u0019Garching\u0017 \u0019Forschungszentrum\u0017 (außerhalb)",
+          "subtext": "Gebiet / Gruppe von Gebäuden"
+        },
+        {
+          "id": "mw",
+          "type": "joined_building",
+          "name": "Maschinenwesen (MW)",
+          "subtext": "Gebäudekomplex"
+        },
+        {
+          "id": "mi",
+          "type": "joined_building",
+          "name": "Fakultät Mathematik & Informatik (FMI oder MI)",
+          "subtext": "Gebäudekomplex"
+        }
+      ],
+      "n_visible": 0,
+      "estimatedTotalHits": 113
+    }
+  ],
+  "time_ms": 50
+}

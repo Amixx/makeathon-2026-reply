@@ -1,0 +1,70 @@
+{
+  "station": "Garching, Forschungszentrum",
+  "departures": [
+    {
+      "time": 1776517740,
+      "planned": 1776517560,
+      "delay": 3,
+      "platform": null,
+      "realtime": true,
+      "line": "690",
+      "destination": "Eching (S) Ost",
+      "type": "Regionalbus",
+      "icon": "mdi:bus",
+      "cancelled": false,
+      "messages": []
+    },
+    {
+      "time": 1776518220,
+      "planned": 1776518160,
+      "delay": 1,
+      "platform": 2,
+      "realtime": true,
+      "line": "U6",
+      "destination": "Klinikum Großhadern",
+      "type": "U-Bahn",
+      "icon": "mdi:subway",
+      "cancelled": false,
+      "messages": []
+    },
+    {
+      "time": 1776518220,
+      "planned": 1776518220,
+      "delay": null,
+      "platform": null,
+      "realtime": false,
+      "line": "230",
+      "destination": "Haar (S)",
+      "type": "Regionalbus",
+      "icon": "mdi:bus",
+      "cancelled": false,
+      "messages": []
+    },
+    {
+      "time": 1776518400,
+      "planned": 1776518400,
+      "delay": null,
+      "platform": null,
+      "realtime": false,
+      "line": "X201",
+      "destination": "Dachau (S)",
+      "type": "Bus",
+      "icon": "mdi:bus",
+      "cancelled": false,
+      "messages": []
+    },
+    {
+      "time": 1776518460,
+      "planned": 1776518460,
+      "delay": null,
+      "platform": null,
+      "realtime": false,
+      "line": "292",
+      "destination": "Oberschleißheim, Sonnenstraße",
+      "type": "Regionalbus",
+      "icon": "mdi:bus",
+      "cancelled": false,
+      "messages": []
+    }
+  ]
+}

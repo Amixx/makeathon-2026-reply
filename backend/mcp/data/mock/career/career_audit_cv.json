@@ -1,0 +1,37 @@
+{
+  "score": 56,
+  "findings": [
+    {
+      "severity": "medium",
+      "category": "structure",
+      "message": "No 'education' section detected.",
+      "suggestion": "Add a clearly labelled 'Education' section."
+    },
+    {
+      "severity": "low",
+      "category": "impact",
+      "message": "No quantified impact (%/users/x improvement) detected.",
+      "suggestion": "Add at least one metric per role (e.g. 'reduced latency by 40%')."
+    },
+    {
+      "severity": "high",
+      "category": "length",
+      "message": "CV is very short (20 words).",
+      "suggestion": "A student CV should usually be 300–600 words, one page."
+    },
+    {
+      "severity": "medium",
+      "category": "presence",
+      "message": "No LinkedIn URL found.",
+      "suggestion": "Add your LinkedIn profile URL to the header."
+    }
+  ],
+  "stats": {
+    "word_count": 20,
+    "emails": [
+      "max.mustermann@tum.de"
+    ],
+    "has_linkedin": false,
+    "has_github": true
+  }
+}

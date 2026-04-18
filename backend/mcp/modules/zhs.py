@@ -18,6 +18,7 @@ from config import TUM_ENV
 logger = logging.getLogger(__name__)
 
 ZHS_BASE = "https://www.zhs-muenchen.de"
+ZHS_KURSE_BASE = "https://kurse.zhs-muenchen.de"
 ZHS_BOOKING_BASE = "https://buchung.zhs-muenchen.de"
 
 BOOK_BUTTON_TEXTS = ["Buchen", "buchen", "Book", "book", "Zum Warenkorb", "In den Warenkorb"]
@@ -55,30 +56,26 @@ def register(mcp: FastMCP) -> None:
             m = mock.get_mock("zhs", "zhs_list_sports", category=category)
             if m is not None:
                 return m
-        url = f"{ZHS_BASE}/sportarten/"
-        logger.info("Fetching ZHS sports catalog")
+        url = f"{ZHS_KURSE_BASE}/de/muenchen"
+        logger.info("Fetching ZHS sports catalog from %s", url)
+        ctx = await auth.get_anonymous_context()
         try:
-            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
-                resp = await client.get(url)
-                resp.raise_for_status()
-            # Sports are rendered as <a href="...sportarten/{slug}..."> items
-            html = resp.text
-            matches = re.findall(
-                r'<a[^>]+href="([^"]*sportarten/[^"\s]+)"[^>]*>([^<]{2,80})</a>',
-                html,
-                flags=re.I,
+            page = await ctx.new_page()
+            await page.goto(url, wait_until="networkidle", timeout=30_000)
+            # The new kurse.zhs-muenchen.de site renders sport cards via Svelte
+            sports = await page.eval_on_selector_all(
+                "a[href*='/de/'], .offer-card, .course-card, article a, [class*='sport'] a, [class*='card'] a, main a",
+                """els => {
+                    const seen = new Set();
+                    return els.map(e => {
+                        const name = (e.textContent || '').trim().split('\\n')[0].trim();
+                        const href = e.href || '';
+                        if (!name || name.length < 2 || name.length > 80 || seen.has(name) || !href) return null;
+                        seen.add(name);
+                        return { name, url: href };
+                    }).filter(Boolean);
+                }"""
             )
-            sports = []
-            seen = set()
-            for href, label in matches:
-                label = label.strip()
-                if not label or href in seen:
-                    continue
-                seen.add(href)
-                sports.append({
-                    "name": label,
-                    "url": href if href.startswith("http") else f"{ZHS_BASE}{href}",
-                })
             if category:
                 cat = category.lower()
                 sports = [s for s in sports if cat in s["name"].lower()]
@@ -86,6 +83,8 @@ def register(mcp: FastMCP) -> None:
         except Exception as e:
             logger.exception("zhs_list_sports failed")
             return {"error": str(e), "source": url}
+        finally:
+            await ctx.close()
 
     @mcp.tool()
     async def zhs_list_slots(sport_url: str) -> dict:

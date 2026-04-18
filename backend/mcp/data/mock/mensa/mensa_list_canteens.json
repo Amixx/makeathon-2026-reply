@@ -1,0 +1,13 @@
+{
+  "canteens": {
+    "mensa-garching": "Mensa Garching",
+    "mensa-arcisstr": "Mensa Arcisstraße",
+    "mensa-leopoldstr": "Mensa Leopoldstraße",
+    "mensa-lothstr": "Mensa Lothstraße",
+    "mensa-pasing": "Mensa Pasing",
+    "mensa-weihenstephan": "Mensa Weihenstephan",
+    "stucafe-garching": "StuCafé Garching",
+    "stucafe-karlstr": "StuCafé Karlstraße",
+    "mediziner-mensa": "Mediziner Mensa"
+  }
+}

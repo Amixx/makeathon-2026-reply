@@ -1,0 +1,1862 @@
+{
+  "total_count": 6084,
+  "count": 50,
+  "offset": 0,
+  "next_offset": 50,
+  "hits": [
+    {
+      "course_code": "0000000006",
+      "course_name": "Unterrichtsqualitätsmerkmale – Lernfeldunterricht gemeinsam entwickeln",
+      "course_name_en": "Teaching quality characteristics – developing learning field teaching together",
+      "course_id": 950872321,
+      "hoursperweek": "3.0",
+      "modified_tumonline": "2026-03-06T20:52:29.068021+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000006: Unterrichtsqualitätsmerkmale – Lernfeldunterricht gemeinsam entwickeln (Gromer, Pownuk)",
+      "course_name_list_en": "0000000006: Teaching quality characteristics – developing learning field teaching together (Gromer, Pownuk)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102811,
+      "instruction_languages": [
+        "de"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Andreas",
+            "lastname": "Gromer",
+            "email": "ne27keq@mytum.de",
+            "gender_id": 0,
+            "person_id": "9E66106E70BCC6A5",
+            "fullname": "Andreas Gromer",
+            "listname": "Gromer, Andreas",
+            "titlename": "Andreas Gromer",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=9E66106E70BCC6A5"
+          },
+          {
+            "firstname": "Christian",
+            "lastname": "Pownuk",
+            "email": "no29xow@mytum.de",
+            "gender_id": 0,
+            "person_id": "83955AF00FA8F273",
+            "fullname": "Christian Pownuk",
+            "listname": "Pownuk, Christian",
+            "titlename": "Christian Pownuk",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=83955AF00FA8F273"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Daniel",
+            "lastname": "Pittich",
+            "email": "ge39gez@mytum.de",
+            "gender_id": 0,
+            "person_id": "0273DE7AA923016A",
+            "fullname": "Daniel Pittich",
+            "listname": "Pittich, Daniel",
+            "titlename": "Daniel Pittich",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=0273DE7AA923016A"
+          }
+        ],
+        "B": [
+          {
+            "firstname": "Bernhard",
+            "lastname": "Renner",
+            "email": "ga63teg@mytum.de",
+            "gender_id": 0,
+            "person_id": "AAF523EB4AD0FE4A",
+            "fullname": "Bernhard Renner",
+            "listname": "Renner, Bernhard",
+            "titlename": "Bernhard Renner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=AAF523EB4AD0FE4A"
+          },
+          {
+            "firstname": "Alexander",
+            "lastname": "Zollner",
+            "email": "ga84mec@mytum.de",
+            "gender_id": 0,
+            "person_id": "71A2A8F773898572",
+            "fullname": "Alexander Zollner",
+            "listname": "Zollner, Alexander",
+            "titlename": "Alexander Zollner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=71A2A8F773898572"
+          }
+        ]
+      },
+      "course_name_primary": "Unterrichtsqualitätsmerkmale – Lernfeldunterricht gemeinsam entwickeln",
+      "course_name_secondary": "Teaching quality characteristics – developing learning field teaching together",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872321&pSpracheNr=1"
+    },
+    {
+      "course_code": "0000000007",
+      "course_name": "Unterrichtsqualitätsmerkmale – Lernfeldcurricula didaktisch analysieren",
+      "course_name_en": "Teaching quality characteristics – analyzing learning field curricula from a didactic perspective",
+      "course_id": 950872324,
+      "hoursperweek": "3.0",
+      "modified_tumonline": "2026-03-06T20:52:29.764833+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000007: Unterrichtsqualitätsmerkmale – Lernfeldcurricula didaktisch analysieren (Gromer, Pittich, Renner, Zollner)",
+      "course_name_list_en": "0000000007: Teaching quality characteristics – analyzing learning field curricula from a didactic perspective (Gromer, Pittich, Renner, Zollner)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102812,
+      "instruction_languages": [
+        "de"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Andreas",
+            "lastname": "Gromer",
+            "email": "ne27keq@mytum.de",
+            "gender_id": 0,
+            "person_id": "9E66106E70BCC6A5",
+            "fullname": "Andreas Gromer",
+            "listname": "Gromer, Andreas",
+            "titlename": "Andreas Gromer",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=9E66106E70BCC6A5"
+          },
+          {
+            "firstname": "Daniel",
+            "lastname": "Pittich",
+            "email": "ge39gez@mytum.de",
+            "gender_id": 0,
+            "person_id": "0273DE7AA923016A",
+            "fullname": "Daniel Pittich",
+            "listname": "Pittich, Daniel",
+            "titlename": "Daniel Pittich",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=0273DE7AA923016A"
+          },
+          {
+            "firstname": "Bernhard",
+            "lastname": "Renner",
+            "email": "ga63teg@mytum.de",
+            "gender_id": 0,
+            "person_id": "AAF523EB4AD0FE4A",
+            "fullname": "Bernhard Renner",
+            "listname": "Renner, Bernhard",
+            "titlename": "Bernhard Renner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=AAF523EB4AD0FE4A"
+          },
+          {
+            "firstname": "Alexander",
+            "lastname": "Zollner",
+            "email": "ga84mec@mytum.de",
+            "gender_id": 0,
+            "person_id": "71A2A8F773898572",
+            "fullname": "Alexander Zollner",
+            "listname": "Zollner, Alexander",
+            "titlename": "Alexander Zollner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=71A2A8F773898572"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Daniel",
+            "lastname": "Pittich",
+            "email": "ge39gez@mytum.de",
+            "gender_id": 0,
+            "person_id": "0273DE7AA923016A",
+            "fullname": "Daniel Pittich",
+            "listname": "Pittich, Daniel",
+            "titlename": "Daniel Pittich",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=0273DE7AA923016A"
+          }
+        ]
+      },
+      "course_name_primary": "Unterrichtsqualitätsmerkmale – Lernfeldcurricula didaktisch analysieren",
+      "course_name_secondary": "Teaching quality characteristics – analyzing learning field curricula from a didactic perspective",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872324&pSpracheNr=1"
+    },
+    {
+      "course_code": "0000000012",
+      "course_name": "Orbital Robotic Systems: Mechanics and Control - Lecture",
+      "course_name_en": "Orbital Robotic Systems: Mechanics and Control - Lecture",
+      "course_id": 950872556,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-02T13:02:53.615420+01:00",
+      "activity": {
+        "activity_id": "VO",
+        "activity_name": "Vorlesung",
+        "activity_name_en": "lecture"
+      },
+      "course_name_list": "0000000012: Orbital Robotic Systems: Mechanics and Control - Lecture (Romano)",
+      "course_name_list_en": "0000000012: Orbital Robotic Systems: Mechanics and Control - Lecture (Romano)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102889,
+      "instruction_languages": [
+        "en"
+      ],
+      "description_en": "This module introduces advanced notions regarding the modeling and control of motion of an orbiting space system made of multiple connected bodies. A paradigmatic example of these systems is an orbiting spacecraft with one or multiple on-board robotic manipulators. \nThe class lectures cover theoretical, analytical and algorithmic elements, and utilizes slide presentations, development at the whiteboards, and discussions.  \nThe class exercises consist of the following main elements:\n-Repetition and discussion of key concepts from the lectures;\n-Solving of analytical problems;\n-Solving of numerical problems and exercises with a calculator;",
+      "teachingmethod_en": "Class in presence. Multimedia supported.\nThe following main topics will be covered:\n1 Introduction and math foundations\n2 multi-body mechanics and control problem\n3 absolute and relative motion of two rigid bodies in flat space and in orbit around a planet \n4 motion of two hinged rigid bodies in flat space and in orbit around a planet\t\t\n5 fundamentals of fixed-base robotic manipulator systems \t\t\t\t\t\n6 dynamics and control of a spacecraft-manipulator system in flat space and in orbit around a planet\t\t\t\t\t\t\t\n7 capture maneuver of a resident space object \n8 dynamics and control of closed-tree multi-body systems \t\t\t\t\t\n9 dynamics and control of tethered satellite systems\n10 Foundational aspects of very large space systems",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "Orbital Robotic Systems: Mechanics and Control - Lecture",
+      "course_name_secondary": "Orbital Robotic Systems: Mechanics and Control - Lecture",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872556&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000013",
+      "course_name": "Orbital Robotic Systems: Mechanics and Control - Exercise",
+      "course_name_en": "Orbital Robotic Systems: Mechanics and Control - Exercise",
+      "course_id": 950872557,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-02T13:02:53.856004+01:00",
+      "activity": {
+        "activity_id": "UE",
+        "activity_name": "Übung",
+        "activity_name_en": "exercise"
+      },
+      "course_name_list": "0000000013: Orbital Robotic Systems: Mechanics and Control - Exercise (Geshnizjani)",
+      "course_name_list_en": "0000000013: Orbital Robotic Systems: Mechanics and Control - Exercise (Geshnizjani)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102890,
+      "instruction_languages": [
+        "en"
+      ],
+      "description_en": "This module introduces advanced notions regarding the modeling and control of motion of an orbiting space system made of multiple connected bodies. A paradigmatic example of these systems is an orbiting spacecraft with one or multiple on-board robotic manipulators. \nThe class lectures cover theoretical, analytical and algorithmic elements, and utilizes slide presentations, development at the whiteboards, and discussions.  \nThe class exercises consist of the following main elements:\n-Repetition and discussion of key concepts from the lectures;\n-Solving of analytical problems;\n-Solving of numerical problems and exercises with a calculator;",
+      "teachingmethod_en": "Class in presence. Multimedia supported.\nThe following main topics will be covered:\n1 Introduction and math foundations\n2 multi-body mechanics and control problem\n3 absolute and relative motion of two rigid bodies in flat space and in orbit around a planet \n4 motion of two hinged rigid bodies in flat space and in orbit around a planet\t\t\n5 fundamentals of fixed-base robotic manipulator systems \t\t\t\t\t\n6 dynamics and control of a spacecraft-manipulator system in flat space and in orbit around a planet\t\t\t\t\t\t\t\n7 capture maneuver of a resident space object \n8 dynamics and control of closed-tree multi-body systems \t\t\t\t\t\n9 dynamics and control of tethered satellite systems",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Ramin",
+            "lastname": "Geshnizjani",
+            "email": "go24koy@mytum.de",
+            "gender_id": 0,
+            "person_id": "09275C414145DCB2",
+            "fullname": "Ramin Geshnizjani",
+            "listname": "Geshnizjani, Ramin",
+            "titlename": "Ramin Geshnizjani",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=09275C414145DCB2"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "Orbital Robotic Systems: Mechanics and Control - Exercise",
+      "course_name_secondary": "Orbital Robotic Systems: Mechanics and Control - Exercise",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872557&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000014",
+      "course_name": "TUM Chair of Astrodynamics - Seminar  Series",
+      "course_name_en": "TUM Chair of Astrodynamics - Seminar Series",
+      "course_id": 950872558,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-02T13:02:54.024764+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000014: TUM Chair of Astrodynamics - Seminar  Series (Romano)",
+      "course_name_list_en": "0000000014: TUM Chair of Astrodynamics - Seminar Series (Romano)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102319,
+      "instruction_languages": [
+        "en"
+      ],
+      "description_en": "This seminar series consists of presentations by experts in the space sector and discussions on the presented topic.\n\nThe seminar series will cover important technical and non-technical aspects of astrodynamics (space flight mechanics), orbital robotics, and broader space topics.  \n\nHistorical, as well as current and future trends of space engineering, space science and space utilization will be considered.",
+      "teachingmethod_en": "This seminar series consists of presentations by experts in the space sector and discussions on the presented topic. In class or online participation is strongly recommended.\n\nThe content of the seminars will include, for instance:\n- Astrodynamics theory, methods, technologies, missions\n- Orbital Robotic systems theory, methods, technologies, missions\n- Space systems engineering\n- Space exploration and utilization\n- New Space Economy systems\n- On-board autonomy\n- Dynamic modeling and Guidance, Navigation and Control systems, theory and methods\n- Artificial Intelligence applications to space systems engineering and mission analysis\n- Space engineering research and practice",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "TUM Chair of Astrodynamics - Seminar  Series",
+      "course_name_secondary": "TUM Chair of Astrodynamics - Seminar Series",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872558&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000015",
+      "course_name": "Chair of Astrodynamics Doctoral Seminar",
+      "course_name_en": "Chair of Astrodynamics Doctoral Seminar",
+      "course_id": 950872565,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-06T20:45:24.494207+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000015: Chair of Astrodynamics Doctoral Seminar (Geshnizjani, Romano)",
+      "course_name_list_en": "0000000015: Chair of Astrodynamics Doctoral Seminar (Geshnizjani, Romano)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102896,
+      "instruction_languages": [
+        "en"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Ramin",
+            "lastname": "Geshnizjani",
+            "email": "go24koy@mytum.de",
+            "gender_id": 0,
+            "person_id": "09275C414145DCB2",
+            "fullname": "Ramin Geshnizjani",
+            "listname": "Geshnizjani, Ramin",
+            "titlename": "Ramin Geshnizjani",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=09275C414145DCB2"
+          },
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "Chair of Astrodynamics Doctoral Seminar",
+      "course_name_secondary": "Chair of Astrodynamics Doctoral Seminar",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872565&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000016",
+      "course_name": "Chair of Astrodynamics Master Seminar",
+      "course_name_en": "Chair of Astrodynamics Master Seminar",
+      "course_id": 950872566,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-06T20:45:24.582459+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000016: Chair of Astrodynamics Master Seminar (Guichandut, Hühnerbein)",
+      "course_name_list_en": "0000000016: Chair of Astrodynamics Master Seminar (Guichandut, Hühnerbein)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102897,
+      "instruction_languages": [
+        "en"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Thibault",
+            "lastname": "Guichandut",
+            "email": "go37toh@mytum.de",
+            "gender_id": 0,
+            "person_id": "1A67C4EA1C98C553",
+            "fullname": "Thibault Guichandut",
+            "listname": "Guichandut, Thibault",
+            "titlename": "Thibault Guichandut",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=1A67C4EA1C98C553"
+          },
+          {
+            "firstname": "Jannes",
+            "lastname": "Hühnerbein",
+            "email": "go38dit@mytum.de",
+            "gender_id": 0,
+            "person_id": "DA669C701BFD376F",
+            "fullname": "Jannes Hühnerbein",
+            "listname": "Hühnerbein, Jannes",
+            "titlename": "Jannes Hühnerbein",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=DA669C701BFD376F"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "Chair of Astrodynamics Master Seminar",
+      "course_name_secondary": "Chair of Astrodynamics Master Seminar",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872566&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000017",
+      "course_name": "Chair of Astrodynamics: Paper Writing Seminar",
+      "course_name_en": "Chair of Astrodynamics Paper Writing Seminar",
+      "course_id": 950872569,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-06T20:45:24.943765+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000017: Chair of Astrodynamics: Paper Writing Seminar (Geshnizjani, Romano)",
+      "course_name_list_en": "0000000017: Chair of Astrodynamics Paper Writing Seminar (Geshnizjani, Romano)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102900,
+      "instruction_languages": [
+        "en"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Ramin",
+            "lastname": "Geshnizjani",
+            "email": "go24koy@mytum.de",
+            "gender_id": 0,
+            "person_id": "09275C414145DCB2",
+            "fullname": "Ramin Geshnizjani",
+            "listname": "Geshnizjani, Ramin",
+            "titlename": "Ramin Geshnizjani",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=09275C414145DCB2"
+          },
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "Chair of Astrodynamics: Paper Writing Seminar",
+      "course_name_secondary": "Chair of Astrodynamics Paper Writing Seminar",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872569&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000018",
+      "course_name": "Chair of Astrodynamics: Research How-To Seminar",
+      "course_name_en": "Chair of Astrodynamics Research How-To Seminar",
+      "course_id": 950872570,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-06T20:45:25.009443+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000018: Chair of Astrodynamics: Research How-To Seminar (Geshnizjani, Romano)",
+      "course_name_list_en": "0000000018: Chair of Astrodynamics Research How-To Seminar (Geshnizjani, Romano)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102901,
+      "instruction_languages": [
+        "en"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Ramin",
+            "lastname": "Geshnizjani",
+            "email": "go24koy@mytum.de",
+            "gender_id": 0,
+            "person_id": "09275C414145DCB2",
+            "fullname": "Ramin Geshnizjani",
+            "listname": "Geshnizjani, Ramin",
+            "titlename": "Ramin Geshnizjani",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=09275C414145DCB2"
+          },
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "Chair of Astrodynamics: Research How-To Seminar",
+      "course_name_secondary": "Chair of Astrodynamics Research How-To Seminar",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872570&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000020",
+      "course_name": "Orbital Robotic Systems: Mechanics and Control - Practical Course",
+      "course_name_en": "Orbital Robotic Systems: Mechanics and Control - Practical Course",
+      "course_id": 950872572,
+      "hoursperweek": "4.0",
+      "modified_tumonline": "2026-03-27T20:46:54.485048+01:00",
+      "activity": {
+        "activity_id": "PR",
+        "activity_name": "Praktikum",
+        "activity_name_en": "practical training"
+      },
+      "course_name_list": "0000000020: Orbital Robotic Systems: Mechanics and Control - Practical Course (Guichandut, Hühnerbein, Romano)",
+      "course_name_list_en": "0000000020: Orbital Robotic Systems: Mechanics and Control - Practical Course (Guichandut, Hühnerbein, Romano)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102903,
+      "instruction_languages": [
+        "en"
+      ],
+      "description_en": "Algorithmic and implementation aspects of the main techniques for analyzing the motion and designing guidance and control algorithms for the maneuvering of muli-body orbital robotic systems.\n\nMulti-body mechanics modeling and linear and non-linear automatic control techniques will be used. Artificial Intelligence and Machine Learning solutions and comparison with classical techniques.\n\nMontecarlo analysis.",
+      "teachingmethod_en": "Class in presence. Multimedia supported. \nA series of increasingly complex computational exercises will be introduced and worked out. Each student will use his/her own laptop. \nBoth self-coded software functions, in C, Python and/or Matlab, and state of the art  software libraries will be used. \nStudents will then work, either in group or individually, on an assigned final project.",
+      "note_en": "6 block sessions from 9am - 5pm:\n- Wed, 27 May\n- Thu, 28 May\n- Wed, 17 Jun\n- Thu, 18 Jun\n- Wed, 15 Jul\n- Thu, 16 Jul",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Thibault",
+            "lastname": "Guichandut",
+            "email": "go37toh@mytum.de",
+            "gender_id": 0,
+            "person_id": "1A67C4EA1C98C553",
+            "fullname": "Thibault Guichandut",
+            "listname": "Guichandut, Thibault",
+            "titlename": "Thibault Guichandut",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=1A67C4EA1C98C553"
+          },
+          {
+            "firstname": "Jannes",
+            "lastname": "Hühnerbein",
+            "email": "go38dit@mytum.de",
+            "gender_id": 0,
+            "person_id": "DA669C701BFD376F",
+            "fullname": "Jannes Hühnerbein",
+            "listname": "Hühnerbein, Jannes",
+            "titlename": "Jannes Hühnerbein",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=DA669C701BFD376F"
+          },
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Marcello",
+            "lastname": "Romano",
+            "email": "ga36rip@mytum.de",
+            "gender_id": 0,
+            "person_id": "ABD590E327E8745E",
+            "fullname": "Marcello Romano",
+            "listname": "Romano, Marcello",
+            "titlename": "Marcello Romano",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=ABD590E327E8745E"
+          }
+        ]
+      },
+      "course_name_primary": "Orbital Robotic Systems: Mechanics and Control - Practical Course",
+      "course_name_secondary": "Orbital Robotic Systems: Mechanics and Control - Practical Course",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872572&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000022",
+      "course_name": "Masterpraktikum - Building an Autonomous Truck (IN2106, IN40008)",
+      "course_name_en": "Masterpraktikum - Building an Autonomous Truck (IN2106, IN40008)",
+      "course_id": 950872693,
+      "hoursperweek": "6.0",
+      "modified_tumonline": "2026-02-02T22:43:04.408436+01:00",
+      "activity": {
+        "activity_id": "PR",
+        "activity_name": "Praktikum",
+        "activity_name_en": "practical training"
+      },
+      "course_name_list": "0000000022: Masterpraktikum - Building an Autonomous Truck (IN2106, IN40008) (Althoff)",
+      "course_name_list_en": "0000000022: Masterpraktikum - Building an Autonomous Truck (IN2106, IN40008) (Althoff)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90099584,
+      "instruction_languages": [
+        "de",
+        "en"
+      ],
+      "description": "For a full course description, see the English version.",
+      "description_en": "This course examines the technical requirements for the operation of autonomous freight transportation. This includes mechanical and electrical design, as well as vehicle control. We will present more details on the specific topics in the preliminary lecture. You will work on one of the topics in a team throughout the semester. The project includes literature research, design, and implementation / building of solution concepts, and their evaluation. There are no lectures but (bi-)weekly meetings with your supervisor instead.",
+      "teachingmethod_en": "Team project.",
+      "note_en": "- Moodle room: https://www.moodle.tum.de/course/view.php?id=106101\n- The preliminary lecture is January 29, 14.00-14.30 in FMI 03.07.011 or via https://bbb.cit.tum.de/mat-jva-v7f\n- Preliminary lecture recording: tbd\n- Slides of preliminary lecture: see \"course documents\"\n- If you have any questions, please contact Phil Chudalla (phil.chudalla@tum.de)",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Matthias",
+            "lastname": "Althoff",
+            "title_pre": "Prof. Dr.-Ing.",
+            "email": "althoff@tum.de",
+            "gender_id": 2,
+            "person_id": "86652003E13F118F",
+            "fullname": "Matthias Althoff",
+            "listname": "Althoff, Matthias",
+            "titlename": "Prof. Dr.-Ing. Matthias Althoff",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=86652003E13F118F"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Matthias",
+            "lastname": "Althoff",
+            "title_pre": "Prof. Dr.-Ing.",
+            "email": "althoff@tum.de",
+            "gender_id": 2,
+            "person_id": "86652003E13F118F",
+            "fullname": "Matthias Althoff",
+            "listname": "Althoff, Matthias",
+            "titlename": "Prof. Dr.-Ing. Matthias Althoff",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=86652003E13F118F"
+          }
+        ]
+      },
+      "course_name_primary": "Masterpraktikum - Building an Autonomous Truck (IN2106, IN40008)",
+      "course_name_secondary": "Masterpraktikum - Building an Autonomous Truck (IN2106, IN40008)",
+      "links": {
+        "1": {
+          "url": "https://campus.tum.de/tumonline/LV_TX.wbDisplaySemplanDoc?pStpSplDsNr=26325",
+          "link_type": {
+            "course_link_title": "LV-Unterlagen",
+            "course_link_title_en": "course documents",
+            "course_link_id": 1
+          }
+        }
+      },
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872693&pSpracheNr=1"
+    },
+    {
+      "course_code": "0000000023",
+      "course_name": "Sustainable Logistics (Lecture)",
+      "course_name_en": "Sustainable Logistics (Lecture)",
+      "course_id": 950872775,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-04-09T17:01:21.588317+02:00",
+      "activity": {
+        "activity_id": "VO",
+        "activity_name": "Vorlesung",
+        "activity_name_en": "lecture"
+      },
+      "course_name_list": "0000000023: Sustainable Logistics (Lecture) (Hübner)",
+      "course_name_list_en": "0000000023: Sustainable Logistics (Lecture) (Hübner)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102949,
+      "instruction_languages": [
+        "en"
+      ],
+      "description": "The course covers decision-oriented aspects of logistics and discusses basic concepts, models, and methods for inventory management and transportation planning in supply chains. This course content provides the foundation for a critical examination of logistics systems from a theoretical, practical, and sustainable perspective.\n• Introduction: Terminological and principles issues in logistics management; current trends in logistics applications\n• Inventory management: Introduction to static and dynamic / deterministic and stochastic inventor models; waste management and overstock issues;\n• Transportation management: Basic methods for transport optimization, transport planning, traveling sales man problems, vehicle routing, emissions in transport, pollution routing and alternative fuels",
+      "description_en": "The course covers decision-oriented aspects of logistics and discusses basic concepts, models, and methods for inventory management and transportation planning in supply chains. This course content provides the foundation for a critical examination of logistics systems from a theoretical, practical, and sustainable perspective.\n• Introduction: Terminological and principles issues in logistics management; current trends in logistics applications\n• Inventory management: Introduction to static and dynamic / deterministic and stochastic inventor models; waste management and overstock issues;\n• Transportation management: Basic methods for transport optimization, transport planning, traveling sales man problems, vehicle routing, emissions in transport, pollution routing and alternative fuels",
+      "teachingmethod": "Lecture (theory), tutorials with group work and presentation",
+      "teachingmethod_en": "Lecture (theory), tutorials with group work and presentation",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Alexander",
+            "lastname": "Hübner",
+            "email": "ge29mob@mytum.de",
+            "gender_id": 0,
+            "person_id": "BF592AA90CB26D0C",
+            "fullname": "Alexander Hübner",
+            "listname": "Hübner, Alexander",
+            "titlename": "Alexander Hübner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=BF592AA90CB26D0C"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Alexander",
+            "lastname": "Hübner",
+            "email": "ge29mob@mytum.de",
+            "gender_id": 0,
+            "person_id": "BF592AA90CB26D0C",
+            "fullname": "Alexander Hübner",
+            "listname": "Hübner, Alexander",
+            "titlename": "Alexander Hübner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=BF592AA90CB26D0C"
+          }
+        ],
+        "B": [
+          {
+            "firstname": "Barbara",
+            "lastname": "Roth",
+            "email": "ge52doh@mytum.de",
+            "gender_id": 0,
+            "person_id": "7F88F6454373658D",
+            "fullname": "Barbara Roth",
+            "listname": "Roth, Barbara",
+            "titlename": "Barbara Roth",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=7F88F6454373658D"
+          }
+        ]
+      },
+      "course_name_primary": "Sustainable Logistics (Lecture)",
+      "course_name_secondary": "Sustainable Logistics (Lecture)",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872775&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000024",
+      "course_name": "Sustainable Logistics (Exercise)",
+      "course_name_en": "Sustainable Logistics (Exercise)",
+      "course_id": 950872776,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-04-09T17:01:21.918773+02:00",
+      "activity": {
+        "activity_id": "UE",
+        "activity_name": "Übung",
+        "activity_name_en": "exercise"
+      },
+      "course_name_list": "0000000024: Sustainable Logistics (Exercise) (Kwon, Yang)",
+      "course_name_list_en": "0000000024: Sustainable Logistics (Exercise) (Kwon, Yang)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90102950,
+      "instruction_languages": [
+        "en"
+      ],
+      "description": "The course covers decision-oriented aspects of logistics and discusses basic concepts, models, and methods for inventory management and transportation planning in supply chains. This course content provides the foundation for a critical examination of logistics systems from a theoretical, practical, and sustainable perspective.\n• Introduction: Terminological and principles issues in logistics management; current trends in logistics applications\n• Inventory management: Introduction to static and dynamic / deterministic and stochastic inventor models; waste management and overstock issues;\n• Transportation management: Basic methods for transport optimization, transport planning, traveling sales man problems, vehicle routing, emissions in transport, pollution routing and alternative fuels",
+      "description_en": "The course covers decision-oriented aspects of logistics and discusses basic concepts, models, and methods for inventory management and transportation planning in supply chains. This course content provides the foundation for a critical examination of logistics systems from a theoretical, practical, and sustainable perspective.\n• Introduction: Terminological and principles issues in logistics management; current trends in logistics applications\n• Inventory management: Introduction to static and dynamic / deterministic and stochastic inventor models; waste management and overstock issues;\n• Transportation management: Basic methods for transport optimization, transport planning, traveling sales man problems, vehicle routing, emissions in transport, pollution routing and alternative fuels",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Soo Youn",
+            "lastname": "Kwon",
+            "email": "ge83xuj@mytum.de",
+            "gender_id": 0,
+            "person_id": "63ED2D4D04B999F0",
+            "fullname": "Soo Youn Kwon",
+            "listname": "Kwon, Soo Youn",
+            "titlename": "Soo Youn Kwon",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=63ED2D4D04B999F0"
+          },
+          {
+            "firstname": "Kailin",
+            "lastname": "Yang",
+            "email": "ge83gok@mytum.de",
+            "gender_id": 0,
+            "person_id": "97EB82DD0906C670",
+            "fullname": "Kailin Yang",
+            "listname": "Yang, Kailin",
+            "titlename": "Kailin Yang",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=97EB82DD0906C670"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Alexander",
+            "lastname": "Hübner",
+            "email": "ge29mob@mytum.de",
+            "gender_id": 0,
+            "person_id": "BF592AA90CB26D0C",
+            "fullname": "Alexander Hübner",
+            "listname": "Hübner, Alexander",
+            "titlename": "Alexander Hübner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=BF592AA90CB26D0C"
+          }
+        ],
+        "B": [
+          {
+            "firstname": "Barbara",
+            "lastname": "Roth",
+            "email": "ge52doh@mytum.de",
+            "gender_id": 0,
+            "person_id": "7F88F6454373658D",
+            "fullname": "Barbara Roth",
+            "listname": "Roth, Barbara",
+            "titlename": "Barbara Roth",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=7F88F6454373658D"
+          }
+        ]
+      },
+      "course_name_primary": "Sustainable Logistics (Exercise)",
+      "course_name_secondary": "Sustainable Logistics (Exercise)",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950872776&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000026",
+      "course_name": "Information Systems Colloquium",
+      "course_name_en": "Information Systems Colloquium",
+      "course_id": 950874088,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-20T20:51:37.930239+01:00",
+      "activity": {
+        "activity_id": "KO",
+        "activity_name": "Kolloquium",
+        "activity_name_en": "colloquium"
+      },
+      "course_name_list": "0000000026: Information Systems Colloquium (Pufahl)",
+      "course_name_list_en": "0000000026: Information Systems Colloquium (Pufahl)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90103282,
+      "instruction_languages": [
+        "de"
+      ],
+      "description": "The colloquium offers students the opportunity to present their bachelor's or master's thesis in a larger academic setting. Thesis students deliver a 15–20 minute presentation, followed by a 10-minute discussion round where they engage with questions and feedback from the members of the chair of Information Systems and guests. This format allows students to share and reflect on their research topics while practicing academic communication.",
+      "description_en": "The colloquium offers students the opportunity to present their bachelor's or master's thesis in a larger academic setting. Thesis students deliver a 15–20 minute presentation, followed by a 10-minute discussion round where they engage with questions and feedback from the members of the chair of Information Systems and guests. This format allows students to share and reflect on their research topics while practicing academic communication.",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Luise",
+            "lastname": "Pufahl",
+            "title_pre": "Prof. Dr.",
+            "email": "luise.pufahl@tum.de",
+            "gender_id": 1,
+            "person_id": "7432984DB73E450E",
+            "fullname": "Luise Pufahl",
+            "listname": "Pufahl, Luise",
+            "titlename": "Prof. Dr. Luise Pufahl",
+            "gender": {
+              "gender": "weiblich",
+              "gender_en": "female",
+              "gendershort": "w",
+              "gendershort_en": "f"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=7432984DB73E450E"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Luise",
+            "lastname": "Pufahl",
+            "title_pre": "Prof. Dr.",
+            "email": "luise.pufahl@tum.de",
+            "gender_id": 1,
+            "person_id": "7432984DB73E450E",
+            "fullname": "Luise Pufahl",
+            "listname": "Pufahl, Luise",
+            "titlename": "Prof. Dr. Luise Pufahl",
+            "gender": {
+              "gender": "weiblich",
+              "gender_en": "female",
+              "gendershort": "w",
+              "gendershort_en": "f"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=7432984DB73E450E"
+          }
+        ]
+      },
+      "course_name_primary": "Information Systems Colloquium",
+      "course_name_secondary": "Information Systems Colloquium",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950874088&pSpracheNr=1"
+    },
+    {
+      "course_code": "0000000027",
+      "course_name": "Bachelorpraktikum Next Gen Programming (INHN0021, INHN4059)",
+      "course_name_en": "Bachelor Practical Course Next Gen Programming (INHN0021, INHN4059)",
+      "course_id": 950874098,
+      "hoursperweek": "6.0",
+      "modified_tumonline": "2026-02-04T10:40:00.157738+01:00",
+      "activity": {
+        "activity_id": "PR",
+        "activity_name": "Praktikum",
+        "activity_name_en": "practical training"
+      },
+      "course_name_list": "0000000027: Bachelorpraktikum Next Gen Programming (INHN0021, INHN4059) (Eris, Habib)",
+      "course_name_list_en": "0000000027: Bachelor Practical Course Next Gen Programming (INHN0021, INHN4059) (Eris, Habib)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90099551,
+      "instruction_languages": [
+        "en"
+      ],
+      "description": "Dieser Kurs vermittelt Studenten der Softwaretechnik die Fähigkeiten zur Anwendung generativer KI in der Softwareentwicklung und bereitet sie darauf vor, das transformative Potenzial von KI in modernen Arbeitsabläufen zu erlernen. Die Studierenden lernen, Modelle zu trainieren, zu verfeinern und einzusetzen, die Computercode generieren, wobei der Schwerpunkt auf maschinellem Lernen, natürlicher Sprachverarbeitung und neuronalen Netzen liegt. Sie lernen auch, den von KI generierten Code auf Qualität, Zuverlässigkeit und Sicherheit zu prüfen, um seine praktische Anwendung in realen Szenarien zu gewährleisten. Dieses Wissen versetzt die Studierenden in die Lage, in der sich entwickelnden technischen Landschaft eine führende Rolle zu spielen und Innovationen im Bereich der KI-gestützten Softwareentwicklung voranzutreiben.",
+      "description_en": "This course provides software engineering students with the skills to apply generative AI in software development, preparing them to learn AI's transformative potential in modern workflows. Students will learn to train, fine-tune, and deploy models that generate computer code, with a focus on machine learning, natural language processing, and neural networks. They will also learn to evaluate AI-generated code for quality, reliability, and security, ensuring its practical application in real-world scenarios. This knowledge positions students to lead in the evolving tech landscape and drive innovation in AI-driven software engineering.",
+      "teachingmethod": "Sie arbeiten in einer kleinen Gruppe und organisieren sich die meiste Zeit selbst.\nSie erhalten gelegentlich Input und Feedback zu Ihrer Arbeit und können in den wöchentlichen Q&amp;A-Sitzungen jederzeit Fragen stellen.\nDer Kurs ist ortsunabhängig gestaltet, Sie können an allen Terminen via Zoom teilnehmen. Wir versuchen jedoch, die Gruppen jeweils am gleichen Campus zu bilden.",
+      "teachingmethod_en": "Working in a small group, you organize yourself most of the time.\nYou get occasional input and feedback on your work, and you can always ask questions in your weekly Q&amp;A sessions.\nThe course is independent of your location, all appointments can be attended via Zoom. We will try to match the groups in a way that you can meet on-site.",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Halit",
+            "lastname": "Eris",
+            "title_post": "M.Sc.",
+            "email": "halit.eris@tum.de",
+            "gender_id": 2,
+            "person_id": "D33ABA119456493C",
+            "fullname": "Halit Eris",
+            "listname": "Eris, Halit",
+            "titlename": "Halit Eris M.Sc.",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=D33ABA119456493C"
+          },
+          {
+            "firstname": "Mohammad Kasra",
+            "lastname": "Habib",
+            "title_post": "M.Sc.",
+            "email": "kasra.habib@tum.de",
+            "gender_id": 2,
+            "person_id": "8A6B820845CB5193",
+            "fullname": "Mohammad Kasra Habib",
+            "listname": "Habib, Mohammad Kasra",
+            "titlename": "Mohammad Kasra Habib M.Sc.",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=8A6B820845CB5193"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Stefan",
+            "lastname": "Wagner",
+            "title_pre": "Prof. Dr.",
+            "email": "stefan.wagner@tum.de",
+            "gender_id": 2,
+            "person_id": "84DD0DE6E18B8C0A",
+            "fullname": "Stefan Wagner",
+            "listname": "Wagner, Stefan",
+            "titlename": "Prof. Dr. Stefan Wagner",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=84DD0DE6E18B8C0A"
+          }
+        ]
+      },
+      "course_name_primary": "Bachelorpraktikum Next Gen Programming (INHN0021, INHN4059)",
+      "course_name_secondary": "Bachelor Practical Course Next Gen Programming (INHN0021, INHN4059)",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950874098&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000028",
+      "course_name": "Praxisnahe Wirtschaftspädagogik in Zusammenarbeit mit den Universitätsschulen",
+      "course_name_en": "Practice-Oriented Business Education in Cooperation with University Schools",
+      "course_id": 950874383,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2026-03-06T20:51:56.874532+01:00",
+      "activity": {
+        "activity_id": "SE",
+        "activity_name": "Seminar",
+        "activity_name_en": "seminar"
+      },
+      "course_name_list": "0000000028: Praxisnahe Wirtschaftspädagogik in Zusammenarbeit mit den Universitätsschulen (Gillhuber)",
+      "course_name_list_en": "0000000028: Practice-Oriented Business Education in Cooperation with University Schools (Gillhuber)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90100900,
+      "instruction_languages": [
+        "de"
+      ],
+      "description": "Es werden semesterweise ausgewählte Themen der Wirtschaftspädagogik im Schulkontext behandelt, z.B.: Sprachsensibler Fachunterricht.",
+      "description_en": "Selected topics of business education in the school context are dealt with each semester, e.g: Language-sensitive subject teaching.",
+      "teachingmethod": "Die Inhalte werden durch Instruktion mit Übungen, Flipped Classroom, Vorträge der Studierenden, Gruppenarbeiten zum Teil selbständig erarbeitet. Zudem hospitieren die Studierenden im Unterricht an einer der Universitätsschulen der Professur, führen dort selbst konzipierten Unterricht durch und reflektieren diesen.",
+      "teachingmethod_en": "The content is partly developed independently through instruction with exercises, flipped classroom, student presentations and group work. In addition, students sit in on lessons at one of the university schools, conduct a teaching experiment there and reflect on it.",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Birgit",
+            "lastname": "Gillhuber",
+            "email": "go76fuf@mytum.de",
+            "gender_id": 0,
+            "person_id": "02064203D66213C1",
+            "fullname": "Birgit Gillhuber",
+            "listname": "Gillhuber, Birgit",
+            "titlename": "Birgit Gillhuber",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=02064203D66213C1"
+          }
+        ]
+      },
+      "course_name_primary": "Praxisnahe Wirtschaftspädagogik in Zusammenarbeit mit den Universitätsschulen",
+      "course_name_secondary": "Practice-Oriented Business Education in Cooperation with University Schools",
+      "links": {
+        "11": {
+          "url": "http://https://www.moodle.tum.de/user/index.php?id=108895",
+          "link_type": {
+            "course_link_title": "E-Learning Kurs (Moodle)",
+            "course_link_title_en": "e-learning course (moodle)",
+            "course_link_id": 11
+          }
+        }
+      },
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950874383&pSpracheNr=1"
+    },
+    {
+      "course_code": "0000000029",
+      "course_name": "Erneuerbare Energie: Umwandlung mit Hilfe von Sonnenlicht",
+      "course_name_en": "Renewable Energy: Sunlight-driven Conversion",
+      "course_id": 950874533,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2025-07-18T13:40:02.313601+02:00",
+      "activity": {
+        "activity_id": "VO",
+        "activity_name": "Vorlesung",
+        "activity_name_en": "lecture"
+      },
+      "course_name_list": "0000000029: Erneuerbare Energie: Umwandlung mit Hilfe von Sonnenlicht (Eichhorn, Sharp)",
+      "course_name_list_en": "0000000029: Renewable Energy: Sunlight-driven Conversion (Eichhorn, Sharp)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90103526,
+      "instruction_languages": [
+        "de",
+        "en"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Johanna",
+            "lastname": "Eichhorn",
+            "title_pre": "Prof. Dr.",
+            "email": "johanna.eichhorn@tum.de",
+            "gender_id": 1,
+            "person_id": "15DE92F21B7E399B",
+            "fullname": "Johanna Eichhorn",
+            "listname": "Eichhorn, Johanna",
+            "titlename": "Prof. Dr. Johanna Eichhorn",
+            "gender": {
+              "gender": "weiblich",
+              "gender_en": "female",
+              "gendershort": "w",
+              "gendershort_en": "f"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=15DE92F21B7E399B"
+          },
+          {
+            "firstname": "Ian",
+            "lastname": "Sharp",
+            "title_pre": "Prof. Dr.",
+            "email": "sharp@wsi.tum.de",
+            "gender_id": 2,
+            "person_id": "1EF1671E0C6FB245",
+            "fullname": "Ian Sharp",
+            "listname": "Sharp, Ian",
+            "titlename": "Prof. Dr. Ian Sharp",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=1EF1671E0C6FB245"
+          }
+        ]
+      },
+      "course_name_primary": "Erneuerbare Energie: Umwandlung mit Hilfe von Sonnenlicht",
+      "course_name_secondary": "Renewable Energy: Sunlight-driven Conversion",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950874533&pSpracheNr=1"
+    },
+    {
+      "course_code": "0000000030",
+      "course_name": "Übung zu Erneuerbare Energie: Umwandlung mit Hilfe von Sonnenlicht",
+      "course_name_en": "Exercise to Renewable Energy: Sunlight-driven Conversion",
+      "course_id": 950874534,
+      "hoursperweek": "2.0",
+      "modified_tumonline": "2025-07-18T13:40:02.377683+02:00",
+      "activity": {
+        "activity_id": "UE",
+        "activity_name": "Übung",
+        "activity_name_en": "exercise"
+      },
+      "course_name_list": "0000000030: Übung zu Erneuerbare Energie: Umwandlung mit Hilfe von Sonnenlicht (Trautschold, Zhou)",
+      "course_name_list_en": "0000000030: Exercise to Renewable Energy: Sunlight-driven Conversion (Trautschold, Zhou)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90103527,
+      "instruction_languages": [
+        "en",
+        "de"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Sebastian",
+            "lastname": "Trautschold",
+            "title_post": "M.Sc.",
+            "email": "sebastian.trautschold@tum.de",
+            "gender_id": 2,
+            "person_id": "60C172DB04BAEE0D",
+            "fullname": "Sebastian Trautschold",
+            "listname": "Trautschold, Sebastian",
+            "titlename": "Sebastian Trautschold M.Sc.",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=60C172DB04BAEE0D"
+          },
+          {
+            "firstname": "Guanda",
+            "lastname": "Zhou",
+            "email": "guanda.zhou@tum.de",
+            "gender_id": 2,
+            "person_id": "682C03E07B876CE9",
+            "fullname": "Guanda Zhou",
+            "listname": "Zhou, Guanda",
+            "titlename": "Guanda Zhou",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=682C03E07B876CE9"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Johanna",
+            "lastname": "Eichhorn",
+            "title_pre": "Prof. Dr.",
+            "email": "johanna.eichhorn@tum.de",
+            "gender_id": 1,
+            "person_id": "15DE92F21B7E399B",
+            "fullname": "Johanna Eichhorn",
+            "listname": "Eichhorn, Johanna",
+            "titlename": "Prof. Dr. Johanna Eichhorn",
+            "gender": {
+              "gender": "weiblich",
+              "gender_en": "female",
+              "gendershort": "w",
+              "gendershort_en": "f"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=15DE92F21B7E399B"
+          }
+        ],
+        "B": [
+          {
+            "firstname": "Ian",
+            "lastname": "Sharp",
+            "title_pre": "Prof. Dr.",
+            "email": "sharp@wsi.tum.de",
+            "gender_id": 2,
+            "person_id": "1EF1671E0C6FB245",
+            "fullname": "Ian Sharp",
+            "listname": "Sharp, Ian",
+            "titlename": "Prof. Dr. Ian Sharp",
+            "gender": {
+              "gender": "männlich",
+              "gender_en": "male",
+              "gendershort": "m",
+              "gendershort_en": "m"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=1EF1671E0C6FB245"
+          }
+        ]
+      },
+      "course_name_primary": "Übung zu Erneuerbare Energie: Umwandlung mit Hilfe von Sonnenlicht",
+      "course_name_secondary": "Exercise to Renewable Energy: Sunlight-driven Conversion",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950874534&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000031",
+      "course_name": "Computational Methods for Scattering Techniques",
+      "course_name_en": "Computational Methods for Scattering Techniques",
+      "course_id": 950874997,
+      "hoursperweek": "4.0",
+      "modified_tumonline": "2026-04-17T20:54:27.932900+02:00",
+      "activity": {
+        "activity_id": "VI",
+        "activity_name": "Vorlesung mit integrierten Übungen",
+        "activity_name_en": "lecture with integrated exercises"
+      },
+      "course_name_list": "0000000031: Computational Methods for Scattering Techniques (Van Opdenbosch)",
+      "course_name_list_en": "0000000031: Computational Methods for Scattering Techniques (Van Opdenbosch)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90103623,
+      "instruction_languages": [
+        "en"
+      ],
+      "description": "Das Modul vertieft Kenntnisse der Strukturanalysen von Materialien mittels Streumethoden und behandelt Sachverhalte die bei der numerischen Auswertung und Modellierung entsprechender Daten auftreten.\n\nIm Detail: \nDieser Kurs baut auf Vorkenntnissen der Röntgenphysik auf – einschließlich Streutheorie, Beugungsprinzipien, Strahlungseigenschaften, Schwächungsgesetzen und kristallographischen Formalismen – und konzentriert sich auf deren Anwendung zur Durchführung quantitativer Berechnungen und computergestützter Analysen. Die Studierenden wenden etablierte Konzepte wie Wellenlängen-Energie-Beziehungen, Impulsübertrag, Interferenzgleichungen, atomare Formfaktoren, Debye-Streuung und Strukturfaktoren an, um physikalisch sinnvolle Ergebnisse für verschiedene Materialien und Streugeometrien zu berechnen.\nEin zentrales Ziel des Kurses ist die Übertragung dieser theoretischen Grundlagen in die praktische, computergestützte Röntgenanalyse. Die Teilnehmenden arbeiten mit realen physikalischen Konstanten, tabellierten Streuparametern und Schwächungsdaten, um Wellenlängen, Streuvektoren, Strukturdimensionen, Transmissionslängen, Beugungsintensitäten und inelastische Wirkungsquerschnitte zu berechnen. Sie führen diese Berechnungen mithilfe von Python-basierten wissenschaftlichen Arbeitsabläufen und spezialisierten kristallographischen Werkzeugen durch – darunter NumPy, Matplotlib, XrayUtilities, BGMN, FullProf, EXPO2014, SasView und verwandte Software –, um Diffraktogramme, Streukurven und materialspezifische Röntgenantworten zu simulieren.\nDer Kurs legt Wert auf angewandte Problemlösung und Datenmodellierung, einschließlich Pulverdiffraktionssimulation, Debye-basierter Intensitätsberechnungen, Strukturfaktorbestimmung und praktischer Aufgaben wie Maschinenausrichtung, Datenkorrekturstrategien und Arbeitsabläufe zur Strukturbestimmung. Die Studierenden üben, berechnete Ergebnisse zu interpretieren, Modelle mit experimentellen Erwartungen zu vergleichen und zu verstehen, wie sich theoretische Konstrukte in realen Streudaten manifestieren.",
+      "description_en": "The module deepens knowledge of structural analyses of materials using scattering methods and addresses issues that arise during the numerical evaluation and modeling of corresponding data.\n\nIn Detail:\nThis course builds on prior knowledge of X‑ray interaction physics—including scattering theory, diffraction principles, radiation properties, attenuation laws, and crystallographic formalisms—and focuses on using this background to perform quantitative calculations and computational analyses. Students apply established concepts such as wavelength–energy relations, momentum transfer, interference equations, atomic form factors, Debye scattering, and structure factors to compute physically meaningful results across a range of materials and scattering geometries.\nA central aim of the course is to translate this theoretical foundation into practical, computation‑driven X‑ray analysis. Participants work with real physical constants, tabulated scattering parameters, and attenuation data to calculate wavelengths, scattering vectors, structural dimensions, transmission lengths, diffraction intensities, and inelastic cross‑sections. They implement these calculations using Python-based scientific workflows and specialized crystallographic tools—including numpy, matplotlib, xrayutilities, BGMN, FullProf, EXPO2014, SasView, and related software—to simulate diffractograms, scattering curves, and material‑specific X‑ray responses.\nThe course emphasizes applied problem‑solving and data modelling, including powder diffraction simulation, Debye‑based intensity calculations, structure‑factor evaluation, and practical tasks such as machine‑alignment reasoning, data correction strategies, and structure‑solution workflows. Students practice interpreting computed results, comparing models to experimental expectations, and understanding how theoretical constructs manifest in real scattering data.",
+      "teachingmethod": "Vortrag, interaktive Problemlösung mit Jupyter Notebook",
+      "teachingmethod_en": "Lecture, interactive problem solving with Jupyter Notebook",
+      "persons": {
+        "V": [
+          {
+            "firstname": "Daniel",
+            "lastname": "Van Opdenbosch",
+            "email": "ga52xal@mytum.de",
+            "gender_id": 0,
+            "person_id": "FD54B4DD4B4A4437",
+            "fullname": "Daniel Van Opdenbosch",
+            "listname": "Van Opdenbosch, Daniel",
+            "titlename": "Daniel Van Opdenbosch",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=FD54B4DD4B4A4437"
+          }
+        ]
+      },
+      "course_name_primary": "Computational Methods for Scattering Techniques",
+      "course_name_secondary": "Computational Methods for Scattering Techniques",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950874997&pSpracheNr=2"
+    },
+    {
+      "course_code": "0000000033",
+      "course_name": "Exkursion Agrarwissenschaften Pflingsten",
+      "course_name_en": "Excursion Agriculture Science",
+      "course_id": 950935644,
+      "hoursperweek": "3.0",
+      "modified_tumonline": "2026-01-26T13:08:10.823285+01:00",
+      "activity": {
+        "activity_id": "EX",
+        "activity_name": "Exkursion",
+        "activity_name_en": "field trip"
+      },
+      "course_name_list": "0000000033: Exkursion Agrarwissenschaften Pflingsten (Bernhardt, Hülsbergen, Mittermayer, Steinhoff-Wagner)",
+      "course_name_list_en": "0000000033: Excursion Agriculture Science (Bernhardt, Hülsbergen, Mittermayer, Steinhoff-Wagner)",
+      "semester": {
+        "semester_tag": "SS 2026",
+        "semester_title": "Sommersemester 2026",
+        "semester_title_en": "Summer Semester 2026",
+        "semester_key": "2026s",
+        "semester_period_start": "2026-04-01",
+        "semester_period_end": "2026-09-30",
+        "lecture_period_start": "2026-04-13",
+        "lecture_period_end": "2026-07-17"
+      },
+      "ghk": 90107016,
+      "instruction_languages": [
+        "de"
+      ],
+      "persons": {
+        "V": [
+          {
+            "firstname": "Heinz",
+            "lastname": "Bernhardt",
+            "email": "gu63duw@mytum.de",
+            "gender_id": 0,
+            "person_id": "75AE305E530347CD",
+            "fullname": "Heinz Bernhardt",
+            "listname": "Bernhardt, Heinz",
+            "titlename": "Heinz Bernhardt",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=75AE305E530347CD"
+          },
+          {
+            "firstname": "Kurt-Jürgen",
+            "lastname": "Hülsbergen",
+            "email": "gi95vem@mytum.de",
+            "gender_id": 0,
+            "person_id": "C309C6B7DA016159",
+            "fullname": "Kurt-Jürgen Hülsbergen",
+            "listname": "Hülsbergen, Kurt-Jürgen",
+            "titlename": "Kurt-Jürgen Hülsbergen",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=C309C6B7DA016159"
+          },
+          {
+            "firstname": "Martin",
+            "lastname": "Mittermayer",
+            "email": "ga89zak@mytum.de",
+            "gender_id": 0,
+            "person_id": "5F78D6F35A34D4A3",
+            "fullname": "Martin Mittermayer",
+            "listname": "Mittermayer, Martin",
+            "titlename": "Martin Mittermayer",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=5F78D6F35A34D4A3"
+          },
+          {
+            "firstname": "Julia",
+            "lastname": "Steinhoff-Wagner",
+            "email": "ge89tan@mytum.de",
+            "gender_id": 0,
+            "person_id": "1E12C619D25E535B",
+            "fullname": "Julia Steinhoff-Wagner",
+            "listname": "Steinhoff-Wagner, Julia",
+            "titlename": "Julia Steinhoff-Wagner",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=1E12C619D25E535B"
+          }
+        ],
+        "L": [
+          {
+            "firstname": "Kurt-Jürgen",
+            "lastname": "Hülsbergen",
+            "email": "gi95vem@mytum.de",
+            "gender_id": 0,
+            "person_id": "C309C6B7DA016159",
+            "fullname": "Kurt-Jürgen Hülsbergen",
+            "listname": "Hülsbergen, Kurt-Jürgen",
+            "titlename": "Kurt-Jürgen Hülsbergen",
+            "gender": {
+              "gender": "unbekannt",
+              "gender_en": "unknown",
+              "gendershort": "?",
+              "gendershort_en": "?"
+            },
+            "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=C309C6B7DA016159"
+          }
+        ]
+      },
+      "course_name_primary": "Exkursion Agrarwissenschaften Pflingsten",
+      "course_name_secondary": "Excursion Agriculture Science",
+      "links": {},
+      "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=950935644&pSpracheNr=1"
+    },
+    {
+      "_truncated": "30 more items omitted"
+    }
+  ]
+}

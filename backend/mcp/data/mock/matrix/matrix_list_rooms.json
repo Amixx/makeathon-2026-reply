@@ -1,0 +1,9 @@
+{
+  "rooms": [
+    {"room_id": "!abc123def:matrix.tum.de", "name": "IN - M.Sc. Informatics 2025", "topic": "Official channel for M.Sc. Informatics cohort 2025"},
+    {"room_id": "!ghi456jkl:matrix.tum.de", "name": "TUM.ai", "topic": "TUM.ai student initiative – events, projects, ML discussions"},
+    {"room_id": "!mno789pqr:matrix.tum.de", "name": "Mensa Garching Reviews", "topic": "Daily mensa ratings and food pics 🍝"},
+    {"room_id": "!stu012vwx:matrix.tum.de", "name": "WG Suche München", "topic": "Flat-sharing offers and requests around Munich"}
+  ],
+  "count": 4
+}

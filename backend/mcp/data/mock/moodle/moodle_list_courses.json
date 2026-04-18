@@ -1,0 +1,11 @@
+{
+  "courses": [
+    {"name": "Introduction to Deep Learning (IN2346) – SS26", "url": "https://www.moodle.tum.de/course/view.php?id=98412"},
+    {"name": "Distributed Systems (IN2259) – SS26", "url": "https://www.moodle.tum.de/course/view.php?id=97831"},
+    {"name": "Advanced Database Systems (IN2031) – SS26", "url": "https://www.moodle.tum.de/course/view.php?id=98205"},
+    {"name": "Practical Course: Cloud Computing (IN2106) – SS26", "url": "https://www.moodle.tum.de/course/view.php?id=98567"},
+    {"name": "Seminar: Trustworthy AI (IN2107) – SS26", "url": "https://www.moodle.tum.de/course/view.php?id=98890"},
+    {"name": "German as a Foreign Language B2.2 – SS26", "url": "https://www.moodle.tum.de/course/view.php?id=95023"}
+  ],
+  "count": 6
+}

@@ -1,0 +1,39 @@
+{
+  "assignments": [
+    {
+      "title": "Homework 3: Convolutional Neural Networks",
+      "course": "Introduction to Deep Learning (IN2346)",
+      "date": "28 April 2026, 23:59",
+      "datetime": "2026-04-28T23:59:00+02:00",
+      "url": "https://www.moodle.tum.de/mod/assign/view.php?id=1234567",
+      "type": "assign"
+    },
+    {
+      "title": "Lab Report: Raft Consensus Protocol",
+      "course": "Distributed Systems (IN2259)",
+      "date": "2 May 2026, 18:00",
+      "datetime": "2026-05-02T18:00:00+02:00",
+      "url": "https://www.moodle.tum.de/mod/assign/view.php?id=1234890",
+      "type": "assign"
+    },
+    {
+      "title": "Midterm Quiz: Query Optimization",
+      "course": "Advanced Database Systems (IN2031)",
+      "date": "5 May 2026, 14:00",
+      "datetime": "2026-05-05T14:00:00+02:00",
+      "url": "https://www.moodle.tum.de/mod/quiz/view.php?id=1235012",
+      "type": "quiz"
+    },
+    {
+      "title": "Milestone 2: Kubernetes Deployment",
+      "course": "Practical Course: Cloud Computing (IN2106)",
+      "date": "12 May 2026, 23:59",
+      "datetime": "2026-05-12T23:59:00+02:00",
+      "url": "https://www.moodle.tum.de/mod/assign/view.php?id=1235234",
+      "type": "assign"
+    }
+  ],
+  "count": 4,
+  "window_days": 30,
+  "source": "https://www.moodle.tum.de/calendar/view.php?view=upcoming"
+}

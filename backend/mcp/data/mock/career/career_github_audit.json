@@ -1,0 +1,86 @@
+{
+  "username": "torvalds",
+  "name": "Linus Torvalds",
+  "bio": null,
+  "public_repos": 11,
+  "followers": 297773,
+  "created_at": "2011-09-03T15:26:22Z",
+  "total_stars": 240314,
+  "top_languages": [
+    {
+      "language": "C",
+      "repos": 7
+    },
+    {
+      "language": "OpenSCAD",
+      "repos": 1
+    }
+  ],
+  "recent_repos": [
+    {
+      "name": "linux",
+      "language": "C",
+      "stars": 229673,
+      "pushed_at": "2026-04-18T01:07:09Z",
+      "description": "Linux kernel source tree",
+      "url": "https://github.com/torvalds/linux"
+    },
+    {
+      "name": "AudioNoise",
+      "language": "C",
+      "stars": 4330,
+      "pushed_at": "2026-02-26T20:29:40Z",
+      "description": "Random digital audio effects",
+      "url": "https://github.com/torvalds/AudioNoise"
+    },
+    {
+      "name": "uemacs",
+      "language": "C",
+      "stars": 1995,
+      "pushed_at": "2026-02-25T19:15:47Z",
+      "description": "Random version of microemacs with my private modificatons",
+      "url": "https://github.com/torvalds/uemacs"
+    },
+    {
+      "name": "HunspellColorize",
+      "language": "C",
+      "stars": 335,
+      "pushed_at": "2026-01-19T20:23:09Z",
+      "description": "Wrapper around 'less' to colorize spelling mistakes using Hunspell",
+      "url": "https://github.com/torvalds/HunspellColorize"
+    },
+    {
+      "name": "GuitarPedal",
+      "language": "C",
+      "stars": 1881,
+      "pushed_at": "2026-01-05T23:26:52Z",
+      "description": "Linus learns analog circuits",
+      "url": "https://github.com/torvalds/GuitarPedal"
+    },
+    {
+      "name": "1590A",
+      "language": "OpenSCAD",
+      "stars": 558,
+      "pushed_at": "2025-09-19T02:54:14Z",
+      "description": "Random odd guitar pedal design in kicad",
+      "url": "https://github.com/torvalds/1590A"
+    },
+    {
+      "name": "test-tlb",
+      "language": "C",
+      "stars": 983,
+      "pushed_at": "2024-08-19T21:13:36Z",
+      "description": "Stupid memory latency and TLB tester",
+      "url": "https://github.com/torvalds/test-tlb"
+    },
+    {
+      "name": "pesconvert",
+      "language": "C",
+      "stars": 559,
+      "pushed_at": "2022-12-22T10:46:37Z",
+      "description": "Brother PES file converter",
+      "url": "https://github.com/torvalds/pesconvert"
+    }
+  ],
+  "profile_url": "https://github.com/torvalds"
+}

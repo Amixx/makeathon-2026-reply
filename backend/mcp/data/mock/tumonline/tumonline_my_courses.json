@@ -1,0 +1,212 @@
+{
+  "total": 8,
+  "semester_id": 206,
+  "courses": [
+    {
+      "id": 950880774,
+      "course_number": "1000002018",
+      "title": "Applied Geoinformatics 1",
+      "type": "VO",
+      "type_name": "lecture",
+      "language": "English",
+      "organisation": "Chair of Geoinformatics (Prof.Kolbe)",
+      "instructors": [
+        {
+          "name": "Medhini Heeramaglore",
+          "role": "Leiter*in"
+        },
+        {
+          "name": "Thomas Kolbe",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Thomas Fröch",
+          "role": "Mitwirkende*r"
+        },
+        {
+          "name": "Medhini Heeramaglore",
+          "role": "Mitwirkende*r"
+        }
+      ],
+      "exam_method": null
+    },
+    {
+      "id": 950879616,
+      "course_number": "0000001078",
+      "title": "BIM.fundamentals",
+      "type": "VO",
+      "type_name": "lecture",
+      "language": "English",
+      "organisation": "Chair of Computing in Civil and Building Engineering (Prof. Borrmann)",
+      "instructors": [
+        {
+          "name": "Andre Borrmann",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Frank Petzold",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Tamira Wrabel",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Ilayda Memis",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Jiabin Wu",
+          "role": "Vortragende*r"
+        }
+      ],
+      "exam_method": null
+    },
+    {
+      "id": 950881090,
+      "course_number": "0000001313",
+      "title": "BIM.fundamentals Exercise",
+      "type": "UE",
+      "type_name": "exercise",
+      "language": "English",
+      "organisation": "Chair of Computing in Civil and Building Engineering (Prof. Borrmann)",
+      "instructors": [
+        {
+          "name": "Tamira Wrabel",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Ilayda Memis",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Jiabin Wu",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Sylvain Hellin",
+          "role": "Vortragende*r"
+        }
+      ],
+      "exam_method": null
+    },
+    {
+      "id": 950879922,
+      "course_number": "220000DE02",
+      "title": "German as a Foreign Language A2.1 plus A2.2",
+      "type": "SE",
+      "type_name": "seminar",
+      "language": "German",
+      "organisation": "German as a Foreign Language",
+      "instructors": [
+        {
+          "name": "Maria Karsten-Ott",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Inese Keza",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Christine Reulein",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Elisabeth Thiessen",
+          "role": "Vortragende*r"
+        }
+      ],
+      "exam_method": null,
+      "content": "In this module, students acquire basic knowledge of the German language, including intercultural and regional aspects, that will enable them to express themselves in everyday situations, such as traveling, at the doctor’s office, searching for an apartment, in a department store, among colleagues, friends or neighbors.\nStudents learn and practice basic vocabulary and expressions on topics such as education, profession, health and traveling.  They learn and practice classifying and using an extended spectrum of main and subordinate clauses (final clause, indirect questions, temporal subordinate clause, causal sentence). They learn to employ the preterit (modal verbs) and perfect, how to use the comparative and the superlative, as well as the declination of the adjective (in the nominative, accusative and dative case). They also reinforce and expand the usage of prepositions in the accusative and dative case. \nStudents learn strategies for successful verbal and written communication despite minimal language skills. Opportunities will be made available for effective, self-motivated, independent learning. Students acquire teamwork skills through collaborative work in multinational mixed groups.",
+      "objective": "The course is based on level A2 of GER.    \nUpon completion of this course, students are able to understand and use simple sentences and expressions in conversations on a broad spectrum of familiar topics. These conversations are based on basic information concerning everyday life and subjects relevant to studying or working, including sociocultural aspects of German-speaking countries.  \nFor example, students are able to describe themselves and other people, their living situation, state of health, leisure time activities and job situation. Students are able to communicate in various situations, for example, when searching for an apartment, traveling or on holiday, and are able to report about their experiences in simple standard language.\nStudents are able to understand longer texts and letters about familiar topics that include foreseeable information and are written in simple language about everyday life or job related topics. Students have the ability to compose short, informative texts or notifications about basic situations in everyday life or situations related to studying."
+    },
+    {
+      "id": 950883168,
+      "course_number": "0000002499",
+      "title": "Semantic Modeling of Built Facilities",
+      "type": "VI",
+      "type_name": "lecture with integrated exercises",
+      "language": "German",
+      "organisation": "Chair of Computing in Civil and Building Engineering (Prof. Borrmann)",
+      "instructors": [
+        {
+          "name": "Sebastian Esser",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Nayun Kim",
+          "role": "Vortragende*r"
+        }
+      ],
+      "exam_method": null
+    },
+    {
+      "id": 950883167,
+      "course_number": "2023000002",
+      "title": "Spatial and Semantic Modeling of the Environment",
+      "type": "VI",
+      "type_name": "lecture with integrated exercises",
+      "language": "English",
+      "organisation": "Chair of Geoinformatics (Prof.Kolbe)",
+      "instructors": [
+        {
+          "name": "Medhini Heeramaglore",
+          "role": "Leiter*in"
+        },
+        {
+          "name": "Thomas Kolbe",
+          "role": "Vortragende*r"
+        },
+        {
+          "name": "Thomas Fröch",
+          "role": "Mitwirkende*r"
+        },
+        {
+          "name": "Medhini Heeramaglore",
+          "role": "Vortragende*r"
+        }
+      ],
+      "exam_method": null
+    },
+    {
+      "id": 950877718,
+      "course_number": "0820911079",
+      "title": "System-Theoretical Principles of Project Management",
+      "type": "VO",
+      "type_name": "lecture",
+      "language": "English",
+      "organisation": "Chair of Construction Management (Prof. Nübel)",
+      "instructors": [
+        {
+          "name": "Wolfgang Eber",
+          "role": "Leiter*in"
+        },
+        {
+          "name": "Wolfgang Eber",
+          "role": "Vortragende*r"
+        }
+      ],
+      "exam_method": null
+    },
+    {
+      "id": 950883808,
+      "course_number": "0000000927",
+      "title": "Tutorial System-Theoretical Principles of Project Management",
+      "type": "UE",
+      "type_name": "exercise",
+      "language": "English",
+      "organisation": "Chair of Construction Management (Prof. Nübel)",
+      "instructors": [
+        {
+          "name": "Wolfgang Eber",
+          "role": "Leiter*in"
+        },
+        {
+          "name": "Wolfgang Eber",
+          "role": "Vortragende*r"
+        }
+      ],
+      "exam_method": null
+    }
+  ]
+}
