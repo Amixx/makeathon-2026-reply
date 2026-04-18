@@ -1,5 +1,5 @@
 /* =====================================================================
- * Waypoint Prototype — Shared JavaScript
+ * WayTum Prototype — Shared JavaScript
  * Navigation · typing sim · auto-advance · keyboard shortcuts
  * ===================================================================== */
 (function () {
