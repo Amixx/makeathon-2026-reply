@@ -51,22 +51,20 @@ orchestrator calls tools over Streamable HTTP — no LLM logic lives in the MCP.
 
 ## Run everything locally
 
-Boots the MCP server, agent backend, and Vite frontend in one shell. Ctrl-C
-stops all three.
-
+New terminal + start MCP server:
 ```bash
-./dev.sh
+cd backend && python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && playwright install chromium && cd mcp && MCP_HOST=127.0.0.1 MCP_PORT=8001 python server.py
 ```
 
-Once it settles:
+New terminal + tart agent backend:
+```bash
+cd backend && source .venv/bin/activate && cd agent && AGENT_PORT=8002 MCP_URL=http://127.0.0.1:8001/mcp python server.py
+```
 
-- Chat UI    → http://localhost:5173/makeathon-2026-reply/chat
-- Agent API  → http://127.0.0.1:8000/agent/chat  (health at `/agent/health`)
-- MCP server → http://127.0.0.1:8001/mcp
-
-`dev.sh` creates [backend/.venv](backend/) on first run, installs Python + npm
-deps, and warns if no `.env` / `AWS_BEARER_TOKEN_BEDROCK` is set (Bedrock calls
-fail without it). Overrides: `AGENT_PORT`, `MCP_PORT`, `PYTHON`.
+New terminal + tart Vite frontend and connect via the link in the terminal:
+```bash
+cd frontend && npm install && npm run dev
+```
 
 ### Configure the backend
 
