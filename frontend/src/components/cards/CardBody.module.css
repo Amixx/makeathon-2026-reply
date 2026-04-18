@@ -1,0 +1,91 @@
+/* Shared swipe-card body layout */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 20px 18px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 380px;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.metaText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  letter-spacing: 1px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  line-height: 1.1;
+  color: var(--fg-default);
+  margin: 0;
+}
+
+.blockLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: var(--fg-muted);
+}
+
+.blockLabelInverted {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: var(--fg-inverted-muted);
+}
+
+.blockWhat {
+  background: var(--bg-muted);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-default);
+}
+
+.blockWhy {
+  background: var(--accent-50);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-default);
+}
+
+.blockLand {
+  background: var(--bg-inverted);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-inverted);
+}
+
+.btnRow {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btnRow > * {
+  flex: 1;
+}

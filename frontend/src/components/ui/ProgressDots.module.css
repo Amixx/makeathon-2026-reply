@@ -1,0 +1,26 @@
+/* ProgressDots.module.css */
+
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neutral-300);
+  transition: all 240ms ease;
+  flex-shrink: 0;
+}
+
+.active {
+  width: 18px;
+  border-radius: 3px;
+  background: var(--accent-500);
+}
+
+.done {
+  background: var(--primary-900);
+}

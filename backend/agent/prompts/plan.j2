@@ -5,12 +5,34 @@ This is my {{ semester }}.
 {% if username %}
 My TUM username is `{{ username }}` (use it for any tool that asks).
 {% endif %}
+{% if vision %}
+What I said I want:
+{{ vision }}
+{% endif %}
+{% if blockers %}
+What tends to block me:
+{{ blockers }}
+{% endif %}
+{% if interests %}
+Other signals from onboarding: {{ interests | join(", ") }}.
+{% endif %}
+{% if commitment %}
+My commitment setting is **{{ commitment }}**.
+{% endif %}
+Grounding facts:
+- TUM SSO connected: {{ "yes" if tum_sso_connected else "no" }}
+- CV uploaded: {{ "yes" if cv_uploaded else "no" }}
+- GitHub linked: {{ "yes" if github_url else "no" }}
+- LinkedIn linked: {{ "yes" if linkedin_url else "no" }}
 
 The one thing I want help actually doing right now is:
 
 > **{{ item.title }}**
 >
 > Why this matters to me: {{ item.why }}
+{% if item.type %}
+This item is of type **{{ item.type }}** ({{ item.meta }}) — bias your tool selection accordingly (e.g. person → linkedin_search_people; course → tumonline_search_courses; event → navigatum or mensa context; scholarship → web search).
+{% endif %}
 
 Please build the step-by-step plan now. I've never done this before — dig deep with
 the MCP tools, then write me the full plan, the email I should send, and the

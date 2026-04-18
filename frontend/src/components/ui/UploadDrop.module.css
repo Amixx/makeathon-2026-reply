@@ -1,0 +1,42 @@
+/* UploadDrop.module.css */
+
+.zone {
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-xl);
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+  background: var(--bg-muted);
+  outline: none;
+}
+
+.zone:hover,
+.zone:focus {
+  border-color: var(--accent-400);
+  background: var(--accent-50);
+}
+
+.zone.dragging {
+  border-color: var(--accent-500);
+  background: var(--accent-50);
+}
+
+.icon {
+  color: var(--fg-muted);
+}
+
+.label {
+  font-size: 13px;
+  color: var(--fg-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.hiddenInput {
+  display: none;
+}
