@@ -11,3 +11,7 @@ body,
 #root {
   height: 100%;
 }
+
+body {
+  font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+}

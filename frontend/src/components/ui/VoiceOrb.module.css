@@ -1,0 +1,39 @@
+/* VoiceOrb.module.css */
+
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.orb {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    var(--accent-300) 0%,
+    var(--accent-500) 45%,
+    var(--accent-700) 90%
+  );
+  box-shadow:
+    0 0 0 18px rgba(255, 107, 82, 0.08),
+    0 0 0 36px rgba(255, 107, 82, 0.04),
+    0 20px 40px -10px rgba(255, 107, 82, 0.4);
+  cursor: pointer;
+  animation: orbPulse 2.4s ease-in-out infinite;
+}
+
+.listening {
+  animation: orbPulse 1s ease-in-out infinite;
+  box-shadow:
+    0 0 0 22px rgba(255, 107, 82, 0.14),
+    0 0 0 44px rgba(255, 107, 82, 0.07),
+    0 20px 40px -10px rgba(255, 107, 82, 0.55);
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50%      { transform: scale(1.04); opacity: 1; }
+}

@@ -1,0 +1,34 @@
+/* SectionLabel.module.css */
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--accent-600);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: var(--neutral-500);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  flex-shrink: 0;
+}
+
+.pulsing {
+  animation: accentPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes accentPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}

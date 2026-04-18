@@ -3,21 +3,29 @@
   align-items: center;
   gap: 1.5rem;
   padding: 0.75rem 1.5rem;
-  border-bottom: 1px solid var(--spectrum-gray-300);
+  border-bottom: 1px solid var(--neutral-200);
+  background: var(--bg-default);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .brand {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--spectrum-gray-900);
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--primary-900);
   text-decoration: none;
   margin-right: auto;
 }
 
 .link {
-  color: var(--spectrum-gray-700);
+  color: var(--neutral-500);
   text-decoration: none;
-  font-size: 0.875rem;
+  font-weight: 600;
   padding: 0.25rem 0;
   border-bottom: 2px solid transparent;
   transition:
@@ -26,10 +34,10 @@
 }
 
 .link:hover {
-  color: var(--spectrum-gray-900);
+  color: var(--primary-900);
 }
 
 .active {
-  color: var(--spectrum-gray-900);
-  border-bottom-color: var(--spectrum-blue-900);
+  color: var(--primary-900);
+  border-bottom-color: var(--accent-500);
 }
