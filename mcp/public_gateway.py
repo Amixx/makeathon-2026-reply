@@ -3,9 +3,10 @@
 from urllib.parse import urlencode
 
 import httpx
+from starlette.background import BackgroundTask
 from starlette.applications import Starlette
 from starlette.requests import Request
-from starlette.responses import RedirectResponse, Response
+from starlette.responses import RedirectResponse, Response, StreamingResponse
 from starlette.routing import Route
 
 from config import (
@@ -26,6 +27,11 @@ HOP_BY_HOP_HEADERS = {
 }
 
 
+async def _close_upstream(upstream: httpx.Response, client: httpx.AsyncClient) -> None:
+    await upstream.aclose()
+    await client.aclose()
+
+
 def _public_base_url(request: Request) -> str:
     scheme = request.headers.get("x-forwarded-proto", request.url.scheme)
     host = request.headers.get("x-forwarded-host", request.headers.get("host", request.url.netloc))
@@ -44,23 +50,30 @@ async def _proxy_request(request: Request, target_base: str) -> Response:
         for key, value in request.headers.items()
         if key.lower() not in HOP_BY_HOP_HEADERS and key.lower() != "host"
     }
-    async with httpx.AsyncClient(follow_redirects=False, timeout=60.0) as client:
-        upstream = await client.request(
+    client = httpx.AsyncClient(
+        follow_redirects=False,
+        timeout=httpx.Timeout(connect=10.0, read=None, write=60.0, pool=60.0),
+    )
+    upstream = await client.send(
+        client.build_request(
             request.method,
             _target_url(request, target_base),
             headers=headers,
             content=body,
-        )
+        ),
+        stream=True,
+    )
     response_headers = {
         key: value
         for key, value in upstream.headers.items()
         if key.lower() not in HOP_BY_HOP_HEADERS
     }
-    return Response(
-        content=upstream.content,
+    return StreamingResponse(
+        upstream.aiter_raw(),
         status_code=upstream.status_code,
         headers=response_headers,
         media_type=upstream.headers.get("content-type"),
+        background=BackgroundTask(_close_upstream, upstream, client),
     )
 
 
