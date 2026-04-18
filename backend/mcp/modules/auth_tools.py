@@ -34,16 +34,14 @@ def register(mcp: FastMCP) -> None:
         Returns {"success": true/false, "message": "..."}."""
         logger.info("tum_login called for username=%s (password redacted)", username)
         ok, message = await auth.login(username, password)
-        if ok:
-            return {"success": True, "message": message}
-        return {"success": False, "message": message}
+        return {"success": ok, "message": message, "demo_mode": mock.is_demo_mode()}
 
     @mcp.tool()
     async def tum_session_status(username: str) -> dict:
         """Check if the stored TUM session for a user is still valid.
         Returns {"valid": true/false}."""
         valid = await auth.is_session_valid(username)
-        return {"valid": valid}
+        return {"valid": valid, "demo_mode": mock.is_demo_mode()}
 
     @mcp.tool()
     async def tum_logout(username: str) -> dict:
