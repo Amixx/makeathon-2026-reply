@@ -6,6 +6,7 @@ from datetime import date
 import httpx
 from mcp.server.fastmcp import FastMCP
 
+import mock
 from config import EAT_API_BASE
 
 logger = logging.getLogger(__name__)
@@ -28,6 +29,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def mensa_list_canteens() -> dict:
         """List available TUM canteens and their IDs."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("mensa", "mensa_list_canteens")
+            if m is not None:
+                return m
         return {"canteens": CANTEEN_IDS}
 
     @mcp.tool()
@@ -39,6 +44,10 @@ def register(mcp: FastMCP) -> None:
         """Get the menu for a TUM canteen for a given week.
         Defaults to current week at Mensa Garching.
         Use mensa_list_canteens to get valid canteen_id values."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("mensa", "mensa_get_menu", canteen_id=canteen_id)
+            if m is not None:
+                return m
         today = date.today()
         y = year or today.year
         w = week or today.isocalendar()[1]

@@ -1,0 +1,11 @@
+.venv
+.env
+__pycache__
+*.pyc
+.DS_Store
+data
+mcp/.venv
+mcp/data
+mcp/.env
+agent/__pycache__
+mcp/__pycache__

@@ -5,6 +5,7 @@ import logging
 from mcp.server.fastmcp import FastMCP
 
 import auth
+import mock
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +16,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def moodle_list_courses(username: str) -> dict:
         """List the user's enrolled Moodle courses. Requires prior tum_login."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("moodle", "moodle_list_courses", username=username)
+            if m is not None:
+                return m
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
@@ -41,6 +46,10 @@ def register(mcp: FastMCP) -> None:
 
         days_ahead: window in days to look ahead. Requires prior tum_login.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("moodle", "moodle_list_assignments", username=username)
+            if m is not None:
+                return m
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
@@ -77,6 +86,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def moodle_list_grades(username: str) -> dict:
         """List grades across all enrolled Moodle courses. Requires prior tum_login."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("moodle", "moodle_list_grades", username=username)
+            if m is not None:
+                return m
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}

@@ -11,9 +11,15 @@ actions on the student's behalf.
 ## Architecture
 
 ```
-Agent / UI layer  ──HTTP/SSE──▶  MCP Server  ──▶  TUM APIs / Playwright
-                                 (this repo)
+Frontend / clients  ──HTTP/SSE──▶  Agent API (/agent)
+                               └─▶  MCP API (/mcp)
+                                      └─▶  TUM APIs / Playwright
 ```
+
+The backend now hosts two isolated services behind one public origin:
+
+- `/mcp` — the MCP server exposing **20 tools** across 9 TUM systems
+- `/agent` — a separate FastAPI agent surface with Anthropic + SSE scaffolding
 
 The MCP server exposes **20 tools** across 9 TUM systems as a single
 [Model Context Protocol](https://modelcontextprotocol.io) endpoint. The agent
@@ -44,22 +50,22 @@ orchestrator calls tools over Streamable HTTP — no LLM logic lives in the MCP.
 ## Quick start
 
 ```bash
-cd mcp
+cd backend
 make setup   # venv, deps, playwright, .env with auto-generated FERNET_KEY
-make run     # → http://0.0.0.0:8000/mcp
+make run     # → http://0.0.0.0:8000 with /mcp and /agent
 ```
 
 <details><summary>Manual setup (without make)</summary>
 
 ```bash
-cd mcp
+cd backend
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 playwright install chromium
 cp .env.example .env
 python -c "from cryptography.fernet import Fernet; print('FERNET_KEY=' + Fernet.generate_key().decode())"
 # Paste the FERNET_KEY value into .env
-python server.py
+python launch_public.py
 ```
 
 </details>
@@ -106,16 +112,17 @@ make inspect   # or: npx -y @modelcontextprotocol/inspector
 
 Pushes to `main` auto-deploy via the GitHub Actions workflow in
 [`/.github/workflows/fly-deploy.yml`](.github/workflows/fly-deploy.yml), but only
-when files under `mcp/` changed.
+when files under `backend/` changed.
 
 ### First-time setup
 
 ```bash
-cd mcp
+cd backend
 fly volumes create session_data --size 1 --region ams
 fly secrets set \
   FERNET_KEY="$(python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())')" \
-  GOOGLE_API_KEY="your-key"
+  GOOGLE_API_KEY="your-key" \
+  ANTHROPIC_API_KEY="your-key"
 ```
 
 Add a repository secret named `FLY_API_TOKEN` in GitHub so the workflow can run
@@ -132,7 +139,7 @@ on the mounted Fly volume instead of ephemeral container storage.
 ### Manual deploy
 
 ```bash
-cd mcp
+cd backend
 fly deploy
 ```
 
@@ -166,5 +173,5 @@ fly secrets list        # check which secrets are set
 ```
 docs/           # Challenge brief
 explorations/   # API discovery notes (endpoints, auth, response shapes)
-mcp/            # MCP server (see AGENTS.md for full tree)
+backend/        # Shared host, MCP service, and isolated agent service
 ```

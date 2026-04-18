@@ -8,6 +8,7 @@ import httpx
 from mcp.server.fastmcp import FastMCP
 
 import auth
+import mock
 from config import NAT_API_BASE, TUM_BASE_URL, TUM_ONLINE_PATH
 
 logger = logging.getLogger(__name__)
@@ -100,6 +101,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def tumonline_search_courses(query: str, limit: int = 10) -> dict:
         """Search TUMonline course catalog. Returns matching courses."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_search_courses", query=query)
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/course"
         params = {"q": query, "count": limit}
         logger.info("Searching courses: %s", params)
@@ -112,6 +117,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def tumonline_search_rooms(query: str, limit: int = 10) -> dict:
         """Search for rooms in TUMonline."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_search_rooms", query=query)
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/rom/list"
         params = {"q": query, "count": limit}
         logger.info("Searching rooms: %s", params)
@@ -124,6 +133,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def tumonline_get_semester_info() -> dict:
         """Get current semester info including exam periods and registration dates."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_get_semester_info")
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/semesters/extended"
         logger.info("Fetching semester info")
         async with httpx.AsyncClient(timeout=15) as client:
@@ -139,6 +152,10 @@ def register(mcp: FastMCP) -> None:
     async def tumonline_get_course(course_id: int) -> dict:
         """Get full details for a single course by its TUMonline course_id.
         Returns description, schedule, instructors, exam info, registration links."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_get_course", course_id=course_id)
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/course/{course_id}"
         logger.info("Fetching course detail: %s", course_id)
         async with httpx.AsyncClient(timeout=15) as client:
@@ -153,6 +170,10 @@ def register(mcp: FastMCP) -> None:
     async def tumonline_get_module(module_code: str) -> dict:
         """Get module handbook entry by module code (e.g. 'IN0011').
         Returns ECTS credits, description, prerequisites, responsible professor."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_get_module", module_code=module_code)
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/mhb/module/{module_code}"
         logger.info("Fetching module: %s", module_code)
         async with httpx.AsyncClient(timeout=15) as client:
@@ -167,6 +188,10 @@ def register(mcp: FastMCP) -> None:
     async def tumonline_search_programs(query: str, limit: int = 10) -> dict:
         """Search degree programs (e.g. 'Informatics', 'Mechanical Engineering').
         Returns study_id which can be used to find program-specific module catalogs."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_search_programs", query=query)
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/programs/search"
         params = {"q": query, "count": limit}
         logger.info("Searching programs: %s", params)
@@ -181,6 +206,10 @@ def register(mcp: FastMCP) -> None:
         """List modules in a degree program catalog.
         Use tumonline_list_module_catalogs to discover catalog_tags first.
         Example: '163016030_electives_mla' for M.Sc. Informatics ML electives."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_list_program_modules", catalog_tag=catalog_tag)
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/mhb/module"
         params = {"catalog_tag": catalog_tag, "count": limit}
         logger.info("Listing program modules: %s", params)
@@ -195,6 +224,10 @@ def register(mcp: FastMCP) -> None:
         """List available module handbook catalogs (degree program course groups).
         Filter by query (e.g. 'Informatics', 'Maschinenwesen').
         Returns catalog_tag values for use with tumonline_list_program_modules."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_list_module_catalogs", query=query)
+            if m is not None:
+                return m
         url = f"{NAT_API_BASE}/mhb/catalog"
         logger.info("Listing module catalogs, query=%s", query)
         async with httpx.AsyncClient(timeout=15) as client:
@@ -216,6 +249,10 @@ def register(mcp: FastMCP) -> None:
         Returns course title, type, SWS, instructors, and registration info.
         Requires prior tum_login. semester_id defaults to current (206 = Summer 2026).
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_my_courses", username=username)
+            if m is not None:
+                return m
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
@@ -337,6 +374,10 @@ def register(mcp: FastMCP) -> None:
         confirm: must be True to actually submit. Without it, navigates to the
                  registration procedure page and reports what it sees.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_register_course", course_id=course_id, confirm=confirm)
+            if m is not None:
+                return m
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
@@ -419,6 +460,10 @@ def register(mcp: FastMCP) -> None:
         exam_id: exam/registration record id.
         confirm: must be True to submit. Otherwise only navigates + reports.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_register_exam", exam_id=exam_id, confirm=confirm)
+            if m is not None:
+                return m
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}

@@ -9,6 +9,7 @@ import logging
 from mcp.server.fastmcp import FastMCP
 
 import auth
+import mock
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,10 @@ def register(mcp: FastMCP) -> None:
         keyword: optional filter matched against title/company (case-insensitive).
         limit: max number of postings to return.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("career", "career_list_jobs", keyword=keyword)
+            if m is not None:
+                return m
         ctx = await auth.get_anonymous_context()
         try:
             page = await ctx.new_page()
@@ -63,6 +68,10 @@ def register(mcp: FastMCP) -> None:
         keyword: optional filter matched against title/description.
         limit: max number of events to return.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("career", "career_list_events", keyword=keyword)
+            if m is not None:
+                return m
         ctx = await auth.get_anonymous_context()
         try:
             page = await ctx.new_page()
@@ -97,6 +106,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def career_get_job(url: str) -> dict:
         """Fetch the full details of a single job posting by URL."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("career", "career_get_job", url=url)
+            if m is not None:
+                return m
         if not url.startswith(CAREER_BASE):
             return {"error": f"URL must be on {CAREER_BASE}"}
         ctx = await auth.get_anonymous_context()

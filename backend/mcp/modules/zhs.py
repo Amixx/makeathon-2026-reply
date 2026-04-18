@@ -12,6 +12,7 @@ import httpx
 from mcp.server.fastmcp import FastMCP
 
 import auth
+import mock
 from config import TUM_ENV
 
 logger = logging.getLogger(__name__)
@@ -50,6 +51,10 @@ def register(mcp: FastMCP) -> None:
 
         category: optional substring filter on sport name.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("zhs", "zhs_list_sports", category=category)
+            if m is not None:
+                return m
         url = f"{ZHS_BASE}/sportarten/"
         logger.info("Fetching ZHS sports catalog")
         try:
@@ -88,6 +93,10 @@ def register(mcp: FastMCP) -> None:
 
         sport_url: a URL from zhs_list_sports, typically under zhs-muenchen.de.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("zhs", "zhs_list_slots", sport_url=sport_url)
+            if m is not None:
+                return m
         ctx = await auth.get_anonymous_context()
         try:
             page = await ctx.new_page()
@@ -127,6 +136,10 @@ def register(mcp: FastMCP) -> None:
         confirm: must be True to actually submit. Without it, the flow stops at
                  the final confirmation screen and reports what was found.
         """
+        if mock.is_demo_mode():
+            m = mock.get_mock("zhs", "zhs_book_slot", confirm=confirm)
+            if m is not None:
+                return m
         if TUM_ENV == "prod" and confirm:
             logger.warning("ZHS booking in prod with confirm=True for user=%s", username)
 

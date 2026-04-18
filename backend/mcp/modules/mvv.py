@@ -4,6 +4,8 @@ import logging
 
 from mcp.server.fastmcp import FastMCP
 
+import mock
+
 logger = logging.getLogger(__name__)
 
 
@@ -12,6 +14,10 @@ def register(mcp: FastMCP) -> None:
     async def mvv_get_departures(station: str, limit: int = 10) -> dict:
         """Get upcoming departures from an MVG station (e.g. 'Garching-Forschungszentrum').
         Returns next departures with line, destination, and time."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("mvv", "mvv_get_departures", station=station)
+            if m is not None:
+                return m
         from mvg import MvgApi
 
         try:
@@ -27,6 +33,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool()
     async def mvv_search_station(query: str) -> dict:
         """Search for MVG/MVV stations by name."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("mvv", "mvv_search_station", query=query)
+            if m is not None:
+                return m
         from mvg import MvgApi
 
         try:
