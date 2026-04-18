@@ -6,6 +6,11 @@ function profileEndpoint(): string {
   return `${config.agentUrl.replace(/\/+$/, "")}/agent/profile`;
 }
 
+function demoResetEndpoint(): string {
+  return `${config.agentUrl.replace(/\/+$/, "")}/agent/profile/demo-reset`;
+}
+
+
 async function readErrorMessage(res: Response): Promise<string> {
   const contentType = res.headers.get("content-type") ?? "";
   if (contentType.includes("application/json")) {
@@ -34,6 +39,18 @@ export async function getProfile(): Promise<Profile> {
   if (!res.ok) throw new Error(`getProfile failed: ${res.status}`);
   return res.json() as Promise<Profile>;
 }
+
+export type DemoProfileBootstrap = {
+  profile: Profile;
+  tumPassword?: string;
+};
+
+export async function resetDemoProfile(): Promise<DemoProfileBootstrap> {
+  const res = await fetch(demoResetEndpoint(), { method: "POST" });
+  if (!res.ok) throw new Error(`resetDemoProfile failed: ${res.status}`);
+  return res.json() as Promise<DemoProfileBootstrap>;
+}
+
 
 function tumConnectEndpoint(): string {
   return `${config.agentUrl.replace(/\/+$/, "")}/agent/onboarding/tum-connect`;
@@ -107,7 +124,7 @@ export type DiscoverCallbacks = {
   onDone: () => void;
 };
 
-function extractJsonArray(text: string): unknown {
+export function extractJsonArray(text: string): unknown {
   const start = text.indexOf("[");
   const end = text.lastIndexOf("]");
   if (start < 0 || end <= start) return null;
@@ -119,7 +136,7 @@ function extractJsonArray(text: string): unknown {
   }
 }
 
-function normalizeItems(raw: unknown): DiscoverItem[] {
+export function normalizeItems(raw: unknown): DiscoverItem[] {
   if (!Array.isArray(raw)) return [];
   return raw
     .map((entry, idx) => {
@@ -128,6 +145,8 @@ function normalizeItems(raw: unknown): DiscoverItem[] {
       const title = typeof e.title === "string" ? e.title.trim() : "";
       if (!title) return null;
       const why = typeof e.why === "string" ? e.why.trim() : "";
+      const what = typeof e.what === 'string' ? e.what.trim() : undefined;
+      const land = typeof e.land === 'string' ? e.land.trim() : undefined;
       const id =
         typeof e.id === "string" && e.id.trim().length > 0
           ? e.id.trim()
@@ -141,9 +160,9 @@ function normalizeItems(raw: unknown): DiscoverItem[] {
         e.meta && typeof e.meta === "object" && !Array.isArray(e.meta)
           ? (e.meta as DiscoverItem["meta"])
           : {};
-      return { id, title, why, type, meta };
+      return { id, title, why, what, land, type, meta };
     })
-    .filter((x): x is DiscoverItem => x !== null);
+    .filter((x): x is NonNullable<typeof x> => x !== null);
 }
 
 export async function runDiscover(

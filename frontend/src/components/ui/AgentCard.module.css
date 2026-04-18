@@ -1,4 +1,4 @@
-/* AgentCard.module.css */
+/* AgentCard.module.css — fixed-height streaming cards */
 
 .card {
   background: var(--bg-card);
@@ -7,103 +7,269 @@
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
-.greenBorder {
-  border-color: var(--success);
+/* While working: lock to fixed height so cards don't jump */
+.cardWorking {
+  height: 220px;
+  overflow: hidden;
 }
 
+/* ── Header ── */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .iconCircle {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--bg-muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 12px;
   flex-shrink: 0;
 }
 
 .name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--fg-default);
 }
 
-.bullets {
+/* ── Body ── */
+.body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
 }
 
-.bullet {
-  display: flex;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--fg-default);
-  line-height: 1.4;
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    "Liberation Mono",
-    "Courier New",
-    monospace;
-}
+/* ── Collapsible stream ── */
+.streamDetails {}
 
-.bulletMuted {
+.streamSummary {
+  font-size: 10px;
   color: var(--fg-muted);
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  letter-spacing: 0.3px;
+  padding: 2px 0;
 }
 
-.bulletAlert {
-  color: var(--accent-700);
+.streamSummary:hover {
+  color: var(--fg-default);
 }
 
-.marker {
+.streamScroll {
+  /* Fixed max so it scrolls within the card while working */
+  max-height: 150px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
+
+.streamScroll::-webkit-scrollbar {
+  width: 3px;
+}
+.streamScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.streamScroll::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 2px;
+}
+
+/* Text narration */
+.streamText {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--fg-muted);
+  word-break: break-word;
+}
+
+.streamText p {
+  margin: 0 0 4px;
+}
+
+.streamText ul,
+.streamText ol {
+  margin: 0;
+  padding-left: 14px;
+}
+
+.streamText li {
+  margin-bottom: 2px;
+}
+
+.streamText strong {
+  color: var(--fg-default);
+}
+
+.streamText code {
+  font-size: 9px;
+  background: var(--bg-muted);
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+/* Tool call rows */
+.streamTool {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  padding: 2px 0;
+}
+
+
+.toolBadge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-muted);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 9px;
+  color: var(--fg-default);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.toolDotRunning,
+.toolDotDone,
+.toolDotError {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   flex-shrink: 0;
-  width: 14px;
-  text-align: center;
 }
 
-.markerDone {
+.toolDotRunning {
+  background: var(--accent-500);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.toolDotDone {
+  background: var(--success);
+}
+
+.toolDotError {
+  background: var(--accent-700);
+}
+
+.toolCheck {
+  font-size: 9px;
   color: var(--success);
 }
 
-.markerRunning {
-  color: var(--accent-500);
-  display: inline-block;
-  animation: spinMarker 1.2s linear infinite;
+
+/* ── Summary (shown when done) ── */
+.summary {
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--fg-default);
+  padding: 6px 0 4px;
 }
 
-.markerQueued {
-  color: var(--neutral-400);
+.summary p {
+  margin: 0 0 4px;
 }
 
-.markerAlert {
-  color: var(--accent-700);
+.summary ul {
+  margin: 0;
+  padding-left: 16px;
 }
 
-@keyframes spinMarker {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+.summary li {
+  margin-bottom: 3px;
+}
+
+.summary strong {
+  font-weight: 700;
+}
+
+/* ── Expandable items ── */
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itemDetails {
+  border-radius: 6px;
+}
+
+.itemDetails[open] {
+  background: var(--bg-muted);
+}
+
+.itemTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-default);
+  cursor: pointer;
+  user-select: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.itemTitle::-webkit-details-marker {
+  display: none;
+}
+
+.itemTitle::before {
+  content: '›';
+  font-size: 13px;
+  color: var(--fg-muted);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.itemDetails[open] > .itemTitle::before {
+  transform: rotate(90deg);
+}
+
+.itemTitle:hover {
+  background: var(--bg-muted);
+}
+
+.itemBody {
+  padding: 0 8px 8px 22px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+
+.itemBody p {
+  margin: 0 0 4px;
+}
+
+.itemWhy {
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+/* ── Animations ── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }

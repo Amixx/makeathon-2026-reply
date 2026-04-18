@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ProgressDots, SectionLabel, VoiceOrb } from '../../components/ui';
 import { useVoiceRecorder } from '../../hooks/useVoiceRecorder';
 import { postProfile } from '../../lib/agent';
@@ -23,7 +23,7 @@ export default function Blockers() {
   const blockers = useOnboarding((st) => st.blockers);
 
   const [activePresets, setActivePresets] = useState<Set<string>>(new Set());
-  const [showText, setShowText] = useState(false);
+
   const { listening, start, stop } = useVoiceRecorder();
   const [transcribing, setTranscribing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -142,43 +142,33 @@ export default function Blockers() {
           </div>
         </div>
 
-        {/* Text area */}
-        <AnimatePresence>
-          {showText && (
-            <motion.div
-              className={s.textareaWrap}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-            >
-              <textarea
-                className={s.textarea}
-                placeholder="I keep avoiding reaching out to professors, I feel not ready, I compare myself to peers…"
-                value={blockers}
-                onChange={(e) => setField('blockers', e.target.value)}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          className={s.textareaWrap}
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+        >
+          <SectionLabel muted>TYPE WHAT'S HEAVY</SectionLabel>
+          <textarea
+            className={s.textarea}
+            placeholder="The heavy part is comparison. Everyone around me feels more polished and more obvious about where they are going…"
+            value={blockers}
+            onChange={(e) => setField('blockers', e.target.value)}
+          />
+        </motion.div>
 
         <div className={s.spacer} />
 
-        {/* CTA row */}
-        <div className={s.btnRow}>
-          <button className={s.btnGhost} onClick={() => setShowText((v) => !v)}>
-            {showText ? 'Hide text' : 'Type instead'}
-          </button>
-          <button
-            className={s.btnPrimary}
-            disabled={saving}
-            onClick={handleContinue}
-          >
-            {saving ? 'Saving…' : listening ? 'Stop & continue' : 'Continue'}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+        <button
+          className={s.btnPrimary}
+          style={{ width: '100%' }}
+          disabled={saving}
+          onClick={handleContinue}
+        >
+          {saving ? 'Saving…' : listening ? 'Stop & continue' : 'Continue'}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
     </div>
   );

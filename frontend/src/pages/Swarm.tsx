@@ -13,7 +13,7 @@ export default function Swarm() {
   const navigate = useNavigate();
   const { program, interest } = useOnboarding();
   const setItems = useOpportunities((s) => s.set);
-  const { agents, items, isDiscovering, discoveryReady, done, error, start } = useSwarm();
+  const { agents, items, done, error, start } = useSwarm();
 
   useEffect(() => {
     start({ program: program || undefined, interest: interest || undefined });
@@ -32,30 +32,11 @@ export default function Swarm() {
       <div className={styles.inner}>
         <SectionLabel pulsing>AGENT SWARM · LIVE</SectionLabel>
 
-        {isDiscovering && (
-          <motion.div
-            className={styles.thinkingWrap}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <motion.div
-              className={styles.thinkingBubble}
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 1.8, repeat: Number.POSITIVE_INFINITY, ease: 'easeInOut' }}
-            >
-              <span className={styles.thinkingDot} />
-              <span>Thinking about opportunities</span>
-            </motion.div>
-          </motion.div>
-        )}
-
         <motion.div
           className={styles.grid}
           initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: discoveryReady ? 1 : 0, y: discoveryReady ? 0 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.32 }}
-          style={{ pointerEvents: discoveryReady ? 'auto' : 'none' }}
         >
           {agents.map((agent, i) => (
             <AgentCard
@@ -64,7 +45,8 @@ export default function Swarm() {
               emoji={agent.emoji}
               status={agent.status}
               bullets={agent.bullets}
-              borderAccent={agent.id === 'scholarship'}
+              streamLog={agent.streamLog}
+              items={agent.items}
               index={i}
             />
           ))}

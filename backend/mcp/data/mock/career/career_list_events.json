@@ -1,86 +1,70 @@
 {
   "events": [
     {
-      "title": "Karriere neu gedacht: Impulse für einen modernen und gesunden Berufsweg",
-      "date": "21 Apr.",
-      "datetime": "",
-      "location": "Webinar,Online",
-      "summary": "In dem Webinar diskutieren wir Strategien, wie Sie herausfinden können, was Ihnen wichtig ist und wie Sie Ehrgeiz und Gesundheit in Einklang bringen können.",
-      "url": "https://www.community.tum.de//veranstaltung/5503"
+      "title": "ESA/DLR Career Day @ TUM Garching",
+      "date": "22 May 2026",
+      "datetime": "2026-05-22T13:00:00+02:00",
+      "location": "MW 2001, TUM Campus Garching",
+      "summary": "Recruiters and research engineers from ESA, DLR, and Munich space startups discuss thesis paths, YGT applications, and entry routes into space systems engineering.",
+      "url": "https://www.community.tum.de/veranstaltung/space-career-day-2026"
     },
     {
-      "title": "TUM Start-up Meet & Talk - Insights from STABL Energy",
-      "date": "22 Apr.",
-      "datetime": "",
-      "location": "Unternehmensbesuch",
-      "summary": "In dieser Eventreihe von TUM ForTe Entrepreneurship und TUM Alumni & Career gewähren TUM Alumni einen Blick hinter die Kulissen ihrer jungen Unternehmen. Diesmal mit TUM Alumnus Dr. Arthur Singer, Co-Founder und Geschäftsführer von STABL Energy GmbH.",
-      "url": "https://www.community.tum.de//veranstaltung/5448"
+      "title": "TUM Space Initiative Open Lab Night",
+      "date": "24 Apr 2026",
+      "datetime": "2026-04-24T18:30:00+02:00",
+      "location": "MakerSpace Garching",
+      "summary": "Student teams show current rover, payload, and CubeSat work. Good low-pressure place to reconnect with people who already know Lina from TUM Space.",
+      "url": "https://www.community.tum.de/veranstaltung/tum-space-open-lab-night"
     },
     {
-      "title": "Sustainable Careers: Paths to Impact",
-      "date": "27 Apr.",
-      "datetime": "",
-      "location": "Webinar,Online",
-      "summary": "Get ready to explore how you can build a meaningful, future‑shaping career!",
-      "url": "https://www.community.tum.de//veranstaltung/5499"
+      "title": "Space Systems Thesis Matchmaking Evening",
+      "date": "28 Apr 2026",
+      "datetime": "2026-04-28T17:30:00+02:00",
+      "location": "Institute of Astronautics, Boltzmannstr. 15",
+      "summary": "Short pitches from chairs with open thesis topics in orbital robotics, autonomy, and mission design, followed by 1:1 sign-up slots.",
+      "url": "https://www.community.tum.de/veranstaltung/space-thesis-matchmaking"
     },
     {
-      "title": "Potentialanalyse und Profilbildung für Ihr Personal Branding",
-      "date": "27 Apr.",
-      "datetime": "",
-      "location": "Webinar,Online",
-      "summary": "Wir zeigen Ihnen, wie Sie Ihre USPs erkennen, sich interessant machen und so die richtigen Zeichen setzen.",
-      "url": "https://www.community.tum.de//veranstaltung/5506"
+      "title": "Deutschlandstipendium Clinic for Engineers",
+      "date": "23 Apr 2026",
+      "datetime": "2026-04-23T16:00:00+02:00",
+      "location": "Online",
+      "summary": "Thirty-minute application clinic focused on strong motivation letters and evidence selection for engineering students before the 30 April deadline.",
+      "url": "https://www.community.tum.de/veranstaltung/deutschlandstipendium-clinic"
     },
     {
-      "title": "Info Booth: Sustainability Day @TUM Campus Garching",
-      "date": "29 Apr.",
-      "datetime": "",
-      "location": "Konferenz/Messe,TUM Campus Garching",
-      "summary": "",
-      "url": "https://www.community.tum.de//veranstaltung/5440"
+      "title": "IAC 2026 Student Participation Info Session",
+      "date": "4 May 2026",
+      "datetime": "2026-05-04T19:00:00+02:00",
+      "location": "Online",
+      "summary": "Overview of student registration, travel grants, and networking strategy for the International Astronautical Congress 2026.",
+      "url": "https://www.community.tum.de/veranstaltung/iac-2026-student-session"
     },
     {
-      "title": "Der perfekte Lebenslauf",
-      "date": "4 Mai",
-      "datetime": "",
-      "location": "Webinar,Online",
-      "summary": "In diesem Webinar lernen Sie, wie Sie Ihr individuelles Profil gut darstellen können.",
-      "url": "https://www.community.tum.de//veranstaltung/5500"
+      "title": "Founders' Breakfast: Deep Tech in Munich",
+      "date": "30 Apr 2026",
+      "datetime": "2026-04-30T08:30:00+02:00",
+      "location": "UnternehmerTUM, Garching",
+      "summary": "Open networking breakfast for students curious about deep-tech startups, product roles, and early venture teams around Munich.",
+      "url": "https://www.community.tum.de/veranstaltung/founders-breakfast-deep-tech"
     },
     {
-      "title": "Job Coaching for Engineers",
-      "date": "7 Mai",
-      "datetime": "",
-      "location": "Beratung,Online",
-      "summary": "In this session you’ll gain valuable insights and personalized advice to help you navigate the German job market.",
-      "url": "https://www.community.tum.de//veranstaltung/5476"
+      "title": "CV Photo + LinkedIn Drop-in Clinic",
+      "date": "6 May 2026",
+      "datetime": "2026-05-06T12:00:00+02:00",
+      "location": "TUM Career Service, Arcisstrasse",
+      "summary": "Low-commitment drop-in slot for better application photos, profile headlines, and quick LinkedIn cleanup.",
+      "url": "https://www.community.tum.de/veranstaltung/linkedin-dropin-clinic"
     },
     {
-      "title": "Das professionelle Bewerbungsanschreiben",
-      "date": "8 Mai",
-      "datetime": "",
-      "location": "Webinar,Online",
-      "summary": "Wir zeigen Ihnen, wie Sie Ihr Anschreiben präzise und positionsbezogen formulieren können.",
-      "url": "https://www.community.tum.de//veranstaltung/5502"
-    },
-    {
-      "title": "Studium (fast) fertig - und nun?",
-      "date": "11 Mai",
-      "datetime": "",
-      "location": "Webinar,Online",
-      "summary": "In diesem Webinar informieren wir Sie über die vielfältigen Unterstützungsmöglichkeiten der Bundesagentur für Arbeit.",
-      "url": "https://www.community.tum.de//veranstaltung/5504"
-    },
-    {
-      "title": "Info Booth @IKOM Life Science Freising",
-      "date": "12 Mai",
-      "datetime": "",
-      "location": "",
-      "summary": "Nutze die Gelegenheit und besuche uns am Alumni&Career Stand (TUM Campus Freising) von 09:30 Uhr und 16:00 Uhr.",
-      "url": "https://www.community.tum.de//veranstaltung/5442"
+      "title": "Language Tandem Meetup: Spanish and German Exchange",
+      "date": "7 May 2026",
+      "datetime": "2026-05-07T18:00:00+02:00",
+      "location": "StuCafe Garching",
+      "summary": "Informal evening meetup for students practicing Spanish and German. Not career-specific, but realistic background activity in the campus ecosystem.",
+      "url": "https://www.community.tum.de/veranstaltung/spanish-german-tandem"
     }
   ],
-  "count": 10,
-  "source": "https://www.community.tum.de/veranstaltungen/?thema%5B%5D=bewerbung&thema%5B%5D=jobsuche&thema%5B%5D=orientation&thema%5B%5D=intcareer"
+  "count": 8,
+  "source": "https://www.community.tum.de/veranstaltungen/space-careers-demo"
 }

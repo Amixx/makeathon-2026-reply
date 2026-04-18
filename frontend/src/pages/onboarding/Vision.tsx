@@ -17,7 +17,7 @@ export default function Vision() {
 
   const { listening, start, stop } = useVoiceRecorder();
   const [transcribing, setTranscribing] = useState(false);
-  const [showTextFallback, setShowTextFallback] = useState(false);
+
   const [saving, setSaving] = useState(false);
 
   async function handleOrbClick() {
@@ -142,47 +142,33 @@ export default function Vision() {
           )}
         </AnimatePresence>
 
-        {/* Text fallback */}
-        <AnimatePresence>
-          {showTextFallback && (
-            <motion.div
-              className={s.textareaWrap}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-            >
-              <SectionLabel muted>TYPE YOUR VISION</SectionLabel>
-              <textarea
-                className={s.textarea}
-                placeholder="I want to work in aerospace robotics at DLR, land a working-student role before graduation, and present at a conference…"
-                value={vision}
-                onChange={(e) => setField('vision', e.target.value)}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          className={s.textareaWrap}
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+        >
+          <SectionLabel muted>TYPE YOUR VISION</SectionLabel>
+          <textarea
+            className={s.textarea}
+            placeholder="I want to work on Mars robotics, ideally on the systems that actually move, navigate, and make decisions on the surface…"
+            value={vision}
+            onChange={(e) => setField('vision', e.target.value)}
+          />
+        </motion.div>
 
         <div className={s.spacer} />
 
-        {/* CTA row */}
-        <div className={s.btnRow}>
-          <button
-            className={s.btnGhost}
-            onClick={() => setShowTextFallback((v) => !v)}
-          >
-            {showTextFallback ? 'Hide text' : 'Type instead'}
-          </button>
-          <button
-            className={s.btnPrimary}
-            disabled={(!canContinue && !listening) || saving}
-            onClick={handleContinue}
-          >
-            {saving ? 'Saving…' : listening ? 'Stop & continue' : 'Continue'}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+        <button
+          className={s.btnPrimary}
+          style={{ width: '100%' }}
+          disabled={(!canContinue && !listening) || saving}
+          onClick={handleContinue}
+        >
+          {saving ? 'Saving…' : listening ? 'Stop & continue' : 'Continue'}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
     </div>
   );

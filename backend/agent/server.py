@@ -33,7 +33,7 @@ from config import (
 from render import render_prompt
 from tools import PLAN_TOOL_DECLS, PLAN_TOOLS, TOOL_DECLS, TOOLS
 
-app = FastAPI(title="Campus Co-Pilot Agent")
+app = FastAPI(title="WayTum Agent")
 
 app.add_middleware(
     CORSMiddleware,
@@ -46,6 +46,7 @@ app.add_middleware(
 _bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
 
 _PROFILE_PATH = Path(__file__).parent / "data" / "user_profile.yaml"
+_DEMO_PROFILE_PATH = Path(__file__).parent / "data" / "user_profile_demo.yaml"
 _UPLOADS_DIR = Path(__file__).parent / "data" / "uploads"
 
 
@@ -62,6 +63,7 @@ class ChatRequest(BaseModel):
 class DiscoverRequest(BaseModel):
     program: Optional[str] = None
     interest: Optional[str] = None
+    category: Optional[Literal["course", "event", "person", "scholarship"]] = None
 
 
 class PlanItem(BaseModel):
@@ -301,6 +303,13 @@ def _load_profile() -> dict:
     return yaml.safe_load(_PROFILE_PATH.read_text()) or {}
 
 
+def _load_demo_profile() -> dict:
+    if not _DEMO_PROFILE_PATH.exists():
+        return {}
+    return yaml.safe_load(_DEMO_PROFILE_PATH.read_text()) or {}
+
+
+
 def _save_profile(data: dict) -> None:
     _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
     _PROFILE_PATH.write_text(yaml.dump(data, allow_unicode=True, sort_keys=False))
@@ -325,6 +334,7 @@ def _discover_prompt_context(profile: Mapping[str, Any], req: DiscoverRequest) -
         "github_url": (profile.get("github_url") or "").strip(),
         "linkedin_url": (profile.get("linkedin_url") or "").strip(),
         "cv_uploaded": bool(profile.get("cv_uploaded")),
+        "category": (req.category or "").strip(),
     }
 
 
@@ -344,6 +354,17 @@ def post_profile(req: ProfileRequest) -> dict:
     return _profile_to_api(current)
 
 
+@app.post("/agent/profile/demo-reset")
+def reset_demo_profile() -> dict:
+    demo = _load_demo_profile()
+    _save_profile(demo)
+    return {
+        "profile": _profile_to_api(demo),
+        "tumPassword": "demo-password",
+    }
+
+
+
 @app.post("/agent/onboarding/tum-connect")
 def connect_tum_account(req: TumConnectRequest) -> dict:
     tum_id = req.tumSsoId.strip().lower()
@@ -352,9 +373,13 @@ def connect_tum_account(req: TumConnectRequest) -> dict:
         raise HTTPException(status_code=400, detail="TUM ID and password are required.")
 
     current = _load_profile()
+    demo = _load_demo_profile()
     current["tum_sso_id"] = tum_id
     current["tum_sso_connected"] = True
     current["user_id"] = current.get("user_id") or tum_id
+    for key in ("name", "program", "interest", "semester", "interests"):
+        if not current.get(key) and demo.get(key):
+            current[key] = demo[key]
     _save_profile(current)
     return _profile_to_api(current)
 
@@ -403,6 +428,33 @@ async def voice_transcribe(audio: UploadFile = File(...)) -> dict:
     return {"text": "", "fields": {}}
 
 
+def _extract_items(text: str) -> list:
+    """Extract JSON array of items from LLM text output."""
+    start = text.find("[")
+    end = text.rfind("]")
+    if start < 0 or end <= start:
+        return []
+    try:
+        arr = json.loads(text[start:end + 1])
+        return arr if isinstance(arr, list) else []
+    except (json.JSONDecodeError, ValueError):
+        return []
+
+
+def _build_summary(items: list) -> str:
+    """Build a short markdown summary from parsed items."""
+    if not items:
+        return "No opportunities found."
+    lines = []
+    for item in items[:4]:
+        title = item.get("title", "")
+        why = item.get("why", "")
+        if title:
+            lines.append(f"- **{title}**" + (f" — {why}" if why else ""))
+    return "\n".join(lines)
+
+
+
 @app.post("/agent/discover")
 def discover(req: DiscoverRequest) -> StreamingResponse:
     """Main-agent orchestrator: brainstorm actionable items (JSON array).
@@ -414,14 +466,30 @@ def discover(req: DiscoverRequest) -> StreamingResponse:
     prompt_context = _discover_prompt_context(profile, req)
 
     user_prompt = render_prompt("discover.j2", **prompt_context)
-    system_prompt = render_prompt("system_discover.j2", date=date.today().isoformat())
+    system_prompt = render_prompt("system_discover.j2", date=date.today().isoformat(), category=prompt_context["category"])
     messages = [{"role": "user", "content": user_prompt}]
+
+    # Use tools when scoped to a category for richer results
+    use_tools = bool(req.category)
+    tool_decls = PLAN_TOOL_DECLS if use_tools else []
+    tools = PLAN_TOOLS if use_tools else {}
 
     def generate():
         try:
-            # No tools — pure brainstorm. Single-turn.
-            yield from _run_agent(messages, system_prompt, tool_decls=[], tools={})
-            yield _ndjson({"type": "done"})
+            full_text = ""
+            for chunk in _run_agent(messages, system_prompt, tool_decls=tool_decls, tools=tools):
+                # Peek at text deltas to accumulate full_text
+                try:
+                    ev = json.loads(chunk.decode("utf-8"))
+                    if ev.get("type") == "text":
+                        full_text += ev.get("delta", "")
+                except Exception:
+                    pass
+                yield chunk
+            # Parse items from accumulated text
+            items = _extract_items(full_text)
+            summary = _build_summary(items)
+            yield _ndjson({"type": "done", "items": items, "summary": summary})
         except Exception as exc:  # noqa: BLE001
             yield _ndjson({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
 

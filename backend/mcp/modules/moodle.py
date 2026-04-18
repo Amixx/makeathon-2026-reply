@@ -17,7 +17,7 @@ def register(mcp: FastMCP) -> None:
     async def moodle_list_courses(username: str) -> dict:
         """List the user's enrolled Moodle courses. Requires prior tum_login."""
         if mock.is_demo_mode():
-            m = mock.get_mock("moodle", "moodle_list_courses", username=username)
+            m = await mock.get_mock("moodle", "moodle_list_courses", username=username)
             if m is not None:
                 return m
         ctx = await auth.get_context(username)
@@ -47,7 +47,7 @@ def register(mcp: FastMCP) -> None:
         days_ahead: window in days to look ahead. Requires prior tum_login.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("moodle", "moodle_list_assignments", username=username)
+            m = await mock.get_mock("moodle", "moodle_list_assignments", username=username)
             if m is not None:
                 return m
         ctx = await auth.get_context(username)
@@ -93,7 +93,7 @@ def register(mcp: FastMCP) -> None:
         Requires prior tum_login.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("moodle", "moodle_get_course_content", course_url=course_url)
+            m = await mock.get_mock("moodle", "moodle_get_course_content", course_url=course_url)
             if m is not None:
                 return m
         if not course_url.startswith(MOODLE_BASE):
@@ -140,7 +140,7 @@ def register(mcp: FastMCP) -> None:
         Requires prior tum_login.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("moodle", "moodle_fetch_resource_text", resource_url=resource_url)
+            m = await mock.get_mock("moodle", "moodle_fetch_resource_text", resource_url=resource_url)
             if m is not None:
                 return m
         if not resource_url.startswith(MOODLE_BASE):
@@ -196,7 +196,7 @@ def register(mcp: FastMCP) -> None:
     async def moodle_list_grades(username: str) -> dict:
         """List grades across all enrolled Moodle courses. Requires prior tum_login."""
         if mock.is_demo_mode():
-            m = mock.get_mock("moodle", "moodle_list_grades", username=username)
+            m = await mock.get_mock("moodle", "moodle_list_grades", username=username)
             if m is not None:
                 return m
         ctx = await auth.get_context(username)

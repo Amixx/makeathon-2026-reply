@@ -152,7 +152,7 @@ export default function Playground() {
         <Card variant="muted" tight>
           <p style={{ fontSize: 16, lineHeight: 1.6 }}>
             <TypingText
-              text="Hey! I'm Waypoint, your campus co-pilot. Let's figure out where you want to go."
+              text="Hey! I'm WayTum. Let's figure out where you want to go."
               speed={40}
             />
           </p>
@@ -171,7 +171,7 @@ export default function Playground() {
             { text: 'Found 3 matching electives', status: 'done' },
             { text: 'Ranked by match score', status: 'done' },
           ]}
-          borderAccent
+
         />
         <AgentCard
           index={1}

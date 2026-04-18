@@ -1,37 +1,37 @@
 {
-  "score": 56,
+  "score": 84,
   "findings": [
     {
       "severity": "medium",
-      "category": "structure",
-      "message": "No 'education' section detected.",
-      "suggestion": "Add a clearly labelled 'Education' section."
+      "category": "impact",
+      "message": "The DLR role is credible, but the bullets describe tasks more than outcomes.",
+      "suggestion": "Add one metric or concrete system scope, for example number of passes scheduled, simulation runtime reduction, or hardware-in-the-loop coverage."
+    },
+    {
+      "severity": "medium",
+      "category": "positioning",
+      "message": "The CV implies space robotics interest, but it never says it directly.",
+      "suggestion": "Use a one-line headline such as 'Aerospace MSc focused on autonomy, GN&C, and planetary robotics'."
     },
     {
       "severity": "low",
-      "category": "impact",
-      "message": "No quantified impact (%/users/x improvement) detected.",
-      "suggestion": "Add at least one metric per role (e.g. 'reduced latency by 40%')."
-    },
-    {
-      "severity": "high",
-      "category": "length",
-      "message": "CV is very short (20 words).",
-      "suggestion": "A student CV should usually be 300–600 words, one page."
+      "category": "language",
+      "message": "The bachelor thesis title is strong, but the stack and technical contribution stay vague.",
+      "suggestion": "Name the optimization method, tooling, and what part Lina owned so reviewers can map the work to Mars robotics skills."
     },
     {
       "severity": "medium",
       "category": "presence",
-      "message": "No LinkedIn URL found.",
-      "suggestion": "Add your LinkedIn profile URL to the header."
+      "message": "LinkedIn exists, but the profile still reads unfinished next to an otherwise strong technical CV.",
+      "suggestion": "Swap the casual climbing photo, add a space-systems headline, and mirror the DLR and TUM Space entries from the CV."
     }
   ],
   "stats": {
-    "word_count": 20,
+    "word_count": 428,
     "emails": [
-      "max.mustermann@tum.de"
+      "lina.berger@tum.de"
     ],
-    "has_linkedin": false,
+    "has_linkedin": true,
     "has_github": true
   }
 }

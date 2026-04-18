@@ -4,7 +4,7 @@ Context for Claude Code working in this repo.
 
 ## Project
 
-TUM.ai Makeathon 2026 submission — Reply track, "Campus Co-Pilot Suite".
+TUM.ai Makeathon 2026 submission — Reply track, "WayTum".
 We are building a **career guide / coach agent** for TUM students. See
 [docs/TASK.md](docs/TASK.md) for the full challenge brief and
 [README.md](README.md) for the one-paragraph pitch.
@@ -35,7 +35,7 @@ extra features — those are the differentiators for this track.
 ## Architecture
 
 ```
-mcp/                    # Campus Co-Pilot MCP Server (Python)
+mcp/                    # WayTum MCP Server (Python)
 ├── server.py           # FastMCP entry point, registers all module tools
 ├── auth.py             # Playwright TUM SSO login, storageState management
 ├── session_store.py    # Fernet-encrypted session persistence on disk

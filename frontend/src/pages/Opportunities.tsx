@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useOpportunities } from '../store/opportunities';
-import { SwipeStack } from '../components/ui/SwipeStack';
 import { ProgressDots } from '../components/ui/ProgressDots';
 import { Button } from '../components/ui/Button';
 import { CourseCard } from '../components/cards/CourseCard';
@@ -15,8 +15,7 @@ export default function Opportunities() {
   const navigate = useNavigate();
   const storeItems = useOpportunities((s) => s.items);
 
-  // If no items in store (e.g. navigated directly), use fallback demo items
-  const initialItems: DiscoverItem[] =
+  const items: DiscoverItem[] =
     storeItems.length > 0
       ? storeItems
       : [
@@ -51,61 +50,32 @@ export default function Opportunities() {
         ];
 
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [stackKey, setStackKey] = useState(0); // force re-mount on restart
+
   const [finished, setFinished] = useState(false);
 
   function handleAccept(item: DiscoverItem) {
     navigate(`/opportunity/${item.id}`, { state: { item } });
   }
 
-  function handleSkip(_item: DiscoverItem, remaining: DiscoverItem[]) {
-    if (remaining.length === 0) {
+  function handleSkip() {
+    if (currentIdx >= items.length - 1) {
       setFinished(true);
     } else {
       setCurrentIdx((prev) => prev + 1);
     }
   }
 
-  function handleStackAccept(item: DiscoverItem, remaining: DiscoverItem[]) {
-    if (remaining.length === 0) setFinished(true);
-    handleAccept(item);
-  }
-
   function renderCard(item: DiscoverItem) {
     switch (item.type) {
       case 'event':
-        return (
-          <EventCard
-            item={item}
-            onSkip={(i) => handleSkip(i, [])}
-            onAccept={(i) => handleAccept(i)}
-          />
-        );
+        return <EventCard item={item} onSkip={handleSkip} onAccept={() => handleAccept(item)} />;
       case 'person':
-        return (
-          <PersonCard
-            item={item}
-            onSkip={(i) => handleSkip(i, [])}
-            onAccept={(i) => handleAccept(i)}
-          />
-        );
+        return <PersonCard item={item} onSkip={handleSkip} onAccept={() => handleAccept(item)} />;
       case 'scholarship':
-        return (
-          <ScholarshipCard
-            item={item}
-            onSkip={(i) => handleSkip(i, [])}
-            onAccept={(i) => handleAccept(i)}
-          />
-        );
+        return <ScholarshipCard item={item} onSkip={handleSkip} onAccept={() => handleAccept(item)} />;
       case 'course':
       default:
-        return (
-          <CourseCard
-            item={item}
-            onSkip={(i) => handleSkip(i, [])}
-            onAccept={(i) => handleAccept(i)}
-          />
-        );
+        return <CourseCard item={item} onSkip={handleSkip} onAccept={() => handleAccept(item)} />;
     }
   }
 
@@ -122,7 +92,7 @@ export default function Opportunities() {
               onClick={() => {
                 setFinished(false);
                 setCurrentIdx(0);
-                setStackKey((k) => k + 1);
+
               }}
             >
               Start over
@@ -133,33 +103,32 @@ export default function Opportunities() {
     );
   }
 
+  const currentItem = items[currentIdx];
+
   return (
     <div className={styles.page}>
       <div className={styles.inner}>
         <div className={styles.header}>
-          <span className={styles.headerLeft}>YOUR MAY · {initialItems.length} POSSIBILITIES</span>
-          <span className={styles.headerRight}>{currentIdx + 1} / {initialItems.length}</span>
+          <span className={styles.headerLeft}>YOUR MAY · {items.length} POSSIBILITIES</span>
+          <span className={styles.headerRight}>{currentIdx + 1} / {items.length}</span>
         </div>
 
-        <div className={styles.stackWrap}>
-          <SwipeStack
-            key={stackKey}
-            items={initialItems}
-            renderCard={renderCard}
-            onAccept={handleStackAccept}
-            onSkip={(_item, remaining) => {
-              setCurrentIdx((prev) => Math.min(prev + 1, initialItems.length - 1));
-              if (remaining.length === 0) setFinished(true);
-            }}
-          />
+        <div className={styles.cardWrap}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentItem.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
+            >
+              {renderCard(currentItem)}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         <div className={styles.footer}>
-          <span className={styles.footerHint}>← swipe to see the rest →</span>
-          <ProgressDots
-            total={initialItems.length}
-            current={currentIdx}
-          />
+          <ProgressDots total={items.length} current={currentIdx} />
         </div>
       </div>
     </div>

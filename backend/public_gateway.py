@@ -1,15 +1,19 @@
-"""Public HTTP gateway exposing Inspector at /, MCP at /mcp, and agent at /agent."""
+"""Public HTTP gateway exposing Inspector at /, MCP at /mcp, agent at /agent, and frontend at /app."""
 
+from pathlib import Path
 from urllib.parse import urlencode
 
 import httpx
 from starlette.applications import Starlette
 from starlette.background import BackgroundTask
 from starlette.requests import Request
-from starlette.responses import RedirectResponse, Response, StreamingResponse
+from starlette.responses import FileResponse, RedirectResponse, Response, StreamingResponse
 from starlette.routing import Route
 
 from config import INSPECTOR_CLIENT_PORT, INSPECTOR_PROXY_PORT, INTERNAL_AGENT_PORT, INTERNAL_MCP_PORT
+
+FRONTEND_DIST = Path("/app/frontend-dist")
+PROTOTYPE_DIR = Path("/app/prototype")
 
 HOP_BY_HOP_HEADERS = {
     "connection",
@@ -82,10 +86,36 @@ async def root_redirect(request: Request) -> Response:
     return RedirectResponse(url=f"/?{urlencode(params)}", status_code=307)
 
 
+async def _serve_frontend(request: Request) -> Response:
+    """Serve SPA from /app — try the exact file, fall back to index.html."""
+    # Strip the /app prefix to get the file path within the dist dir
+    rel = request.url.path.removeprefix("/app").lstrip("/")
+    candidate = FRONTEND_DIST / rel if rel else None
+    if candidate and candidate.is_file():
+        return FileResponse(candidate)
+    return FileResponse(FRONTEND_DIST / "index.html")
+
+
+async def _serve_prototype(request: Request) -> Response:
+    """Serve the static HTML prototype from /prototype."""
+    path = request.url.path
+    if path == "/prototype":
+        return RedirectResponse(url="/prototype/", status_code=308)
+    rel = path.removeprefix("/prototype").lstrip("/")
+    candidate = PROTOTYPE_DIR / rel if rel else PROTOTYPE_DIR / "index.html"
+    if candidate.is_file():
+        return FileResponse(candidate)
+    return Response(status_code=404)
+
+
 async def catch_all(request: Request) -> Response:
     path = request.url.path
     if path == "/" and "transport" not in request.query_params:
         return await root_redirect(request)
+    if path.startswith("/prototype"):
+        return await _serve_prototype(request)
+    if path.startswith("/app"):
+        return await _serve_frontend(request)
     if path.startswith("/agent"):
         return await _proxy_request(request, f"http://127.0.0.1:{INTERNAL_AGENT_PORT}")
     if path.startswith("/mcp"):

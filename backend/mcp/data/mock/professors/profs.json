@@ -1,0 +1,44 @@
+{
+  "Luft- und Raumfahrttechnik": [
+    {
+      "name": "Ulrich Walter",
+      "bereich": "Astronautics and human spaceflight systems"
+    },
+    {
+      "name": "Ralf Kennel",
+      "bereich": "Space robotics, mechatronics, and autonomous systems"
+    },
+    {
+      "name": "Florian Holzapfel",
+      "bereich": "Flight system dynamics and control"
+    },
+    {
+      "name": "Mirko Hornung",
+      "bereich": "Aerospace propulsion and launch systems"
+    }
+  ],
+  "Robotik & Automatisierung": [
+    {
+      "name": "Alin Albu-Schaeffer",
+      "bereich": "Sensor-based robotic systems and intelligent assistance"
+    },
+    {
+      "name": "Dirk Wollherr",
+      "bereich": "Autonomous systems, control, and robot learning"
+    },
+    {
+      "name": "Thomas Bock",
+      "bereich": "Field robotics and autonomous construction systems"
+    }
+  ],
+  "Regelungstechnik / Mechatronik": [
+    {
+      "name": "Martin Buss",
+      "bereich": "Automatic control engineering"
+    },
+    {
+      "name": "Matthias Althoff",
+      "bereich": "Cyber-physical systems and safety verification"
+    }
+  ]
+}

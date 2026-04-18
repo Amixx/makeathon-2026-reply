@@ -1,30 +1,46 @@
 {
-  "total": 3,
+  "total": 5,
   "semester_id": 206,
   "exams": [
     {
-      "id": 88401234,
-      "title": "Introduction to Deep Learning",
-      "course_number": "IN2346",
-      "date": "2026-07-27T09:00:00+02:00",
-      "room": "MW 2001 (Friedrich von Thiersch)",
+      "id": 88411001,
+      "title": "Orbital Mechanics and Mission Design",
+      "course_number": "LRT2009",
+      "date": "2026-07-21T09:00:00+02:00",
+      "room": "MW 2001",
       "mode": "Written Exam"
     },
     {
-      "id": 88401567,
-      "title": "Distributed Systems",
-      "course_number": "IN2259",
-      "date": "2026-08-03T13:00:00+02:00",
-      "room": "Interims I 101",
+      "id": 88411002,
+      "title": "Guidance, Navigation and Control for Space Systems",
+      "course_number": "LRT2022",
+      "date": "2026-07-28T13:00:00+02:00",
+      "room": "MW 3610",
+      "mode": "Oral Exam"
+    },
+    {
+      "id": 88411003,
+      "title": "Space Systems Engineering",
+      "course_number": "LRT2015",
+      "date": "2026-08-04T09:00:00+02:00",
+      "room": "MW 2003",
       "mode": "Written Exam"
     },
     {
-      "id": 88401890,
-      "title": "Advanced Database Systems",
-      "course_number": "IN2031",
-      "date": "2026-08-10T09:00:00+02:00",
-      "room": "00.02.001, MI HS 1",
-      "mode": "Written Exam"
+      "id": 88411004,
+      "title": "Embedded Real-Time Systems for Robotics",
+      "course_number": "EI7043",
+      "date": "2026-08-07T14:00:00+02:00",
+      "room": "MI 00.08.038",
+      "mode": "Lab Assessment"
+    },
+    {
+      "id": 88411005,
+      "title": "Scientific Project: Planetary Rover Perception",
+      "course_number": "CIT3006",
+      "date": "2026-07-16T16:00:00+02:00",
+      "room": "MW Robotics Lab",
+      "mode": "Project Demo"
     }
   ],
   "source": "rest"
