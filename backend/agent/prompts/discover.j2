@@ -25,6 +25,13 @@ Grounding facts:
 - GitHub linked: {{ "yes" if github_url else "no" }}
 - LinkedIn linked: {{ "yes" if linkedin_url else "no" }}
 
+{% if cv_text %}
+Here is the full text extracted from my CV — use it to personalise suggestions with my actual skills, experience, and background:
+<cv>
+{{ cv_text }}
+</cv>
+{% endif %}
+
 Please propose only pragmatic, high-agency next moves. Do not give vague directions or generic topics.
 Each idea should be something I could start this week.
 {% if category %}
