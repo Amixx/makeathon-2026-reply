@@ -1,0 +1,132 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-inverted);
+  color: var(--fg-inverted);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 107, 82, 0.55), transparent 65%);
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+  animation: glowIn 800ms ease-out;
+}
+
+@keyframes glowIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 28px 40px;
+  box-sizing: border-box;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.label {
+  color: var(--accent-400);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.sub {
+  color: var(--fg-inverted-muted);
+  font-size: 13px;
+}
+
+.bigNumber {
+  font-size: clamp(120px, 25vw, 200px);
+  font-weight: 800;
+  color: var(--accent-500);
+  line-height: 0.9;
+  letter-spacing: -6px;
+  text-align: center;
+}
+
+.oppsLabel {
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.quote {
+  margin-top: 40px;
+  font-style: italic;
+  color: var(--fg-inverted-muted);
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+  padding: 0 20px;
+  border: none;
+}
+
+.spacer {
+  flex: 1;
+  min-height: 32px;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.progressBar {
+  width: 220px;
+  height: 3px;
+  background: var(--primary-700);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--accent-500);
+  animation: fillProgress 2200ms ease-out forwards;
+}
+
+@keyframes fillProgress {
+  from { width: 30%; }
+  to   { width: 100%; }
+}
+
+.openingLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--fg-inverted-muted);
+  text-transform: uppercase;
+}

@@ -1,0 +1,172 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-default);
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 60px;
+  box-sizing: border-box;
+}
+
+.inner {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.topNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--fg-muted);
+  font-size: 13px;
+  padding: 4px 0;
+  font-family: inherit;
+  transition: color 150ms;
+}
+
+.backBtn:hover {
+  color: var(--fg-default);
+}
+
+.counter {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  color: var(--fg-default);
+  margin: 0;
+}
+
+/* Tool trail */
+.trailSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.toolBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+}
+
+.toolBadge[data-status="running"] {
+  border-color: var(--accent-300);
+  color: var(--accent-600);
+  background: var(--accent-50);
+}
+
+.toolBadge[data-status="done"] {
+  color: var(--success);
+  border-color: rgba(61, 153, 112, 0.3);
+}
+
+.toolBadge[data-status="error"] {
+  color: var(--accent-700);
+  border-color: var(--accent-200);
+}
+
+.toolName {
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.toolStatus {
+  font-size: 12px;
+}
+
+.toolBadge[data-status="running"] .toolStatus {
+  display: inline-block;
+  animation: spinMarker 1.2s linear infinite;
+}
+
+@keyframes spinMarker {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Plan section */
+.planSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Letter card */
+.letterHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.readyBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: var(--success);
+  text-transform: uppercase;
+}
+
+.letterBody {
+  font-size: 13.5px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--fg-default);
+  margin: 0 0 8px;
+  padding: 0;
+  border: none;
+}
+
+.letterMeta {
+  font-size: 11px;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.8px;
+  margin: 0;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.footer > * {
+  flex: 1;
+}

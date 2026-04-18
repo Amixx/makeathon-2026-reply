@@ -25,10 +25,16 @@ export type AgentEvent =
   | { type: "done" }
   | { type: "error"; message: string };
 
+export type DiscoverItemType = 'course' | 'event' | 'person' | 'scholarship';
+
 export type DiscoverItem = {
   id: string;
   title: string;
   why: string;
+  /** Typed variant — defaults to 'course' for legacy items */
+  type: DiscoverItemType;
+  /** Type-specific metadata */
+  meta: Record<string, string | number | boolean | null | undefined>;
 };
 
 export type PlanSegment =
@@ -67,4 +73,22 @@ export type PlanOutput = {
   email?: PlanEmail;
   key_facts?: PlanFact[];
   reassurance?: string;
+};
+
+export type Profile = {
+  userId?: string;
+  name?: string;
+  vision?: string;
+  blockers?: string;
+  program?: string;
+  interest?: string;
+  semester?: string;
+  cvFileName?: string | null;
+  cvUploaded?: boolean;
+  githubUrl?: string;
+  linkedinUrl?: string;
+  interests?: string[];
+  tumSsoId?: string;
+  tumSsoConnected?: boolean;
+  commitment?: "whisper" | "steady" | "push";
 };
