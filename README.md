@@ -105,7 +105,8 @@ make inspect   # or: npx -y @modelcontextprotocol/inspector
 ## Deploy (Fly.io)
 
 Pushes to `main` auto-deploy via the GitHub Actions workflow in
-[`/.github/workflows/fly-deploy.yml`](.github/workflows/fly-deploy.yml).
+[`/.github/workflows/fly-deploy.yml`](.github/workflows/fly-deploy.yml), but only
+when files under `mcp/` changed.
 
 ### First-time setup
 
@@ -119,6 +120,9 @@ fly secrets set \
 
 Add a repository secret named `FLY_API_TOKEN` in GitHub so the workflow can run
 `flyctl deploy` on pushes to `main`.
+
+The frontend deploy is already scoped the same way: the GitHub Pages workflow only
+runs when files under `frontend/` changed.
 
 ### Manual deploy
 

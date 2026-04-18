@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'mcp/**'
   workflow_dispatch:
 
 concurrency:
