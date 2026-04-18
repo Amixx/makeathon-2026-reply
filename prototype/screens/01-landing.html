@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Waypoint — 01 Landing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+  .landing-logo {
+    display: inline-flex; gap: 10px; align-items: center;
+    font-family: var(--font-body); font-size: 18px; font-weight: 800;
+    color: var(--fg-default); letter-spacing: -0.3px;
+  }
+  .landing-logo .mark {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: var(--primary-900);
+    position: relative;
+  }
+  .landing-logo .mark::after {
+    content: ''; position: absolute; inset: 8px;
+    border-radius: 50%;
+    background: var(--accent-500);
+  }
+  .hero-title {
+    font-size: 46px; font-weight: 800;
+    line-height: 1.02; letter-spacing: -1.2px;
+    color: var(--fg-default);
+    margin-top: 28px;
+  }
+  .hero-sub {
+    margin-top: 16px;
+    font-size: 14px; line-height: 1.5;
+    color: var(--fg-muted);
+    max-width: 290px;
+  }
+  .footer-caption {
+    font-family: var(--font-mono); font-size: 9.5px;
+    color: var(--fg-muted); text-align: center;
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-top: 16px;
+  }
+  .cta-mic {
+    padding: 17px 22px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div id="statusbar"></div>
+  <div class="body pad-loose flex-col gap-16">
+    <div class="flex-col gap-16">
+      <div class="landing-logo fade-up"><span class="mark"></span>Waypoint</div>
+      <div class="fade-up delay-1">
+        <span class="pill beta">BETA · TUM CAREER SERVICES</span>
+      </div>
+      <h1 class="hero-title fade-up delay-2">Who do you want to become?</h1>
+      <p class="hero-sub fade-up delay-3">One minute is enough. We listen, the agents act. You review what they did.</p>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-accent full cta-mic fade-up delay-4" data-nav="02-vision.html" id="cta">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      Tell us your goals
+    </button>
+    <p class="footer-caption fade-up delay-5">No right answer · No lock-in · 6-month experiment</p>
+  </div>
+</div>
+<script src="../shared/prototype.js"></script>
+<script>
+document.getElementById('statusbar').innerHTML = WP.buildStatusBar();
+setTimeout(() => {
+  document.getElementById('cta').animate(
+    [{ transform:'scale(1)' },{ transform:'scale(1.03)' },{ transform:'scale(1)' }],
+    { duration: 700, easing: 'ease-in-out' }
+  );
+}, 1400);
+WP.scheduleAdvance(4500, '02-vision.html');
+</script>
+</body>
+</html>

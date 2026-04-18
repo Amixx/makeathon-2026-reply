@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Waypoint — 09 Course Step-in</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+  .q-title { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.1; }
+  .info-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-default);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .k { color: var(--fg-muted); font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .info-row .v { color: var(--fg-default); font-weight: 600; }
+  .numbered {
+    display: flex; gap: 12px;
+    font-size: 13px; color: var(--fg-inverted);
+    line-height: 1.45;
+    padding: 6px 0;
+  }
+  .numbered .num {
+    color: var(--accent-400);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div id="statusbar"></div>
+  <div class="body pad-swipe flex-col gap-16">
+    <div class="top-nav">
+      <button class="back-btn" data-nav="08-course.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <div></div>
+      <span class="counter">1 / 5 · COURSE</span>
+    </div>
+
+    <span class="pill course">🎓 IN2320 · 6 ECTS</span>
+    <h2 class="q-title">Enroll in Autonomous Mobile Systems</h2>
+
+    <div class="card">
+      <div class="section-label" style="color: var(--accent-600); margin-bottom: 8px;">PRE-FILLED FOR YOU</div>
+      <div class="info-row"><span class="k">TUM ID</span><span class="v">ga12xyz</span></div>
+      <div class="info-row"><span class="k">Semester</span><span class="v">SS 2026 (4th)</span></div>
+      <div class="info-row"><span class="k">Group</span><span class="v">Tue/Thu 14:00 · G3</span></div>
+    </div>
+
+    <div class="card dark">
+      <div class="section-label" style="color: var(--accent-400); margin-bottom: 8px;">WHAT HAPPENS IF YOU APPROVE</div>
+      <div class="numbered"><span class="num">1</span><span>We submit the enrollment via TUMonline this afternoon.</span></div>
+      <div class="numbered"><span class="num">2</span><span>You get the TUM confirmation email within 24h.</span></div>
+      <div class="numbered"><span class="num">3</span><span>First class added to your calendar · Tue Apr 30, 14:00.</span></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline" data-nav="08-course.html">Edit</button>
+      <button class="btn btn-primary" data-nav="10-review.html">
+        Enroll now
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<script src="../shared/prototype.js"></script>
+<script>
+document.getElementById('statusbar').innerHTML = WP.buildStatusBar();
+WP.scheduleAdvance(4500, '10-review.html');
+</script>
+</body>
+</html>
