@@ -24,3 +24,47 @@ export type AgentEvent =
   | { type: "tool_result"; id: string; content: string; isError: boolean }
   | { type: "done" }
   | { type: "error"; message: string };
+
+export type DiscoverItem = {
+  id: string;
+  title: string;
+  why: string;
+};
+
+export type PlanSegment =
+  | { kind: "text"; id: string; content: string }
+  | { kind: "tool"; id: string; toolCall: ToolCall };
+
+export type PlanLink = {
+  label: string;
+  href: string;
+};
+
+export type PlanStep = {
+  title: string;
+  detail: string;
+  why: string;
+  duration?: string;
+  link?: PlanLink;
+};
+
+export type PlanEmail = {
+  to?: string;
+  subject?: string;
+  body: string;
+  anchor_note?: string;
+};
+
+export type PlanFact = {
+  label: string;
+  value: string;
+  note?: string;
+};
+
+export type PlanOutput = {
+  intro?: string;
+  steps: PlanStep[];
+  email?: PlanEmail;
+  key_facts?: PlanFact[];
+  reassurance?: string;
+};

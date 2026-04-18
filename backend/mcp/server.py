@@ -27,10 +27,10 @@ mcp = FastMCP(
 )
 
 # ── Register all modules ─────────────────────────────────────────────────────
-from modules import tumonline, moodle, mensa, navigatum, mvv, matrix, collab, zhs, career  # noqa: E402
+from modules import tumonline, moodle, mensa, navigatum, mvv, matrix, collab, zhs, career, linkedin  # noqa: E402
 from modules import auth_tools  # noqa: E402
 
-for mod in [auth_tools, mensa, tumonline, navigatum, mvv, moodle, matrix, collab, zhs, career]:
+for mod in [auth_tools, mensa, tumonline, navigatum, mvv, moodle, matrix, collab, zhs, career, linkedin]:
     mod.register(mcp)
 
 logger.info("All modules registered")

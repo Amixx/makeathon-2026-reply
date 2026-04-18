@@ -25,6 +25,7 @@ _PROFILE_PATH = _DATA_DIR / "user_profile.yaml"
 # ── Local tools ──────────────────────────────────────────────────────────────
 
 def load_courses() -> str:
+    """Student's enrolled courses (from the local demo profile)."""
     profile = yaml.safe_load(_PROFILE_PATH.read_text())
     return render_prompt(
         "courses.j2",
@@ -100,24 +101,22 @@ def _fetch_mcp_tools() -> tuple[dict, list]:
 
 # ── Build combined tool registry ─────────────────────────────────────────────
 
-TOOLS: dict = {"load_courses": load_courses}
-TOOL_DECLS: list = [
-    {
-        "name": "load_courses",
-        "description": (
-            "Load the student's enrolled courses this semester and a list "
-            "of courses they are eligible to take next. Returns Markdown. "
-            "Call this whenever the user asks about their studies, picking "
-            "courses, or career planning that depends on coursework."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {},
-        },
-    }
-]
+_LOAD_COURSES_DECL = {
+    "name": "load_courses",
+    "description": (
+        "Load the student's enrolled courses this semester and a list "
+        "of courses they are eligible to take next. Returns Markdown. "
+        "Call this whenever the user asks about their studies, picking "
+        "courses, or career planning that depends on coursework."
+    ),
+    "input_schema": {"type": "object", "properties": {}},
+}
 
-# Merge MCP tools at import time
+# Baseline chat toolkit — just local tools.
+TOOLS: dict = {"load_courses": load_courses}
+TOOL_DECLS: list = [_LOAD_COURSES_DECL]
+
+# Plan subagent toolkit — local + everything from the MCP server.
 _mcp_tools, _mcp_decls = _fetch_mcp_tools()
-TOOLS.update(_mcp_tools)
-TOOL_DECLS.extend(_mcp_decls)
+PLAN_TOOLS: dict = {"load_courses": load_courses, **_mcp_tools}
+PLAN_TOOL_DECLS: list = [_LOAD_COURSES_DECL, *_mcp_decls]

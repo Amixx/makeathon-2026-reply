@@ -8,9 +8,11 @@ from __future__ import annotations
 
 import json
 from datetime import date
+from pathlib import Path
 from typing import Iterator, List, Optional
 
 import boto3
+import yaml
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -26,7 +28,7 @@ from config import (
     MAX_TOOL_ROUNDS,
 )
 from render import render_prompt
-from tools import TOOL_DECLS, TOOLS
+from tools import PLAN_TOOL_DECLS, PLAN_TOOLS, TOOL_DECLS, TOOLS
 
 app = FastAPI(title="Campus Co-Pilot Agent")
 
@@ -40,6 +42,8 @@ app.add_middleware(
 
 _bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
 
+_PROFILE_PATH = Path(__file__).parent / "data" / "user_profile.yaml"
+
 
 class IncomingMessage(BaseModel):
     role: str
@@ -51,6 +55,23 @@ class ChatRequest(BaseModel):
     system: Optional[str] = None
 
 
+class DiscoverRequest(BaseModel):
+    program: Optional[str] = None
+    interest: Optional[str] = None
+
+
+class PlanItem(BaseModel):
+    id: Optional[str] = None
+    title: str
+    why: Optional[str] = ""
+
+
+class PlanRequest(BaseModel):
+    item: PlanItem
+    program: Optional[str] = None
+    interest: Optional[str] = None
+
+
 def _ndjson(event: dict) -> bytes:
     return (json.dumps(event, ensure_ascii=False) + "\n").encode("utf-8")
 
@@ -59,7 +80,9 @@ def _default_system_prompt() -> str:
     return render_prompt("system.j2", date=date.today().isoformat())
 
 
-def _stream_one_turn(messages: list, system_prompt: str) -> Iterator[dict]:
+def _stream_one_turn(
+    messages: list, system_prompt: str, tool_decls: list
+) -> Iterator[dict]:
     """Single Bedrock call; yields {type, ...} events plus a final summary dict.
 
     Yields:
@@ -71,7 +94,7 @@ def _stream_one_turn(messages: list, system_prompt: str) -> Iterator[dict]:
         "anthropic_version": ANTHROPIC_VERSION,
         "max_tokens": BEDROCK_MAX_TOKENS,
         "system": system_prompt,
-        "tools": TOOL_DECLS,
+        "tools": tool_decls,
         "messages": messages,
     }
     response = _bedrock.invoke_model_with_response_stream(
@@ -127,12 +150,17 @@ def _stream_one_turn(messages: list, system_prompt: str) -> Iterator[dict]:
     }
 
 
-def _run_agent(messages: list, system_prompt: str) -> Iterator[bytes]:
+def _run_agent(
+    messages: list,
+    system_prompt: str,
+    tool_decls: list,
+    tools: dict,
+) -> Iterator[bytes]:
     """Drive the tool-use loop. Yields NDJSON-encoded bytes for the HTTP stream."""
 
     for _ in range(MAX_TOOL_ROUNDS):
         summary: dict | None = None
-        for event in _stream_one_turn(messages, system_prompt):
+        for event in _stream_one_turn(messages, system_prompt, tool_decls):
             if event["type"] == "_done":
                 summary = event
             else:
@@ -150,7 +178,7 @@ def _run_agent(messages: list, system_prompt: str) -> Iterator[bytes]:
                 {"type": "tool_start", "id": tu["id"], "name": tu["name"], "input": tu["input"]}
             )
             try:
-                result = TOOLS[tu["name"]](**tu["input"])
+                result = tools[tu["name"]](**tu["input"])
                 content = str(result)
                 is_error = False
             except Exception as exc:  # noqa: BLE001
@@ -176,6 +204,80 @@ def health() -> dict:
     return {"ok": True, "model": BEDROCK_MODEL, "region": AWS_REGION}
 
 
+def _load_profile() -> dict:
+    return yaml.safe_load(_PROFILE_PATH.read_text()) or {}
+
+
+@app.post("/agent/discover")
+def discover(req: DiscoverRequest) -> StreamingResponse:
+    """Main-agent orchestrator: brainstorm actionable items (JSON array).
+
+    Streams the JSON directly — no tool rounds, for speed. The items are the
+    seed set that the /agent/plan subagent will deep-research per-item.
+    """
+    profile = _load_profile()
+    program = (req.program or profile.get("program") or "").strip()
+    interest = (req.interest or profile.get("interest") or "").strip()
+
+    user_prompt = render_prompt("discover.j2", program=program, interest=interest)
+    system_prompt = render_prompt("system_discover.j2", date=date.today().isoformat())
+    messages = [{"role": "user", "content": user_prompt}]
+
+    def generate():
+        try:
+            # No tools — pure brainstorm. Single-turn.
+            yield from _run_agent(messages, system_prompt, tool_decls=[], tools={})
+            yield _ndjson({"type": "done"})
+        except Exception as exc:  # noqa: BLE001
+            yield _ndjson({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
+
+    return StreamingResponse(
+        generate(),
+        media_type="application/x-ndjson",
+        headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"},
+    )
+
+
+@app.post("/agent/plan")
+def plan(req: PlanRequest) -> StreamingResponse:
+    """Plan subagent: take ONE actionable item and deep-research it with MCP tools.
+
+    Runs the full tool-use loop over TUMonline / career / navigatum / LinkedIn
+    / Moodle. Returns a step-by-step plan + a ready-to-send email + key facts.
+    """
+    profile = _load_profile()
+    program = (req.program or profile.get("program") or "").strip()
+    interest = (req.interest or profile.get("interest") or "").strip()
+    semester = profile.get("semester", "")
+    username = profile.get("user_id", "")
+
+    user_prompt = render_prompt(
+        "plan.j2",
+        program=program,
+        interest=interest,
+        semester=semester,
+        username=username,
+        item=req.item.model_dump(),
+    )
+    system_prompt = render_prompt("system_plan.j2", date=date.today().isoformat())
+    messages = [{"role": "user", "content": user_prompt}]
+
+    def generate():
+        try:
+            yield from _run_agent(
+                messages, system_prompt, tool_decls=PLAN_TOOL_DECLS, tools=PLAN_TOOLS
+            )
+            yield _ndjson({"type": "done"})
+        except Exception as exc:  # noqa: BLE001
+            yield _ndjson({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
+
+    return StreamingResponse(
+        generate(),
+        media_type="application/x-ndjson",
+        headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"},
+    )
+
+
 @app.post("/agent/chat")
 def chat(req: ChatRequest) -> StreamingResponse:
     system_prompt = (req.system or "").strip() or _default_system_prompt()
@@ -183,7 +285,7 @@ def chat(req: ChatRequest) -> StreamingResponse:
 
     def generate():
         try:
-            yield from _run_agent(messages, system_prompt)
+            yield from _run_agent(messages, system_prompt, TOOL_DECLS, TOOLS)
             yield _ndjson({"type": "done"})
         except Exception as exc:  # noqa: BLE001
             yield _ndjson({"type": "error", "message": f"{type(exc).__name__}: {exc}"})

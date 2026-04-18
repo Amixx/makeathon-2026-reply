@@ -1,0 +1,17 @@
+I'm a bachelor student studying **{{ program }}** and I'm interested in **{{ interest }}**.
+{% if semester %}
+This is my {{ semester }}.
+{% endif %}
+{% if username %}
+My TUM username is `{{ username }}` (use it for any tool that asks).
+{% endif %}
+
+The one thing I want help actually doing right now is:
+
+> **{{ item.title }}**
+>
+> Why this matters to me: {{ item.why }}
+
+Please build the step-by-step plan now. I've never done this before — dig deep with
+the MCP tools, then write me the full plan, the email I should send, and the
+specific people/rooms/deadlines I need to know.

@@ -1,0 +1,49 @@
+{
+  "count": 4,
+  "people": [
+    {
+      "name": "Laura Hartmann",
+      "headline": "PhD Student, Computational Neuroscience @ MPI for Brain Research",
+      "current_role": "PhD student, Gjorgjieva Lab",
+      "past": ["B.Sc. Bio-Computer Science, TUM (2022)", "Research Intern, Janelia"],
+      "location": "Frankfurt am Main, Germany",
+      "profile_url": "https://www.linkedin.com/in/laura-hartmann-neuro/",
+      "mutuals": ["Prof. Julijana Gjorgjieva"],
+      "open_to_chat": true,
+      "why_relevant": "Same undergrad program as the user. Now doing exactly the PhD the user is curious about. Public posts suggest she answers student DMs."
+    },
+    {
+      "name": "Noah Becker",
+      "headline": "ML Engineer @ BrainLab AG · ex-TUM Bio-CS",
+      "current_role": "ML Engineer, Neurotech",
+      "past": ["M.Sc. Computational Neuroscience, BCCN Berlin", "B.Sc. Bio-Computer Science, TUM"],
+      "location": "Munich, Germany",
+      "profile_url": "https://www.linkedin.com/in/noah-becker-ml/",
+      "mutuals": [],
+      "open_to_chat": true,
+      "why_relevant": "Industry path after Bio-CS. Would be the person to ask whether to do a master's or go straight to industry neurotech."
+    },
+    {
+      "name": "Dr. Auguste Schulz",
+      "headline": "Postdoc, Computation in Neural Circuits @ TUM",
+      "current_role": "Postdoc, Gjorgjieva Lab",
+      "past": ["PhD in Neural Dynamics, University of Tübingen"],
+      "location": "Munich, Germany",
+      "profile_url": "https://www.linkedin.com/in/auguste-schulz-neuro/",
+      "mutuals": ["Prof. Julijana Gjorgjieva"],
+      "open_to_chat": true,
+      "why_relevant": "Directly in the lab the user's current prof runs. The practical day-to-day contact for a rotation — easier to reach than the PI first."
+    },
+    {
+      "name": "Jonas Richter",
+      "headline": "Associate, Roche PharmaResearch (Neurology) · TUM '23",
+      "current_role": "Data Science Associate, Neurology Biomarkers",
+      "past": ["M.Sc. Bioinformatics, TUM", "Summer Fellow, GSN-LMU 2022"],
+      "location": "Basel, Switzerland",
+      "profile_url": "https://www.linkedin.com/in/jonas-richter-dsc/",
+      "mutuals": [],
+      "open_to_chat": true,
+      "why_relevant": "Did the GSN-LMU summer fellowship the user should apply to, then pharma DS role. Candid about non-academic neuro paths."
+    }
+  ]
+}

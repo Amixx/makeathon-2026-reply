@@ -1,23 +1,35 @@
 import { Flex } from "@adobe/react-spectrum";
-import ChatInput from "../components/chat/ChatInput";
-import MessageList from "../components/chat/MessageList";
-import { useChat } from "../hooks/useChat";
-import styles from "./Chat.module.css";
+import DiscoverList from "../components/discover/DiscoverList";
+import PlanPanel from "../components/discover/PlanPanel";
+import { useDiscover } from "../hooks/useDiscover";
+import { usePlan } from "../hooks/usePlan";
 
 export default function Chat() {
-  const chat = useChat({ autoSpeakReplies: false });
+  const discover = useDiscover();
+  const plan = usePlan();
 
   return (
     <Flex direction="column" height="calc(100vh - 4rem)">
-      <MessageList messages={chat.messages} isStreaming={chat.isStreaming} />
-      {chat.error && <div className={styles.error}>{chat.error}</div>}
-      <ChatInput
-        onSend={chat.sendText}
-        onCancel={chat.cancel}
-        onToggleRecording={chat.toggleRecording}
-        isStreaming={chat.isStreaming}
-        isRecording={chat.isRecording}
+      <DiscoverList
+        items={discover.items}
+        isLoading={discover.isLoading}
+        error={discover.error}
+        onRefresh={discover.refresh}
+        onSelect={plan.open}
       />
+      {plan.item && (
+        <PlanPanel
+          item={plan.item}
+          segments={plan.segments}
+          output={plan.output}
+          completedSteps={plan.completedSteps}
+          onToggleStep={plan.toggleStep}
+          isStreaming={plan.isStreaming}
+          error={plan.error}
+          onClose={plan.close}
+          onRetry={plan.retry}
+        />
+      )}
     </Flex>
   );
 }

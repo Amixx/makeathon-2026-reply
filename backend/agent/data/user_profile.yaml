@@ -1,6 +1,7 @@
 user_id: student-001
 name: "Max Mustermann"
-program: "B.Sc. Informatik"
+program: "Bio-Computer Science"
+interest: "Neuroscience"
 semester: "WS 2026/27"
 
 enrolled:
