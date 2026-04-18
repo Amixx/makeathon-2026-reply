@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Campus Co-Pilot — boot the Python agent backend + the Vite frontend together.
+# WayTum — boot the Python agent backend + the Vite frontend together.
 # Usage: ./dev.sh   (Ctrl-C stops both)
 
 set -euo pipefail
@@ -79,7 +79,7 @@ step "Frontend → http://localhost:5173/makeathon-2026-reply/"
 sleep 1
 cat <<EOF
 
-${c_b}${c_g}Campus Co-Pilot is up${c_n}
+${c_b}${c_g}WayTum is up${c_n}
   Chat UI : ${c_b}http://localhost:5173/makeathon-2026-reply/chat${c_n}
   Health  : http://127.0.0.1:${AGENT_PORT}/agent/health
   MCP     : http://127.0.0.1:${MCP_PORT}/mcp

@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'backend/**'
+      - 'frontend/**'
+      - 'prototype/**'
+      - 'fly.toml'
   workflow_dispatch:
 
 concurrency:
@@ -20,7 +23,7 @@ jobs:
       contents: read
     defaults:
       run:
-        working-directory: backend
+        working-directory: .
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
     steps:

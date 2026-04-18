@@ -15,36 +15,6 @@
   gap: 20px;
 }
 
-.thinkingWrap {
-  display: flex;
-  justify-content: center;
-}
-
-.thinkingBubble {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #9a3412;
-  background:
-    linear-gradient(180deg, #ffedd5 0%, #fdba74 100%);
-  border: 1px solid rgba(194, 65, 12, 0.18);
-  box-shadow:
-    0 18px 40px rgba(194, 65, 12, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
-}
-
-.thinkingDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: #ea580c;
-  box-shadow: 0 0 0 8px rgba(251, 146, 60, 0.18);
-}
-
 .grid {
   display: flex;
   flex-direction: column;
@@ -56,10 +26,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-  }
-  /* Make the 5th card (scholarship) span both columns */
-  .grid > *:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
   }
 }
 

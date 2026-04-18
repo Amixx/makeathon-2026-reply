@@ -1,26 +1,51 @@
 {
   "skills": [
     {
-      "skill": "Machine Learning",
-      "course_count": 1,
+      "skill": "Orbital Mechanics",
+      "course_count": 2,
       "courses": [
-        "Introduction to Machine Learning"
+        "Orbital Mechanics and Mission Design",
+        "Space Systems Engineering"
       ]
     },
     {
-      "skill": "Databases",
-      "course_count": 1,
+      "skill": "Guidance, Navigation and Control",
+      "course_count": 2,
       "courses": [
-        "Database Systems"
+        "Guidance, Navigation and Control for Space Systems",
+        "Space Systems Engineering"
       ]
     },
     {
-      "skill": "Networking",
+      "skill": "Robotics",
+      "course_count": 2,
+      "courses": [
+        "Scientific Project: Planetary Rover Perception",
+        "Embedded Real-Time Systems for Robotics"
+      ]
+    },
+    {
+      "skill": "Embedded Systems",
       "course_count": 1,
       "courses": [
-        "Computer Networks"
+        "Embedded Real-Time Systems for Robotics"
+      ]
+    },
+    {
+      "skill": "Optimization",
+      "course_count": 1,
+      "courses": [
+        "Orbital Mechanics and Mission Design"
+      ]
+    },
+    {
+      "skill": "Scientific Computing",
+      "course_count": 2,
+      "courses": [
+        "Guidance, Navigation and Control for Space Systems",
+        "Scientific Project: Planetary Rover Perception"
       ]
     }
   ],
-  "count": 3
+  "count": 6
 }

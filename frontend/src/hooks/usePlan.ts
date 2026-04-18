@@ -7,8 +7,6 @@ type UsePlanReturn = {
   item: DiscoverItem | null;
   segments: PlanSegment[];
   output: PlanOutput | null;
-  completedSteps: Set<number>;
-  toggleStep: (index: number) => void;
   isStreaming: boolean;
   error: string | null;
   open: (item: DiscoverItem) => void;
@@ -24,9 +22,6 @@ export function usePlan(): UsePlanReturn {
   const [segments, setSegments] = useState<PlanSegment[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(
-    () => new Set(),
-  );
 
   const abortRef = useRef<AbortController | null>(null);
   const pendingRef = useRef("");
@@ -70,7 +65,6 @@ export function usePlan(): UsePlanReturn {
 
       pendingRef.current = "";
       setSegments([]);
-      setCompletedSteps(new Set());
       setError(null);
       setIsStreaming(true);
 
@@ -144,18 +138,8 @@ export function usePlan(): UsePlanReturn {
     pendingRef.current = "";
     setItem(null);
     setSegments([]);
-    setCompletedSteps(new Set());
     setError(null);
     setIsStreaming(false);
-  }, []);
-
-  const toggleStep = useCallback((index: number) => {
-    setCompletedSteps((prev) => {
-      const next = new Set(prev);
-      if (next.has(index)) next.delete(index);
-      else next.add(index);
-      return next;
-    });
   }, []);
 
   const output = useMemo<PlanOutput | null>(() => {
@@ -178,8 +162,6 @@ export function usePlan(): UsePlanReturn {
     item,
     segments,
     output,
-    completedSteps,
-    toggleStep,
     isStreaming,
     error,
     open,

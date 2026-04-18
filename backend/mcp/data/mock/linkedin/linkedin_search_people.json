@@ -2,48 +2,76 @@
   "count": 4,
   "people": [
     {
-      "name": "Laura Hartmann",
-      "headline": "PhD Student, Computational Neuroscience @ MPI for Brain Research",
-      "current_role": "PhD student, Gjorgjieva Lab",
-      "past": ["B.Sc. Bio-Computer Science, TUM (2022)", "Research Intern, Janelia"],
-      "location": "Frankfurt am Main, Germany",
-      "profile_url": "https://www.linkedin.com/in/laura-hartmann-neuro/",
-      "mutuals": ["Prof. Julijana Gjorgjieva"],
+      "name": "Sophie Keller",
+      "headline": "Young Graduate Trainee, Robotics and Automation @ ESA ESTEC",
+      "current_role": "ESA YGT, Robotics and Automation",
+      "past": [
+        "M.Sc. Aerospace Engineering, TUM (2025)",
+        "Payload Lead, TUM Space Initiative"
+      ],
+      "location": "Noordwijk, Netherlands",
+      "profile_url": "https://www.linkedin.com/in/sophie-keller-space/",
+      "mutuals": [
+        "TUM Space Initiative"
+      ],
       "open_to_chat": true,
-      "why_relevant": "Same undergrad program as the user. Now doing exactly the PhD the user is curious about. Public posts suggest she answers student DMs."
+      "why_relevant": "Closest version of Lina's agency path: same program, same student org, and a fresh YGT transition."
     },
     {
-      "name": "Noah Becker",
-      "headline": "ML Engineer @ BrainLab AG · ex-TUM Bio-CS",
-      "current_role": "ML Engineer, Neurotech",
-      "past": ["M.Sc. Computational Neuroscience, BCCN Berlin", "B.Sc. Bio-Computer Science, TUM"],
+      "name": "Dr. Matteo Riva",
+      "headline": "Postdoc, Space Robotics and Autonomous Systems @ TUM",
+      "current_role": "Postdoc, Institute of Astronautics",
+      "past": [
+        "PhD in Space Robotics, Politecnico di Torino"
+      ],
       "location": "Munich, Germany",
-      "profile_url": "https://www.linkedin.com/in/noah-becker-ml/",
+      "profile_url": "https://www.linkedin.com/in/matteo-riva-space/",
+      "mutuals": [
+        "Prof. Ulrich Walter"
+      ],
+      "open_to_chat": true,
+      "why_relevant": "Exactly the kind of reachable lab contact Lina should message before going to a senior professor."
+    },
+    {
+      "name": "Hannah Demir",
+      "headline": "GN&C Engineer @ Isar Aerospace · ex TUM Aerospace",
+      "current_role": "Guidance, Navigation and Control Engineer",
+      "past": [
+        "M.Sc. Aerospace Engineering, TUM",
+        "Working Student, DLR Oberpfaffenhofen"
+      ],
+      "location": "Munich, Germany",
+      "profile_url": "https://www.linkedin.com/in/hannah-demir-gnc/",
       "mutuals": [],
       "open_to_chat": true,
-      "why_relevant": "Industry path after Bio-CS. Would be the person to ask whether to do a master's or go straight to industry neurotech."
+      "why_relevant": "Useful if Lina wants the startup route without giving up technically serious autonomy work."
     },
     {
-      "name": "Dr. Auguste Schulz",
-      "headline": "Postdoc, Computation in Neural Circuits @ TUM",
-      "current_role": "Postdoc, Gjorgjieva Lab",
-      "past": ["PhD in Neural Dynamics, University of Tübingen"],
-      "location": "Munich, Germany",
-      "profile_url": "https://www.linkedin.com/in/auguste-schulz-neuro/",
-      "mutuals": ["Prof. Julijana Gjorgjieva"],
-      "open_to_chat": true,
-      "why_relevant": "Directly in the lab the user's current prof runs. The practical day-to-day contact for a rotation — easier to reach than the PI first."
-    },
-    {
-      "name": "Jonas Richter",
-      "headline": "Associate, Roche PharmaResearch (Neurology) · TUM '23",
-      "current_role": "Data Science Associate, Neurology Biomarkers",
-      "past": ["M.Sc. Bioinformatics, TUM", "Summer Fellow, GSN-LMU 2022"],
-      "location": "Basel, Switzerland",
-      "profile_url": "https://www.linkedin.com/in/jonas-richter-dsc/",
+      "name": "Felix Brandt",
+      "headline": "Research Engineer, Planetary Mobility @ DLR",
+      "current_role": "Research Engineer, Planetary Mobility",
+      "past": [
+        "M.Sc. Robotics, Cognition, Intelligence, TUM",
+        "Student rover team mentor"
+      ],
+      "location": "Oberpfaffenhofen, Germany",
+      "profile_url": "https://www.linkedin.com/in/felix-brandt-rovers/",
       "mutuals": [],
       "open_to_chat": true,
-      "why_relevant": "Did the GSN-LMU summer fellowship the user should apply to, then pharma DS role. Candid about non-academic neuro paths."
+      "why_relevant": "Closest industrial-research contact to Lina's Mars-surface goal and someone who can compare DLR versus startup tradeoffs."
+    },
+    {
+      "name": "Paula Steiner",
+      "headline": "Program Manager @ UnternehmerTUM Venture Labs",
+      "current_role": "Program Manager, Deep Tech Venture Labs",
+      "past": [
+        "M.Sc. Mechanical Engineering, TUM"
+      ],
+      "location": "Munich, Germany",
+      "profile_url": "https://www.linkedin.com/in/paula-steiner-ventures/",
+      "mutuals": [],
+      "open_to_chat": true,
+      "why_relevant": "Less directly aligned to Mars robotics, but useful background texture for a realistic alumni/contact graph."
     }
   ]
 }

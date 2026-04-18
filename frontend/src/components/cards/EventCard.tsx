@@ -5,8 +5,8 @@ import styles from './CardBody.module.css';
 
 interface Props {
   item: DiscoverItem;
-  onSkip: (item: DiscoverItem) => void;
-  onAccept: (item: DiscoverItem) => void;
+  onSkip: () => void;
+  onAccept: () => void;
 }
 
 export function EventCard({ item, onSkip, onAccept }: Props) {
@@ -24,7 +24,7 @@ export function EventCard({ item, onSkip, onAccept }: Props) {
       <h3 className={styles.title}>{item.title}</h3>
       <div>
         <div className={styles.blockLabel}>WHAT IT IS</div>
-        <div className={styles.blockWhat}>{desc}</div>
+        <div className={styles.blockWhat}>{item.what || desc}</div>
       </div>
       <div>
         <div className={styles.blockLabel}>WHY IT MATTERS</div>
@@ -33,12 +33,12 @@ export function EventCard({ item, onSkip, onAccept }: Props) {
       <div>
         <div className={styles.blockLabelInverted}>IF THIS LANDS</div>
         <div className={styles.blockLand}>
-          One conversation at this event could open a door you didn't even know existed.
+          {item.land || "One conversation at this event could open a door you didn't even know existed."}
         </div>
       </div>
       <div className={styles.btnRow}>
-        <Button variant="outline" onClick={() => onSkip(item)}>✕ Skip</Button>
-        <Button variant="accent" onClick={() => onAccept(item)}>→ Attend</Button>
+        <Button variant="outline" onClick={onSkip}>✕ Skip</Button>
+        <Button variant="accent" onClick={onAccept}>→ Attend</Button>
       </div>
     </div>
   );
