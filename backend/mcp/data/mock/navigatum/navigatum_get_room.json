@@ -1,88 +1,83 @@
 {
-  "id": "5602.EG.001",
-  "type": "room",
-  "type_common_name": "Hörsaal",
-  "name": "5602.EG.001 (MI HS 1,  Friedrich L. Bauer Hörsaal)",
-  "aliases": [
-    "00.02.001@5602"
-  ],
-  "parents": [
-    "root",
-    "garching",
-    "mi",
-    "5602"
-  ],
-  "parent_names": [
-    "Standorte",
-    "Garching Forschungszentrum",
-    "Fakultät Mathematik & Informatik (FMI oder MI)",
-    "Hörsaal 1 (BT02)"
-  ],
-  "props": {
-    "operator": {
-      "id": 19691,
-      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691",
-      "code": "TUZVZA4",
-      "name": "Immobilien (ZA 4)"
-    },
-    "computed": [
-      {
-        "name": "Raumkennung",
-        "text": "5602.EG.001",
-        "extra": null
-      },
-      {
-        "name": "Architekten-Name",
-        "text": "00.02.001",
-        "extra": null
-      },
-      {
-        "name": "Stockwerk",
-        "text": "Erdgeschoss",
-        "extra": null
-      },
-      {
-        "name": "Adresse",
-        "text": "Boltzmannstr. 3, 85748 Garching b. München",
-        "extra": null
-      }
+  "__key__": "room_id",
+  "mw-astronautics-office": {
+    "id": "mw-astronautics-office",
+    "type": "room",
+    "type_common_name": "Seminar Room",
+    "name": "MW 3610 (Institute of Astronautics Seminar Room)",
+    "parents": [
+      "root",
+      "garching",
+      "mw"
     ],
-    "calendar_url": "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes=12559",
-    "floors": [
-      {
-        "id": 0,
-        "short_name": "0",
-        "name": "Erdgeschoss",
-        "tumonline": "EG",
-        "type": "ground"
-      }
-    ]
+    "parent_names": [
+      "Sites",
+      "Garching Forschungszentrum",
+      "Maschinenwesen"
+    ],
+    "props": {
+      "computed": [
+        {
+          "name": "Room ID",
+          "text": "5503.03.610",
+          "extra": null
+        },
+        {
+          "name": "Address",
+          "text": "Boltzmannstr. 15, 85748 Garching b. Munchen",
+          "extra": null
+        }
+      ]
+    },
+    "redirect_url": "/room/mw-astronautics-office",
+    "coords": {
+      "lat": 48.2629,
+      "lon": 11.6687,
+      "source": "demo"
+    },
+    "maps": {
+      "default": "interactive"
+    },
+    "sections": {}
   },
-  "ranking_factors": {
-    "rank_combined": 900,
-    "rank_type": 100,
-    "rank_usage": 900
-  },
-  "sources": {
-    "base": [
-      {
-        "name": "TUMonline",
-        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325"
-      },
-      {
-        "name": "Roomfinder",
-        "url": "https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes"
-      }
-    ]
-  },
-  "redirect_url": "/room/5602.EG.001",
-  "coords": {
-    "lat": 48.26244490906312,
-    "lon": 11.669122601167174,
-    "source": "roomfinder"
-  },
-  "maps": {
-    "default": "interactive"
-  },
-  "sections": {}
+  "mw-space-robotics-lab": {
+    "id": "mw-space-robotics-lab",
+    "type": "room",
+    "type_common_name": "Laboratory",
+    "name": "MW 3615 (Space Robotics Project Lab)",
+    "parents": [
+      "root",
+      "garching",
+      "mw"
+    ],
+    "parent_names": [
+      "Sites",
+      "Garching Forschungszentrum",
+      "Maschinenwesen"
+    ],
+    "props": {
+      "computed": [
+        {
+          "name": "Room ID",
+          "text": "5503.03.615",
+          "extra": null
+        },
+        {
+          "name": "Address",
+          "text": "Boltzmannstr. 15, 85748 Garching b. Munchen",
+          "extra": null
+        }
+      ]
+    },
+    "redirect_url": "/room/mw-space-robotics-lab",
+    "coords": {
+      "lat": 48.2628,
+      "lon": 11.6689,
+      "source": "demo"
+    },
+    "maps": {
+      "default": "interactive"
+    },
+    "sections": {}
+  }
 }

@@ -1,76 +1,55 @@
 {
   "jobs": [
     {
-      "title": "Medizintechniker / Audiologen (m/w/d)",
-      "company": "CI-BAUER",
-      "location": "München",
-      "type": "Entry-level",
-      "url": "https://jobportal.community.tum.de/show/333462"
-    },
-    {
-      "title": "Industrial PhD in Advanced Cooling for Power Electronics",
-      "company": "Huawei - Weilheim Manufacturing Technology Center",
-      "location": "Weilheim i. OB",
-      "type": "Doctoral Position",
-      "url": "https://jobportal.community.tum.de/show/333030"
-    },
-    {
-      "title": "Working Student / Intern - Simulation MEMS",
-      "company": "Huawei - Weilheim Manufacturing Technology Center",
-      "location": "Weilheim",
+      "title": "Working Student Flight Software",
+      "company": "Isar Aerospace",
+      "location": "Ottobrunn / Munich",
       "type": "Working Student",
-      "url": "https://jobportal.community.tum.de/show/333031"
+      "url": "https://jobportal.community.tum.de/show/333901"
     },
     {
-      "title": "Master Thesis Position: Generative AI for synthetic acoustic environments in voice assistants",
-      "company": "XPENG European R&amp;D Center",
-      "location": "XPENG European R&amp;D Center, Weimarer Str. 32, 80807 Munich",
+      "title": "Master Thesis: Terrain-Relative Navigation for Rover Prototypes",
+      "company": "DLR Institute of Robotics and Mechatronics",
+      "location": "Oberpfaffenhofen",
       "type": "Thesis",
-      "url": "https://jobportal.community.tum.de/show/333461"
+      "url": "https://jobportal.community.tum.de/show/333902"
     },
     {
-      "title": "Werkstudent / Praktikant Personalmanagement (m/w/d)",
-      "company": "Bachner Elektro GmbH &amp; Co KG",
-      "location": "85764 Oberschleißheim",
+      "title": "Student Research Assistant - Autonomous Systems for In-Space Servicing",
+      "company": "TUM Institute of Astronautics",
+      "location": "Garching",
+      "type": "Student Assistant",
+      "url": "https://jobportal.community.tum.de/show/333903"
+    },
+    {
+      "title": "Working Student GN&C Simulation",
+      "company": "Rocket Factory Augsburg",
+      "location": "Augsburg / Munich hybrid",
       "type": "Working Student",
-      "url": "https://jobportal.community.tum.de/show/333458"
+      "url": "https://jobportal.community.tum.de/show/333904"
     },
     {
-      "title": "BAUINGENIEUR / WIRTSCHAFTSINGENIEUR (m/w/d)  mit LEIDENSCHAFT für DIGITALE PROZESSE",
-      "company": "08/16 PROJEKTMANAGEMENT GMBH",
-      "location": "Nymphenburger Straße 156, 80634 München",
-      "type": "Entry-level",
-      "url": "https://jobportal.community.tum.de/show/333455"
-    },
-    {
-      "title": "Werkstudent:in in der Immobilienprojektentwicklung (m/w/d)",
-      "company": "STRABAG Real Estate GmbH",
-      "location": "München",
-      "type": "Working Student",
-      "url": "https://jobportal.community.tum.de/show/333430"
-    },
-    {
-      "title": "Student Field Marketeer (m/w/d) - Werkstudenten Basis",
-      "company": "Peter Park System GmbH",
-      "location": "München, teilweise Home Office",
-      "type": "Working Student",
-      "url": "https://jobportal.community.tum.de/show/333449"
-    },
-    {
-      "title": "Product Manager Risk Intelligence (m/w/d)",
-      "company": "Sea Sentinel AI",
+      "title": "Working Student Product Analytics",
+      "company": "Personio",
       "location": "Munich",
-      "type": "Entry-level",
-      "url": "https://jobportal.community.tum.de/show/333444"
+      "type": "Working Student",
+      "url": "https://jobportal.community.tum.de/show/333905"
     },
     {
-      "title": "Student Investment Analyst",
-      "company": "Cipio Partners",
-      "location": "München",
-      "type": "Working Student",
-      "url": "https://jobportal.community.tum.de/show/333436"
+      "title": "Intern Strategy and Operations",
+      "company": "BMW Startup Garage",
+      "location": "Munich",
+      "type": "Internship",
+      "url": "https://jobportal.community.tum.de/show/333906"
+    },
+    {
+      "title": "Student Assistant Spanish Language Support",
+      "company": "TUM Language Center",
+      "location": "Munich",
+      "type": "Student Assistant",
+      "url": "https://jobportal.community.tum.de/show/333907"
     }
   ],
-  "count": 10,
-  "source": "https://jobportal.community.tum.de/search?language=en"
+  "count": 7,
+  "source": "https://jobportal.community.tum.de/search?language=en&demo=lina"
 }
