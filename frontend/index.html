@@ -2,9 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>Campus Co-Pilot</title>
+    <!-- Handle SPA redirects from 404.html on GitHub Pages -->
+    <script>
+      (function(){
+        var r = window.location.search.match(/^\?\/(.*)/);
+        if (r) {
+          var decoded = r[1].split('&').map(function(s){ return s.replace(/~and~/g, '&'); });
+          var path = decoded[0];
+          var search = decoded.length > 1 ? '?' + decoded.slice(1).join('&') : '';
+          window.history.replaceState(null, '',
+            window.location.pathname + (path ? path : '') + search + window.location.hash
+          );
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
