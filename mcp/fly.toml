@@ -4,7 +4,8 @@ primary_region = "ams"
 [build]
 
 [env]
-  TUM_ENV = "demo"
+  SESSION_STORE_PATH = "/data/sessions"
+  TUM_ENV = "prod"
 
 [http_service]
   internal_port = 8000

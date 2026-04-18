@@ -104,6 +104,10 @@ async def catch_all(request: Request) -> Response:
         or path.startswith("/health")
         or path.startswith("/fetch")
         or path.startswith("/sandbox")
+        or path.startswith("/register")
+        or path.startswith("/authorize")
+        or path.startswith("/token")
+        or path.startswith("/.well-known")
     ):
         return await _proxy_request(request, f"http://127.0.0.1:{INSPECTOR_PROXY_PORT}")
     return await _proxy_request(request, f"http://127.0.0.1:{INSPECTOR_CLIENT_PORT}")

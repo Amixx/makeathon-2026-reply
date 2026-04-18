@@ -124,6 +124,11 @@ Add a repository secret named `FLY_API_TOKEN` in GitHub so the workflow can run
 The frontend deploy is already scoped the same way: the GitHub Pages workflow only
 runs when files under `frontend/` changed.
 
+Fly also needs `FERNET_KEY` set as an app secret, otherwise `tum_login` can
+complete the browser flow but still fail when persisting the encrypted session.
+The deployed app should use `SESSION_STORE_PATH=/data/sessions` so sessions live
+on the mounted Fly volume instead of ephemeral container storage.
+
 ### Manual deploy
 
 ```bash

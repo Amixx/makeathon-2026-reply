@@ -3,10 +3,10 @@
 import asyncio
 import logging
 
-from playwright.async_api import Browser, BrowserContext, async_playwright
+from playwright.async_api import Browser, BrowserContext, TimeoutError as PlaywrightTimeoutError, async_playwright
 
 import session_store
-from config import TUM_BASE_URL, TUM_ONLINE_PATH
+from config import FERNET_KEY, SESSION_STORE_PATH, TUM_BASE_URL, TUM_ONLINE_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -27,38 +27,60 @@ async def _get_browser() -> Browser:
     return _browser
 
 
-async def login(username: str, password: str) -> bool:
-    """Perform TUM SSO login via Playwright, persist storageState. Returns True on success."""
+def _login_button_selector() -> str:
+    return "text=TUM Login"
+
+
+async def login(username: str, password: str) -> tuple[bool, str]:
+    """Perform TUM SSO login via Playwright and persist storageState."""
     logger.info("auth.login called for username=%s", username)
+    if not FERNET_KEY:
+        logger.error("auth.login aborted: FERNET_KEY is not set")
+        return False, "Server misconfiguration: FERNET_KEY is not set on the deployed app."
+
     browser = await _get_browser()
     context = await browser.new_context()
     page = await context.new_page()
 
     try:
         # Step 1: Navigate to TUMonline landing page
-        await page.goto(f"{TUM_BASE_URL}{TUM_ONLINE_PATH}/", wait_until="networkidle", timeout=30_000)
+        landing_url = f"{TUM_BASE_URL}{TUM_ONLINE_PATH}/"
+        logger.info("auth.login step=goto_landing url=%s", landing_url)
+        await page.goto(landing_url, wait_until="domcontentloaded", timeout=30_000)
 
         # Step 2: Click "TUM Login" to redirect to Shibboleth IdP
-        await page.click("text=TUM Login", timeout=10_000)
-        await page.wait_for_load_state("networkidle", timeout=30_000)
+        logger.info("auth.login step=click_tum_login current_url=%s", page.url)
+        await page.locator(_login_button_selector()).first.click(timeout=10_000)
+        await page.wait_for_selector("#username", timeout=30_000)
 
         # Step 3: Fill the Shibboleth SSO form at login.tum.de
+        logger.info("auth.login step=submit_credentials current_url=%s", page.url)
         await page.fill("#username", username)
         await page.fill("#password", password)
         await page.click("#btnLogin")
 
         # Step 4: Wait for redirect back to TUMonline (authenticated state)
-        await page.wait_for_url(f"{TUM_BASE_URL}/**", timeout=30_000)
+        logger.info("auth.login step=wait_for_redirect current_url=%s", page.url)
+        await page.wait_for_url(lambda url: url.startswith(TUM_BASE_URL), timeout=45_000)
+        await page.wait_for_load_state("domcontentloaded", timeout=15_000)
 
         # Capture session state
+        logger.info(
+            "auth.login step=save_session current_url=%s session_store_path=%s",
+            page.url,
+            SESSION_STORE_PATH,
+        )
         state = await context.storage_state()
         session_store.save(username, state)
         logger.info("auth.login succeeded for username=%s", username)
-        return True
+        return True, "Logged in successfully. Session saved."
 
-    except Exception:
-        logger.exception("auth.login failed for username=%s", username)
-        return False
+    except PlaywrightTimeoutError:
+        logger.exception("auth.login timed out for username=%s at url=%s", username, page.url)
+        return False, f"Login timed out while waiting for TUM to respond. Last URL: {page.url}"
+    except Exception as exc:
+        logger.exception("auth.login failed for username=%s at url=%s", username, page.url)
+        return False, f"Login failed on the server at {page.url}: {type(exc).__name__}"
     finally:
         await context.close()
 

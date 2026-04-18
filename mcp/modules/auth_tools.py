@@ -15,10 +15,10 @@ def register(mcp: FastMCP) -> None:
         """Log in to TUM systems via SSO. Credentials are used once and never stored.
         Returns {"success": true/false, "message": "..."}."""
         logger.info("tum_login called for username=%s (password redacted)", username)
-        ok = await auth.login(username, password)
+        ok, message = await auth.login(username, password)
         if ok:
-            return {"success": True, "message": "Logged in successfully. Session saved."}
-        return {"success": False, "message": "Login failed. Check credentials and try again."}
+            return {"success": True, "message": message}
+        return {"success": False, "message": message}
 
     @mcp.tool()
     async def tum_session_status(username: str) -> dict:

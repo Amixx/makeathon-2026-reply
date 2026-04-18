@@ -5,7 +5,7 @@ import sys
 
 from mcp.server.fastmcp import FastMCP
 
-from config import MCP_HOST, MCP_PORT
+from config import FERNET_KEY, MCP_HOST, MCP_PORT, SESSION_STORE_PATH
 
 # ── Logging ──────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -14,6 +14,9 @@ logging.basicConfig(
     stream=sys.stderr,
 )
 logger = logging.getLogger("campus-copilot")
+if not FERNET_KEY:
+    logger.warning("FERNET_KEY is not set; auth session persistence will fail")
+logger.info("Session store path: %s", SESSION_STORE_PATH)
 
 # ── MCP server ───────────────────────────────────────────────────────────────
 mcp = FastMCP(
