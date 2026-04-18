@@ -75,7 +75,7 @@ def _fetch_mcp_tools() -> tuple[dict, list]:
                 return result.tools
 
     try:
-        mcp_tools = asyncio.run(_do())
+        mcp_tools = asyncio.run(asyncio.wait_for(_do(), timeout=10))
     except Exception as e:
         logger.warning("Could not connect to MCP server at %s: %s", MCP_URL, e)
         return tools, decls

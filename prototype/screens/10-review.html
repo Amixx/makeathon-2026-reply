@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Waypoint — 10 Review & Apply</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/styles.css">
+<style>
+  .q-title { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.05; }
+  .email-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .email-card .row {
+    display: flex; justify-content: space-between; gap: 8px;
+    font-size: 13px;
+  }
+  .email-card .row .k { color: var(--fg-muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .email-card .row .v { color: var(--fg-default); text-align: right; }
+  .email-card .body-text {
+    margin-top: 6px;
+    font-size: 13.5px;
+    color: var(--fg-default);
+    line-height: 1.5;
+    min-height: 72px;
+  }
+  .consent {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--accent-50);
+    border: 1px solid var(--accent-300);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .consent .cb {
+    width: 16px; height: 16px;
+    background: var(--accent-500);
+    border-radius: 4px;
+    flex-shrink: 0;
+    position: relative;
+    margin-top: 1px;
+  }
+  .consent .cb::after {
+    content: '';
+    position: absolute;
+    left: 5px; top: 2px;
+    width: 4px; height: 8px;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(45deg);
+  }
+  .edit-link { color: var(--accent-700); font-size: 12px; text-decoration: underline; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div id="statusbar"></div>
+  <div class="body pad-swipe flex-col gap-14">
+    <div class="top-nav">
+      <button class="back-btn" data-nav="09-course-stepin.html"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+      <div></div>
+      <span class="counter">REVIEW & APPLY</span>
+    </div>
+
+    <h2 class="q-title">Ready to send.</h2>
+    <p class="subhead">Final look. Edit anything. Your name goes on it.</p>
+
+    <div class="email-card">
+      <div class="row"><span class="k">To</span><span class="v">TUMonline · Course Registration</span></div>
+      <div class="row"><span class="k">Subject</span><span class="v">IN2320 — Add me to wait list</span></div>
+      <div class="body-text" id="emailBody"></div>
+      <div class="edit-link">Edit message</div>
+    </div>
+
+    <div class="consent">
+      <div class="cb"></div>
+      <div>I've read what the agent drafted and take responsibility for what's sent.</div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline" data-nav="09-course-stepin.html">Back</button>
+      <button class="btn btn-primary" data-nav="11-submitted.html">
+        Send registration
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<script src="../shared/prototype.js"></script>
+<script>
+document.getElementById('statusbar').innerHTML = WP.buildStatusBar();
+
+const body = 'Dear TUM Course Registration,\n\nPlease add me to the IN2320 wait list for SS 2026. Group G3 preferred.\n\nLukas Becker · 03737201';
+WP.typeInto('#emailBody', body, { speed: 28 });
+
+WP.scheduleAdvance(5500, '11-submitted.html');
+</script>
+</body>
+</html>
