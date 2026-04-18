@@ -6,6 +6,7 @@ import re
 
 from playwright.async_api import Browser, BrowserContext, TimeoutError as PlaywrightTimeoutError, async_playwright
 
+import mock
 import session_store
 from config import FERNET_KEY, SESSION_STORE_PATH, TUM_BASE_URL, TUM_ONLINE_PATH
 
@@ -35,6 +36,13 @@ def _login_button_selector() -> str:
 async def login(username: str, password: str) -> tuple[bool, str]:
     """Perform TUM SSO login via Playwright and persist storageState."""
     logger.info("auth.login called for username=%s", username)
+    if mock.is_demo_tum_username(username):
+        mock.set_demo_mode(True)
+        logger.info("auth.login: demo account detected, enabling demo_mode")
+        return True, "Demo account detected; demo mode enabled, no live TUM login was attempted."
+    # Non-demo user logging in: make sure we're off demo mode.
+    if mock.is_demo_mode():
+        mock.set_demo_mode(False)
     if not FERNET_KEY:
         logger.error("auth.login aborted: FERNET_KEY is not set")
         return False, "Server misconfiguration: FERNET_KEY is not set on the deployed app."
@@ -103,6 +111,8 @@ async def get_anonymous_context() -> BrowserContext:
 
 async def is_session_valid(username: str) -> bool:
     """Lightweight check: load session and hit an authenticated page."""
+    if mock.is_demo_mode():
+        return True
     ctx = await get_context(username)
     if ctx is None:
         return False
@@ -125,6 +135,8 @@ async def is_session_valid(username: str) -> bool:
 
 async def get_access_token(username: str) -> str | None:
     """Load session, navigate to SPA, and return the REST API access token from localStorage."""
+    if mock.is_demo_mode():
+        return None
     ctx = await get_context(username)
     if ctx is None:
         return None

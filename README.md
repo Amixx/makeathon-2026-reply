@@ -44,29 +44,108 @@ orchestrator calls tools over Streamable HTTP — no LLM logic lives in the MCP.
 ## Prerequisites
 
 - Python 3.11+
+- Node.js 20+ and npm (for the frontend)
+- [uv](https://docs.astral.sh/uv/) (only for the optional voice agent)
 - [Fly CLI](https://fly.io/docs/flyctl/install/) — `brew install flyctl` (macOS) or `curl -L https://fly.io/install.sh | sh`
-  - Run `fly auth login` to authenticate
+  - Run `fly auth login` to authenticate (only needed for deploys)
 
-## Quick start
+## Run everything locally
+
+Boots the MCP server, agent backend, and Vite frontend in one shell. Ctrl-C
+stops all three.
+
+```bash
+./dev.sh
+```
+
+Once it settles:
+
+- Chat UI    → http://localhost:5173/makeathon-2026-reply/chat
+- Agent API  → http://127.0.0.1:8000/agent/chat  (health at `/agent/health`)
+- MCP server → http://127.0.0.1:8001/mcp
+
+`dev.sh` creates [backend/.venv](backend/) on first run, installs Python + npm
+deps, and warns if no `.env` / `AWS_BEARER_TOKEN_BEDROCK` is set (Bedrock calls
+fail without it). Overrides: `AGENT_PORT`, `MCP_PORT`, `PYTHON`.
+
+### Configure the backend
+
+```bash
+cp backend/.env.example backend/.env
+# Set AWS_BEARER_TOKEN_BEDROCK and AWS_REGION at minimum.
+# `make setup` auto-generates FERNET_KEY; otherwise:
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+### Run the pieces individually
+
+<details><summary>Backend (MCP + agent behind one gateway)</summary>
 
 ```bash
 cd backend
 make setup   # venv, deps, playwright, .env with auto-generated FERNET_KEY
-make run     # → http://0.0.0.0:8000 with /mcp and /agent
+make run     # → http://0.0.0.0:8000 with /mcp and /agent behind one origin
 ```
 
-<details><summary>Manual setup (without make)</summary>
+Manual equivalent:
 
 ```bash
 cd backend
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 playwright install chromium
-cp .env.example .env
-python -c "from cryptography.fernet import Fernet; print('FERNET_KEY=' + Fernet.generate_key().decode())"
-# Paste the FERNET_KEY value into .env
 python launch_public.py
 ```
+
+</details>
+
+<details><summary>MCP server only</summary>
+
+```bash
+cd backend && source .venv/bin/activate
+cd mcp && MCP_HOST=127.0.0.1 MCP_PORT=8001 python server.py
+# → http://127.0.0.1:8001/mcp
+```
+
+</details>
+
+<details><summary>Agent backend only (needs MCP already running)</summary>
+
+```bash
+cd backend && source .venv/bin/activate
+cd agent && AGENT_PORT=8000 MCP_URL=http://127.0.0.1:8001/mcp python server.py
+# → http://127.0.0.1:8000/agent/chat
+```
+
+</details>
+
+<details><summary>Frontend only</summary>
+
+```bash
+cd frontend
+npm install        # first run only
+npm run dev        # → http://localhost:5173/makeathon-2026-reply/
+```
+
+Expects the agent at `http://127.0.0.1:8000` — start the backend first.
+
+</details>
+
+<details><summary>Voice agent (optional, terminal-only loop)</summary>
+
+Separate project under [backend/agent-voice/](backend/agent-voice/), not part of
+`dev.sh`. Uses `uv` + ElevenLabs + Bedrock Haiku.
+
+```bash
+cd backend/agent-voice
+uv sync
+cp .env.example .env      # ELEVENLABS_API_KEY + Bedrock creds
+uv run agent-voice --initial-context data/initial_context.example.yaml
+# or without a mic:
+uv run agent-voice --text-only
+```
+
+See [backend/agent-voice/README.md](backend/agent-voice/README.md).
 
 </details>
 
@@ -158,6 +237,7 @@ fly secrets list        # check which secrets are set
 - **One MCP, no LLM inside** — orchestration lives in the agent layer
 - **Fernet-encrypted sessions** — one key per deployment (hackathon; production wants per-user KDF)
 - **`TUM_ENV=demo` by default** — destructive actions hit demo.campus.tum.de, never production
+- **Prod demo account shortcut** — on `TUM_ENV=prod`, the `ge47lbg` TUM login stays on curated mock data while other usernames hit the real TUM systems
 - **Rate limiting** — semaphore + per-domain delay to respect TUM ToS
 - **Module contract** — `register(mcp)` per file, `@mcp.tool()` decorator, pydantic I/O
 

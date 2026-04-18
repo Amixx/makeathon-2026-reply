@@ -13,6 +13,7 @@ TUM_BASE_URL: str = (
     "https://demo.campus.tum.de" if TUM_ENV == "demo" else "https://campus.tum.de"
 )
 TUM_ONLINE_PATH: str = "/DSYSTEM" if TUM_ENV == "demo" else "/tumonline"
+DEMO_TUM_USERNAME: str = os.getenv("DEMO_TUM_USERNAME", "ge47lbg").strip()
 
 # ── Encryption ───────────────────────────────────────────────────────────────
 FERNET_KEY: str = os.getenv("FERNET_KEY", "")

@@ -66,7 +66,6 @@ export default function Ground() {
     setSaving(true);
     try {
       await postProfile({
-
         githubUrl,
         linkedinUrl,
         cvFileName,

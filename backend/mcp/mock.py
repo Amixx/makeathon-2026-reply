@@ -16,6 +16,8 @@ import logging
 import random
 from pathlib import Path
 
+from config import DEMO_TUM_USERNAME
+
 logger = logging.getLogger(__name__)
 
 MOCK_DIR = Path(__file__).parent / "data" / "mock"
@@ -32,6 +34,22 @@ def set_demo_mode(enabled: bool) -> None:
     global _demo_mode
     _demo_mode = enabled
     logger.info("Demo mode %s", "ENABLED" if enabled else "DISABLED")
+
+
+def get_demo_tum_username() -> str:
+    return DEMO_TUM_USERNAME
+
+
+def _normalize_username(username: str | None) -> str:
+    return (username or "").strip().lower()
+
+
+def is_demo_tum_username(username: str | None) -> bool:
+    """True when username matches the curated demo account."""
+    return (
+        bool(DEMO_TUM_USERNAME)
+        and _normalize_username(username) == _normalize_username(DEMO_TUM_USERNAME)
+    )
 
 
 # ── Mock data loader ─────────────────────────────────────────────────────────
