@@ -1,0 +1,33 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--spectrum-gray-300);
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--spectrum-gray-900);
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.link {
+  color: var(--spectrum-gray-700);
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.link:hover {
+  color: var(--spectrum-gray-900);
+}
+
+.active {
+  color: var(--spectrum-gray-900);
+  border-bottom-color: var(--spectrum-blue-900);
+}
