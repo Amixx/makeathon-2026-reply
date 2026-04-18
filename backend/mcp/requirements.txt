@@ -6,3 +6,4 @@ cryptography
 python-dotenv
 uvicorn
 mvg
+pypdf

@@ -360,6 +360,102 @@ def register(mcp: FastMCP) -> None:
             await ctx.close()
 
     @mcp.tool()
+    async def tumonline_get_room_schedule(room_code: str) -> dict:
+        """Get a room's bookings/schedule (public NAT API, no auth).
+
+        room_code: room code as returned by tumonline_search_rooms (e.g. '5602.EG.001').
+        Returns the room's calendar entries — useful for finding free study rooms.
+        """
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_get_room_schedule", room_code=room_code)
+            if m is not None:
+                return m
+        url = f"{NAT_API_BASE}/rom/{room_code}/schedule"
+        logger.info("Fetching room schedule: %s", room_code)
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.get(url)
+            if resp.status_code == 404:
+                return {"error": f"Room '{room_code}' not found"}
+            if resp.status_code != 200:
+                return {"error": f"NAT API returned {resp.status_code}", "detail": resp.text[:500]}
+            return resp.json()
+
+    @mcp.tool()
+    async def tumonline_my_exams(username: str, semester_id: int = 206) -> dict:
+        """List the student's registered exams for a semester.
+
+        Returns exam title, course number, date/time, room, exam mode, and the
+        internal exam_id (usable with tumonline_register_exam).
+        Requires prior tum_login. semester_id defaults to 206 (Summer 2026).
+        """
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_my_exams", username=username)
+            if m is not None:
+                return m
+        ctx = await auth.get_context(username)
+        if ctx is None:
+            return {"error": "No active session. Call tum_login first."}
+        try:
+            page = await ctx.new_page()
+            # Land on the SPA exams page so the access token is in localStorage.
+            await page.goto(
+                _desktop_url("slc.tm.cp/student/exams"),
+                wait_until="networkidle",
+                timeout=30_000,
+            )
+            await page.wait_for_timeout(2_500)
+
+            ls_key = f"{TUM_ONLINE_PATH.lstrip('/')}_co.login.accessToken"
+            token = await page.evaluate(f'() => localStorage.getItem("{ls_key}")')
+
+            # Try the REST endpoint first (mirrors myCourses shape).
+            if token:
+                rest_url = f"{REST_BASE}/slc.tm.cp/student/myExams?$filter=termId-eq={semester_id}&$top=200"
+                data = await _spa_xhr(page, rest_url, token)
+                if data is not None:
+                    exams: list[dict] = []
+                    for entry in data.get("resource", []):
+                        c = entry.get("content", {})
+                        # Heuristic: pick the first dict-shaped value as the exam DTO
+                        dto = next((v for v in c.values() if isinstance(v, dict)), {})
+                        exams.append({
+                            "id": dto.get("id") or c.get("id"),
+                            "title": _extract_lang(dto.get("examName") or dto.get("name")),
+                            "course_number": (dto.get("courseNumber") or {}).get("courseNumber", ""),
+                            "date": dto.get("examDate") or dto.get("date"),
+                            "room": _extract_lang(dto.get("roomName")),
+                            "mode": _extract_lang(dto.get("examModeName") or dto.get("modeName")),
+                            "raw": dto,
+                        })
+                    if exams:
+                        return {
+                            "total": data.get("totalCount", len(exams)),
+                            "semester_id": semester_id,
+                            "exams": exams,
+                            "source": "rest",
+                        }
+
+            # Fallback: scrape the rendered SPA page.
+            scraped = await page.evaluate(
+                """() => Array.from(document.querySelectorAll('ca-list-entry, .exam-row, tr')).map(el => ({
+                    text: (el.innerText || '').trim().slice(0, 400),
+                    href: el.querySelector('a')?.href || '',
+                })).filter(x => x.text)"""
+            )
+            return {
+                "semester_id": semester_id,
+                "exams": [],
+                "raw_rows": scraped[:50],
+                "source": "scrape",
+                "note": "REST endpoint returned no data; raw rows included for inspection.",
+            }
+        except Exception as e:
+            logger.exception("tumonline_my_exams failed")
+            return {"error": str(e)}
+        finally:
+            await ctx.close()
+
+    @mcp.tool()
     async def tumonline_register_course(
         username: str,
         course_id: str,
