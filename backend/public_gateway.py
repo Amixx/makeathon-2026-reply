@@ -13,6 +13,7 @@ from starlette.routing import Route
 from config import INSPECTOR_CLIENT_PORT, INSPECTOR_PROXY_PORT, INTERNAL_AGENT_PORT, INTERNAL_MCP_PORT
 
 FRONTEND_DIST = Path("/app/frontend-dist")
+PROTOTYPE_DIR = Path("/app/prototype")
 
 HOP_BY_HOP_HEADERS = {
     "connection",
@@ -95,10 +96,21 @@ async def _serve_frontend(request: Request) -> Response:
     return FileResponse(FRONTEND_DIST / "index.html")
 
 
+async def _serve_prototype(request: Request) -> Response:
+    """Serve the static HTML prototype from /prototype."""
+    rel = request.url.path.removeprefix("/prototype").lstrip("/")
+    candidate = PROTOTYPE_DIR / rel if rel else PROTOTYPE_DIR / "index.html"
+    if candidate.is_file():
+        return FileResponse(candidate)
+    return Response(status_code=404)
+
+
 async def catch_all(request: Request) -> Response:
     path = request.url.path
     if path == "/" and "transport" not in request.query_params:
         return await root_redirect(request)
+    if path.startswith("/prototype"):
+        return await _serve_prototype(request)
     if path.startswith("/app"):
         return await _serve_frontend(request)
     if path.startswith("/agent"):
