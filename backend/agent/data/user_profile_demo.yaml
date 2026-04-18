@@ -46,16 +46,11 @@ available:
 - id: MGT4011
   name: Technology Entrepreneurship Basics
   ects: 4
-vision: I want to work on Mars robotics, ideally on the systems that actually move,
-  navigate, and make decisions on the surface. I am torn between an ESA or DLR path,
-  a startup like Isar Aerospace, and maybe aiming for the US later. I have to choose
-  a thesis topic next semester and I do not feel like I have a clean story yet.
-blockers: The heavy part is comparison. Everyone around me feels more polished and
-  more obvious about where they are going. I delay outreach because I keep rewriting
-  the message and worrying that I am not exceptional enough for space robotics.
-github_url: https://github.com/lberger-orbits
-linkedin_url: https://www.linkedin.com/in/lukas-berger-aerospace
-cv_file_name: lukas-berger-cv.pdf
+vision: ''
+blockers: ''
+github_url: ''
+linkedin_url: ''
+cv_file_name: ''
 cv_uploaded: true
 tum_sso_id: ge47lbg
 tum_sso_connected: true

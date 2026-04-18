@@ -50,6 +50,7 @@ orchestrator calls tools over Streamable HTTP — no LLM logic lives in the MCP.
   - Run `fly auth login` to authenticate (only needed for deploys)
 
 ## Run everything locally
+(make sure the api key is setup in .env)
 
 New terminal + start MCP server:
 ```bash
