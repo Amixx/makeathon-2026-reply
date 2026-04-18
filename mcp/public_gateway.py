@@ -26,14 +26,6 @@ HOP_BY_HOP_HEADERS = {
 }
 
 
-async def startup() -> None:
-    app.state.client = httpx.AsyncClient(follow_redirects=False, timeout=60.0)
-
-
-async def shutdown() -> None:
-    await app.state.client.aclose()
-
-
 def _public_base_url(request: Request) -> str:
     scheme = request.headers.get("x-forwarded-proto", request.url.scheme)
     host = request.headers.get("x-forwarded-host", request.headers.get("host", request.url.netloc))
@@ -52,12 +44,13 @@ async def _proxy_request(request: Request, target_base: str) -> Response:
         for key, value in request.headers.items()
         if key.lower() not in HOP_BY_HOP_HEADERS and key.lower() != "host"
     }
-    upstream = await app.state.client.request(
-        request.method,
-        _target_url(request, target_base),
-        headers=headers,
-        content=body,
-    )
+    async with httpx.AsyncClient(follow_redirects=False, timeout=60.0) as client:
+        upstream = await client.request(
+            request.method,
+            _target_url(request, target_base),
+            headers=headers,
+            content=body,
+        )
     response_headers = {
         key: value
         for key, value in upstream.headers.items()
@@ -95,5 +88,3 @@ app = Starlette(
     debug=False,
     routes=[Route("/{path:path}", catch_all, methods=["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"])],
 )
-app.add_event_handler("startup", startup)
-app.add_event_handler("shutdown", shutdown)
