@@ -1,7 +1,6 @@
 """Public HTTP gateway exposing Inspector at /, MCP at /mcp, agent at /agent, and frontend at /app."""
 
 from pathlib import Path
-from urllib.parse import urlencode
 
 import httpx
 from starlette.applications import Starlette
@@ -30,12 +29,6 @@ HOP_BY_HOP_HEADERS = {
 async def _close_upstream(upstream: httpx.Response, client: httpx.AsyncClient) -> None:
     await upstream.aclose()
     await client.aclose()
-
-
-def _public_base_url(request: Request) -> str:
-    scheme = request.headers.get("x-forwarded-proto", request.url.scheme)
-    host = request.headers.get("x-forwarded-host", request.headers.get("host", request.url.netloc))
-    return f"{scheme}://{host}"
 
 
 def _target_url(request: Request, target_base: str) -> str:
@@ -78,12 +71,7 @@ async def _proxy_request(request: Request, target_base: str) -> Response:
 
 
 async def root_redirect(request: Request) -> Response:
-    public_base = _public_base_url(request)
-    params = dict(request.query_params)
-    params["transport"] = "streamable-http"
-    params["serverUrl"] = f"{public_base}/mcp"
-    params["MCP_PROXY_FULL_ADDRESS"] = public_base
-    return RedirectResponse(url=f"/?{urlencode(params)}", status_code=307)
+    return RedirectResponse(url="/app/", status_code=307)
 
 
 async def _serve_frontend(request: Request) -> Response:
