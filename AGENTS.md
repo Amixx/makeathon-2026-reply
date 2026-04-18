@@ -67,6 +67,11 @@ mcp/                    # Campus Co-Pilot MCP Server (Python)
 - `FERNET_KEY` — encrypts session blobs
 - `GOOGLE_API_KEY` — for the agent layer (not used in MCP itself)
 
+## Explorations
+
+`explorations/` contains API discovery notes (endpoints, auth requirements, response
+shapes) gathered during development. Check before adding new tools.
+
 ## Running locally
 
 ```bash

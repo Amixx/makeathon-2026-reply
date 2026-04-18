@@ -151,6 +151,7 @@ fly secrets list        # check which secrets are set
 ## Structure
 
 ```
-docs/          # Challenge brief
-mcp/           # MCP server (see AGENTS.md for full tree)
+docs/           # Challenge brief
+explorations/   # API discovery notes (endpoints, auth, response shapes)
+mcp/            # MCP server (see AGENTS.md for full tree)
 ```

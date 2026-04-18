@@ -72,6 +72,12 @@ async def get_context(username: str) -> BrowserContext | None:
     return await browser.new_context(storage_state=state)
 
 
+async def get_anonymous_context() -> BrowserContext:
+    """Return a fresh BrowserContext with no auth — for scraping public pages."""
+    browser = await _get_browser()
+    return await browser.new_context()
+
+
 async def is_session_valid(username: str) -> bool:
     """Lightweight check: load session and hit an authenticated page."""
     ctx = await get_context(username)
@@ -90,6 +96,31 @@ async def is_session_valid(username: str) -> bool:
     except Exception:
         logger.exception("Session validity check failed for username=%s", username)
         return False
+    finally:
+        await ctx.close()
+
+
+async def get_access_token(username: str) -> str | None:
+    """Load session, navigate to SPA, and return the REST API access token from localStorage."""
+    ctx = await get_context(username)
+    if ctx is None:
+        return None
+    try:
+        page = await ctx.new_page()
+        await page.goto(
+            f"{TUM_BASE_URL}{TUM_ONLINE_PATH}/ee/ui/ca2/app/desktop/#/home",
+            wait_until="networkidle",
+            timeout=30_000,
+        )
+        await page.wait_for_timeout(3000)
+        ls_key = f"{TUM_ONLINE_PATH.lstrip('/')}_co.login.accessToken"
+        token = await page.evaluate(
+            f'() => localStorage.getItem("{ls_key}")'
+        )
+        return token
+    except Exception:
+        logger.exception("Failed to get access token for username=%s", username)
+        return None
     finally:
         await ctx.close()
 
