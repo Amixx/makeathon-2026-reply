@@ -1,0 +1,27 @@
+{
+  "__key__": "confirm",
+  "False": {
+    "status": "staged",
+    "message": "Registration procedure opened. Re-run with confirm=True to submit.",
+    "course_id": 960120112,
+    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/82001?$ctx=design=ca&courseId=960120112",
+    "heading": "Course Registration – Autonomous Mobile Systems on Planetary Surfaces",
+    "page_excerpt": "Registration period: 14.04.2026 – 30.04.2026. Available places: 8 / 24. You have not yet submitted your registration. Please confirm to complete the process."
+  },
+  "True": {
+    "status": "submitted",
+    "message": "Registration submitted successfully.",
+    "course_id": 960120112,
+    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/82001?$ctx=design=ca&courseId=960120112&status=ok",
+    "heading": "Course Registration – Autonomous Mobile Systems on Planetary Surfaces",
+    "page_excerpt": "Successfully registered for course. Your place has been confirmed. You will receive a confirmation e-mail at lina.meier@tum.de shortly."
+  },
+  "__default__": {
+    "status": "staged",
+    "message": "Registration procedure opened. Re-run with confirm=True to submit.",
+    "course_id": 960120112,
+    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/82001?$ctx=design=ca&courseId=960120112",
+    "heading": "Course Registration – Autonomous Mobile Systems on Planetary Surfaces",
+    "page_excerpt": "Registration period: 14.04.2026 – 30.04.2026. Available places: 8 / 24. You have not yet submitted your registration. Please confirm to complete the process."
+  }
+}

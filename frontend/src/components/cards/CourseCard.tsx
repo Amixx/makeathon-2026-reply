@@ -5,8 +5,8 @@ import styles from './CardBody.module.css';
 
 interface Props {
   item: DiscoverItem;
-  onSkip: (item: DiscoverItem) => void;
-  onAccept: (item: DiscoverItem) => void;
+  onSkip: () => void;
+  onAccept: () => void;
 }
 
 export function CourseCard({ item, onSkip, onAccept }: Props) {
@@ -36,8 +36,8 @@ export function CourseCard({ item, onSkip, onAccept }: Props) {
         </div>
       </div>
       <div className={styles.btnRow}>
-        <Button variant="outline" onClick={() => onSkip(item)}>✕ Skip</Button>
-        <Button variant="accent" onClick={() => onAccept(item)}>→ Enroll</Button>
+        <Button variant="outline" onClick={onSkip}>✕ Skip</Button>
+        <Button variant="accent" onClick={onAccept}>→ Enroll</Button>
       </div>
     </div>
   );

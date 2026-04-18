@@ -9,8 +9,6 @@ type Props = {
   item: DiscoverItem;
   segments: PlanSegment[];
   output: PlanOutput | null;
-  completedSteps: Set<number>;
-  onToggleStep: (index: number) => void;
   isStreaming: boolean;
   error: string | null;
   onClose: () => void;
@@ -21,8 +19,6 @@ export default function PlanPanel({
   item,
   segments,
   output,
-  completedSteps,
-  onToggleStep,
   isStreaming,
   error,
   onClose,
@@ -125,11 +121,7 @@ export default function PlanPanel({
           )}
 
           {output && (
-            <StepPath
-              output={output}
-              completedSteps={completedSteps}
-              onToggleStep={onToggleStep}
-            />
+            <StepPath output={output} />
           )}
 
           {!output && !isStreaming && hasAnything && !error && (
