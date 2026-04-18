@@ -20,7 +20,6 @@ interface AgentCardProps {
   status: PillVariant;
   bullets: AgentBullet[];
   streamLog?: StreamEntry[];
-  summary?: string;
   items?: DiscoverItem[];
   /** Stagger delay index */
   index?: number;
@@ -60,7 +59,6 @@ export function AgentCard({
   emoji,
   status,
   streamLog = [],
-  summary = '',
   items = [],
   index = 0,
   className = '',

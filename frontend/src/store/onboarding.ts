@@ -13,6 +13,7 @@ export type OnboardingState = {
   linkedinUrl: string;
   interests: string[];
   tumSsoId: string;
+  tumPassword: string;
   tumSsoConnected: boolean;
   // commitment level
   commitment: 'whisper' | 'steady' | 'push';
@@ -35,6 +36,7 @@ const defaults = {
   linkedinUrl: '',
   interests: [] as string[],
   tumSsoId: '',
+  tumPassword: '',
   tumSsoConnected: false,
   commitment: 'steady' as const,
 };

@@ -6,6 +6,10 @@ function profileEndpoint(): string {
   return `${config.agentUrl.replace(/\/+$/, "")}/agent/profile`;
 }
 
+function demoResetEndpoint(): string {
+  return `${config.agentUrl.replace(/\/+$/, "")}/agent/profile/demo-reset`;
+}
+
 async function readErrorMessage(res: Response): Promise<string> {
   const contentType = res.headers.get("content-type") ?? "";
   if (contentType.includes("application/json")) {
@@ -33,6 +37,17 @@ export async function getProfile(): Promise<Profile> {
   const res = await fetch(profileEndpoint(), { method: "GET" });
   if (!res.ok) throw new Error(`getProfile failed: ${res.status}`);
   return res.json() as Promise<Profile>;
+}
+
+export type DemoProfileBootstrap = {
+  profile: Profile;
+  tumPassword?: string;
+};
+
+export async function resetDemoProfile(): Promise<DemoProfileBootstrap> {
+  const res = await fetch(demoResetEndpoint(), { method: "POST" });
+  if (!res.ok) throw new Error(`resetDemoProfile failed: ${res.status}`);
+  return res.json() as Promise<DemoProfileBootstrap>;
 }
 
 function tumConnectEndpoint(): string {
@@ -128,8 +143,8 @@ export function normalizeItems(raw: unknown): DiscoverItem[] {
       const title = typeof e.title === "string" ? e.title.trim() : "";
       if (!title) return null;
       const why = typeof e.why === "string" ? e.why.trim() : "";
-      const what = typeof e.what === 'string' ? e.what.trim() : '';
-      const land = typeof e.land === 'string' ? e.land.trim() : '';
+      const what = typeof e.what === 'string' ? e.what.trim() : undefined;
+      const land = typeof e.land === 'string' ? e.land.trim() : undefined;
       const id =
         typeof e.id === "string" && e.id.trim().length > 0
           ? e.id.trim()
@@ -145,7 +160,7 @@ export function normalizeItems(raw: unknown): DiscoverItem[] {
           : {};
       return { id, title, why, what, land, type, meta };
     })
-    .filter((x): x is DiscoverItem => x !== null);
+    .filter((x): x is NonNullable<typeof x> => x !== null);
 }
 
 export async function runDiscover(

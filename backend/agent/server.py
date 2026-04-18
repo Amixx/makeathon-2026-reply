@@ -46,6 +46,7 @@ app.add_middleware(
 _bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
 
 _PROFILE_PATH = Path(__file__).parent / "data" / "user_profile.yaml"
+_DEMO_PROFILE_PATH = Path(__file__).parent / "data" / "user_profile_demo.yaml"
 _UPLOADS_DIR = Path(__file__).parent / "data" / "uploads"
 
 
@@ -302,6 +303,12 @@ def _load_profile() -> dict:
     return yaml.safe_load(_PROFILE_PATH.read_text()) or {}
 
 
+def _load_demo_profile() -> dict:
+    if not _DEMO_PROFILE_PATH.exists():
+        return {}
+    return yaml.safe_load(_DEMO_PROFILE_PATH.read_text()) or {}
+
+
 def _save_profile(data: dict) -> None:
     _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
     _PROFILE_PATH.write_text(yaml.dump(data, allow_unicode=True, sort_keys=False))
@@ -346,6 +353,16 @@ def post_profile(req: ProfileRequest) -> dict:
     return _profile_to_api(current)
 
 
+@app.post("/agent/profile/demo-reset")
+def reset_demo_profile() -> dict:
+    demo = _load_demo_profile()
+    _save_profile(demo)
+    return {
+        "profile": _profile_to_api(demo),
+        "tumPassword": "demo-password",
+    }
+
+
 @app.post("/agent/onboarding/tum-connect")
 def connect_tum_account(req: TumConnectRequest) -> dict:
     tum_id = req.tumSsoId.strip().lower()
@@ -354,9 +371,13 @@ def connect_tum_account(req: TumConnectRequest) -> dict:
         raise HTTPException(status_code=400, detail="TUM ID and password are required.")
 
     current = _load_profile()
+    demo = _load_demo_profile()
     current["tum_sso_id"] = tum_id
     current["tum_sso_connected"] = True
     current["user_id"] = current.get("user_id") or tum_id
+    for key in ("name", "program", "interest", "semester", "interests"):
+        if not current.get(key) and demo.get(key):
+            current[key] = demo[key]
     _save_profile(current)
     return _profile_to_api(current)
 

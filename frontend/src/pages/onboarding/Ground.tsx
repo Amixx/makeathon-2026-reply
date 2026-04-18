@@ -19,16 +19,11 @@ export default function Ground() {
   const setField = useOnboarding((st) => st.setField);
 
   const tumSsoId = useOnboarding((st) => st.tumSsoId);
+  const tumPassword = useOnboarding((st) => st.tumPassword);
   const tumSsoConnected = useOnboarding((st) => st.tumSsoConnected);
   const cvFileName = useOnboarding((st) => st.cvFileName);
   const githubUrl = useOnboarding((st) => st.githubUrl);
   const linkedinUrl = useOnboarding((st) => st.linkedinUrl);
-  const program = useOnboarding((st) => st.program);
-  const semester = useOnboarding((st) => st.semester);
-  const interest = useOnboarding((st) => st.interest);
-  const interests = useOnboarding((st) => st.interests);
-
-  const [tumPass, setTumPass] = useState('');
   const [connecting, setConnecting] = useState(false);
   const [uploadingCv, setUploadingCv] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -36,14 +31,14 @@ export default function Ground() {
   const [cvError, setCvError] = useState<string | null>(null);
 
   async function handleConnect() {
-    if (!tumSsoId.trim() || !tumPass.trim()) {
+    if (!tumSsoId.trim() || !tumPassword.trim()) {
       setTumError('Enter your TUM ID and password.');
       return;
     }
     setTumError(null);
     setConnecting(true);
     try {
-      const profile = await connectTumAccount({ tumSsoId, password: tumPass });
+      const profile = await connectTumAccount({ tumSsoId, password: tumPassword });
       setField('tumSsoId', profile.tumSsoId ?? tumSsoId);
       setField('tumSsoConnected', profile.tumSsoConnected ?? true);
     } catch (error) {
@@ -70,10 +65,6 @@ export default function Ground() {
     setSaving(true);
     try {
       await postProfile({
-        program,
-        semester,
-        interest,
-        interests,
         githubUrl,
         linkedinUrl,
         cvFileName,
@@ -88,7 +79,7 @@ export default function Ground() {
     navigate('/onboarding/commitment');
   }
 
-  const canContinue = tumSsoConnected && program.trim().length > 0 && semester.trim().length > 0;
+  const canContinue = tumSsoConnected;
 
   return (
     <div className={s.page}>
@@ -114,105 +105,52 @@ export default function Ground() {
 
         <span className={s.sectionHead}>REQUIRED</span>
 
-        <motion.div {...fadeUp(0)} className={s.groupCard}>
-          <div className={s.groupHead}>
-            <div className={s.groupIcon}>🧭</div>
-            <div className={s.groupInfo}>
-              <div className={s.groupTitle}>Study context</div>
-              <div className={s.groupSub}>This steers the swarm toward the right people, roles, and TUM options.</div>
-            </div>
-          </div>
-          <div className={s.fieldGroup}>
-            <div>
-              <span className={s.fieldLabel}>PROGRAM · REQUIRED</span>
-              <MiniInput
-                value={program}
-                onChange={(value) => setField('program', value)}
-                placeholder="Informatics B.Sc."
-                autoComplete="organization-title"
-              />
-            </div>
-            <div>
-              <span className={s.fieldLabel}>SEMESTER · REQUIRED</span>
-              <MiniInput
-                value={semester}
-                onChange={(value) => setField('semester', value)}
-                placeholder="4th semester"
-              />
-            </div>
-            <div>
-              <span className={s.fieldLabel}>FOCUS AREA</span>
-              <MiniInput
-                value={interest}
-                onChange={(value) => setField('interest', value)}
-                placeholder="Robotics, product, consulting…"
-              />
-            </div>
-            {interests.length > 0 && (
-              <div className={s.inlineChips}>
-                {interests.map((chip) => (
-                  <button
-                    key={chip}
-                    type="button"
-                    className={[s.blockerChip, interest === chip ? s.active : ''].filter(Boolean).join(' ')}
-                    onClick={() => setField('interest', chip)}
-                  >
-                    {chip}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </motion.div>
-
         {/* TUM SSO */}
         <motion.div {...fadeUp(0.1)} className={s.groupCard}>
           <div className={s.groupHead}>
             <div className={s.groupIcon}>🎓</div>
             <div className={s.groupInfo}>
-              <div className={s.groupTitle}>TUM SSO · required</div>
-              <div className={s.groupSub}>Enter your TUM ID and password</div>
+              <div className={s.groupTitle}>TUM SSO login · required</div>
+              <div className={s.groupSub}>Enter your TUM login and password</div>
             </div>
             {tumSsoConnected && (
               <span className={s.successBadge}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                Connected
+                Logged in
               </span>
             )}
           </div>
-          {!tumSsoConnected && (
-            <div className={s.fieldGroup}>
-              <div>
-                <span className={s.fieldLabel}>TUM ID · REQUIRED</span>
-                <MiniInput
-                  value={tumSsoId}
-                  onChange={(v) => setField('tumSsoId', v)}
-                  placeholder="ga12xyz"
-                  autoComplete="username"
-                />
-              </div>
-              <div>
-                <span className={s.fieldLabel}>PASSWORD · REQUIRED</span>
-                <MiniInput
-                  value={tumPass}
-                  onChange={setTumPass}
-                  placeholder="••••••••"
-                  type="password"
-                  autoComplete="current-password"
-                />
-              </div>
-              <button
-                className={s.connectBtn}
-                onClick={handleConnect}
-                disabled={connecting}
-                style={{ alignSelf: 'flex-end' }}
-              >
-                {connecting ? 'Connecting…' : 'Connect'}
-              </button>
+          <div className={s.fieldGroup}>
+            <div>
+              <span className={s.fieldLabel}>TUM ID · REQUIRED</span>
+              <MiniInput
+                value={tumSsoId}
+                onChange={(v) => setField('tumSsoId', v)}
+                placeholder="ga12xyz"
+                autoComplete="username"
+              />
             </div>
-          )}
+            <div>
+              <span className={s.fieldLabel}>PASSWORD · REQUIRED</span>
+              <MiniInput
+                value={tumPassword}
+                onChange={(v) => setField('tumPassword', v)}
+                placeholder="••••••••"
+                type="password"
+                autoComplete="current-password"
+              />
+            </div>
+            <button
+              className={s.connectBtn}
+              onClick={handleConnect}
+              disabled={connecting}
+              style={{ alignSelf: 'flex-end' }}
+            >
+              {connecting ? 'Logging in…' : tumSsoConnected ? 'Log in again' : 'Log in'}
+            </button>
+          </div>
           {tumError && <p className={s.inlineError}>{tumError}</p>}
         </motion.div>
 
