@@ -35,7 +35,7 @@ def register(mcp: FastMCP) -> None:
         category: optional substring filter on sport name.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("zhs", "zhs_list_sports", category=category)
+            m = await mock.get_mock("zhs", "zhs_list_sports", category=category)
             if m is not None:
                 return m
         url = f"{ZHS_KURSE_BASE}/de/muenchen"
@@ -80,7 +80,7 @@ def register(mcp: FastMCP) -> None:
         sport_url: a URL from zhs_list_sports, typically under zhs-muenchen.de.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("zhs", "zhs_list_slots", sport_url=sport_url)
+            m = await mock.get_mock("zhs", "zhs_list_slots", sport_url=sport_url)
             if m is not None:
                 return m
         try:
@@ -132,7 +132,7 @@ def register(mcp: FastMCP) -> None:
                  the final confirmation screen and reports what was found.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("zhs", "zhs_book_slot", confirm=confirm)
+            m = await mock.get_mock("zhs", "zhs_book_slot", confirm=confirm)
             if m is not None:
                 return m
         if TUM_ENV == "prod" and confirm:

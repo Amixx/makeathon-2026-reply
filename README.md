@@ -1,6 +1,6 @@
-# Campus Co-Pilot
+# WayTum
 
-TUM.ai Makeathon 2026 — Reply track ("Campus Co-Pilot Suite").
+TUM.ai Makeathon 2026 — Reply track ("WayTum").
 
 An autonomous agent that acts as a **career guide / coach** for TUM students: audits
 professional hygiene (CV, email, online presence), cross-references your transcript

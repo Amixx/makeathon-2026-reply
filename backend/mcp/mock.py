@@ -10,8 +10,10 @@ data/mock/mensa/mensa_get_menu.json can be either:
   - A dict with a "__key__" field → we look up kwargs[__key__] in the dict
 """
 
+import asyncio
 import json
 import logging
+import random
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -33,15 +35,18 @@ def set_demo_mode(enabled: bool) -> None:
 
 
 # ── Mock data loader ─────────────────────────────────────────────────────────
-def get_mock(module: str, tool_name: str, **kwargs) -> dict | list | None:
+async def get_mock(module: str, tool_name: str, **kwargs) -> dict | list | None:
     """Load mock response from data/mock/{module}/{tool_name}.json.
 
     Returns None if no mock file exists (tool should fall through to real impl).
+    Adds a random 0.5–1.5s delay to simulate real API latency.
     """
     path = MOCK_DIR / module / f"{tool_name}.json"
     if not path.exists():
         logger.warning("No mock file at %s — falling through to real implementation", path)
         return None
+
+    await asyncio.sleep(random.uniform(0.5, 1.5))
 
     data = json.loads(path.read_text())
 
