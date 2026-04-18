@@ -17,7 +17,7 @@
       "severity": "low",
       "category": "language",
       "message": "The bachelor thesis title is strong, but the stack and technical contribution stay vague.",
-      "suggestion": "Name the optimization method, tooling, and what part Lina owned so reviewers can map the work to Mars robotics skills."
+      "suggestion": "Name the optimization method, tooling, and what part Lukas owned so reviewers can map the work to Mars robotics skills."
     },
     {
       "severity": "medium",
@@ -29,7 +29,7 @@
   "stats": {
     "word_count": 428,
     "emails": [
-      "lina.berger@tum.de"
+      "lukas.berger@tum.de"
     ],
     "has_linkedin": true,
     "has_github": true

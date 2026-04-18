@@ -1,6 +1,6 @@
 {
   "username": "lberger-orbits",
-  "name": "Lina Berger",
+  "name": "Lukas Berger",
   "bio": "Aerospace MSc @ TUM building autonomy, GN&C, and simulation tools for small space systems.",
   "public_repos": 14,
   "followers": 47,
@@ -42,7 +42,7 @@
       "language": "Python",
       "stars": 15,
       "pushed_at": "2026-03-22T09:51:49Z",
-      "description": "Ground-station pass planning utilities from Lina's DLR student work.",
+      "description": "Ground-station pass planning utilities from Lukas's DLR student work.",
       "url": "https://github.com/lberger-orbits/gs-pass-scheduler"
     },
     {
