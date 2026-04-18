@@ -23,6 +23,16 @@ ROOT = Path(__file__).resolve().parent
 CHILD_PROCESSES: list[subprocess.Popen] = []
 
 
+def _dedupe(items: list[str]) -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for item in items:
+        if item and item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
+
+
 def _start_process(args: list[str], env: dict[str, str]) -> subprocess.Popen:
     process = subprocess.Popen(args, cwd=ROOT, env=env)
     CHILD_PROCESSES.append(process)
@@ -59,6 +69,16 @@ def main() -> None:
         if shutil.which("mcp-inspector")
         else ["npx", "-y", "@modelcontextprotocol/inspector"]
     )
+    public_origin = env.get("PUBLIC_ORIGIN", "https://makeathon-2026-reply.fly.dev")
+    allowed_origins = _dedupe(
+        [
+            public_origin,
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+            "http://localhost:6274",
+            "http://127.0.0.1:6274",
+        ]
+    )
 
     mcp_env = env | {
         "MCP_HOST": "127.0.0.1",
@@ -71,6 +91,7 @@ def main() -> None:
         "MCP_AUTO_OPEN_ENABLED": "false",
         # The user explicitly wants the inspector public for the demo.
         "DANGEROUSLY_OMIT_AUTH": "true",
+        "ALLOWED_ORIGINS": ",".join(allowed_origins),
     }
 
     _start_process([sys.executable, "server.py"], mcp_env)

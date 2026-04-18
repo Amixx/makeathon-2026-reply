@@ -78,8 +78,20 @@ async def catch_all(request: Request) -> Response:
     if path == "/" and "transport" not in request.query_params:
         return await root_redirect(request)
     if path.startswith("/mcp"):
+        # The Inspector proxy also uses /mcp, but with query params such as
+        # url=... and transportType=.... Route those requests to the Inspector
+        # proxy while keeping plain /mcp traffic pointed at the real MCP server.
+        if "url" in request.query_params or "transportType" in request.query_params:
+            return await _proxy_request(request, f"http://127.0.0.1:{INSPECTOR_PROXY_PORT}")
         return await _proxy_request(request, f"http://127.0.0.1:{INTERNAL_MCP_PORT}")
-    if path.startswith("/message") or path.startswith("/sse"):
+    if (
+        path.startswith("/message")
+        or path.startswith("/sse")
+        or path.startswith("/config")
+        or path.startswith("/health")
+        or path.startswith("/fetch")
+        or path.startswith("/sandbox")
+    ):
         return await _proxy_request(request, f"http://127.0.0.1:{INSPECTOR_PROXY_PORT}")
     return await _proxy_request(request, f"http://127.0.0.1:{INSPECTOR_CLIENT_PORT}")
 
