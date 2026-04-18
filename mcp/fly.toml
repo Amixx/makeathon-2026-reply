@@ -1,5 +1,5 @@
 app = "makeathon-2026-reply"
-primary_region = "fra"
+primary_region = "ams"
 
 [build]
 
@@ -16,3 +16,7 @@ primary_region = "fra"
 [mounts]
   source = "session_data"
   destination = "/data"
+
+[[vm]]
+  memory = "1gb"
+  cpus = 1

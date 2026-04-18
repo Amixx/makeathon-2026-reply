@@ -28,13 +28,13 @@ def register(mcp: FastMCP) -> None:
         return {"message": "ZHS course listing fetched. Full parsing in progress.", "url": url}
 
     @mcp.tool()
-    async def zhs_book_slot(user_id: str, course_id: str, slot_id: str, confirm: bool = False) -> dict:
+    async def zhs_book_slot(username: str, course_id: str, slot_id: str, confirm: bool = False) -> dict:
         """Book a ZHS sports slot. Requires prior tum_login.
         Set confirm=True to actually book. Uses demo environment by default.
         NOTE: Stub — implementation in progress."""
         if TUM_ENV == "prod" and not confirm:
             return {"error": "Production booking requires confirm=True flag."}
-        ctx = await auth.get_context(user_id)
+        ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
         await ctx.close()

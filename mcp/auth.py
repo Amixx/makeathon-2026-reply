@@ -6,7 +6,7 @@ import logging
 from playwright.async_api import Browser, BrowserContext, async_playwright
 
 import session_store
-from config import TUM_BASE_URL
+from config import TUM_BASE_URL, TUM_ONLINE_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -27,70 +27,74 @@ async def _get_browser() -> Browser:
     return _browser
 
 
-async def login(user_id: str, username: str, password: str) -> bool:
+async def login(username: str, password: str) -> bool:
     """Perform TUM SSO login via Playwright, persist storageState. Returns True on success."""
-    logger.info("auth.login called for user_id=%s", user_id)
+    logger.info("auth.login called for username=%s", username)
     browser = await _get_browser()
     context = await browser.new_context()
     page = await context.new_page()
 
     try:
-        # Navigate to TUMonline which redirects to Shibboleth SSO
-        await page.goto(f"{TUM_BASE_URL}/tumonline/ee/ui/ca2/app/desktop/#/login", wait_until="networkidle", timeout=30_000)
+        # Step 1: Navigate to TUMonline landing page
+        await page.goto(f"{TUM_BASE_URL}{TUM_ONLINE_PATH}/", wait_until="networkidle", timeout=30_000)
 
-        # Fill SSO form
-        await page.fill('input[name="username"], input#username', username)
-        await page.fill('input[name="password"], input#password', password)
-        await page.click('button[type="submit"], input[type="submit"]')
+        # Step 2: Click "TUM Login" to redirect to Shibboleth IdP
+        await page.click("text=TUM Login", timeout=10_000)
+        await page.wait_for_load_state("networkidle", timeout=30_000)
 
-        # Wait for redirect back to TUMonline (authenticated state)
+        # Step 3: Fill the Shibboleth SSO form at login.tum.de
+        await page.fill("#username", username)
+        await page.fill("#password", password)
+        await page.click("#btnLogin")
+
+        # Step 4: Wait for redirect back to TUMonline (authenticated state)
         await page.wait_for_url(f"{TUM_BASE_URL}/**", timeout=30_000)
 
         # Capture session state
         state = await context.storage_state()
-        session_store.save(user_id, state)
-        logger.info("auth.login succeeded for user_id=%s", user_id)
+        session_store.save(username, state)
+        logger.info("auth.login succeeded for username=%s", username)
         return True
 
     except Exception:
-        logger.exception("auth.login failed for user_id=%s", user_id)
+        logger.exception("auth.login failed for username=%s", username)
         return False
     finally:
         await context.close()
 
 
-async def get_context(user_id: str) -> BrowserContext | None:
+async def get_context(username: str) -> BrowserContext | None:
     """Return a BrowserContext with loaded storageState, or None if no session."""
-    state = session_store.load(user_id)
+    state = session_store.load(username)
     if state is None:
         return None
     browser = await _get_browser()
     return await browser.new_context(storage_state=state)
 
 
-async def is_session_valid(user_id: str) -> bool:
+async def is_session_valid(username: str) -> bool:
     """Lightweight check: load session and hit an authenticated page."""
-    ctx = await get_context(user_id)
+    ctx = await get_context(username)
     if ctx is None:
         return False
     try:
         page = await ctx.new_page()
         resp = await page.goto(
-            f"{TUM_BASE_URL}/tumonline/ee/ui/ca2/app/desktop/#/login",
+            f"{TUM_BASE_URL}{TUM_ONLINE_PATH}/ee/ui/ca2/app/desktop/#/home",
             wait_until="networkidle",
             timeout=15_000,
         )
-        # If we're redirected past the login page, session is valid
+        # If we land on the home page (not redirected to login), session is valid
         url = page.url
-        return "login" not in url.lower() or resp is not None and resp.status == 200
+        return "login" not in url.lower() and resp is not None and resp.status == 200
     except Exception:
-        logger.exception("Session validity check failed for user_id=%s", user_id)
+        logger.exception("Session validity check failed for username=%s", username)
         return False
     finally:
         await ctx.close()
 
 
-async def logout(user_id: str) -> None:
+async def logout(username: str) -> None:
     """Delete stored session."""
-    session_store.delete(user_id)
-    logger.info("Session deleted for user_id=%s", user_id)
+    session_store.delete(username)
+    logger.info("Session deleted for username=%s", username)

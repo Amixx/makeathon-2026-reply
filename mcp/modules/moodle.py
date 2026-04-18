@@ -11,10 +11,10 @@ logger = logging.getLogger(__name__)
 
 def register(mcp: FastMCP) -> None:
     @mcp.tool()
-    async def moodle_list_courses(user_id: str) -> dict:
+    async def moodle_list_courses(username: str) -> dict:
         """List the user's enrolled Moodle courses. Requires prior tum_login.
         NOTE: Stub — implementation in progress."""
-        ctx = await auth.get_context(user_id)
+        ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
         try:
@@ -33,7 +33,7 @@ def register(mcp: FastMCP) -> None:
             await ctx.close()
 
     @mcp.tool()
-    async def moodle_list_assignments(user_id: str) -> dict:
+    async def moodle_list_assignments(username: str) -> dict:
         """List upcoming Moodle assignments. Requires prior tum_login.
         NOTE: Stub — implementation in progress."""
         return {"error": "Not yet implemented. Coming soon."}

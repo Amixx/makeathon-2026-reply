@@ -45,45 +45,91 @@ orchestrator calls tools over Streamable HTTP — no LLM logic lives in the MCP.
 
 ```bash
 cd mcp
-python -m venv .venv && source .venv/bin/activate
-pip install "mcp[cli]" httpx playwright pydantic cryptography python-dotenv uvicorn mvg
-playwright install chromium
+make setup   # venv, deps, playwright, .env with auto-generated FERNET_KEY
+make run     # → http://0.0.0.0:8000/mcp
+```
 
-# Generate a Fernet key and create .env
+<details><summary>Manual setup (without make)</summary>
+
+```bash
+cd mcp
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+playwright install chromium
 cp .env.example .env
 python -c "from cryptography.fernet import Fernet; print('FERNET_KEY=' + Fernet.generate_key().decode())"
-# Paste the output into .env
-
+# Paste the FERNET_KEY value into .env
 python server.py
-# → Server at http://0.0.0.0:8000/mcp
 ```
+
+</details>
 
 ### Test with MCP Inspector
 
 ```bash
-npx -y @modelcontextprotocol/inspector
-# Connect to http://localhost:8000/mcp
+make inspect   # or: npx -y @modelcontextprotocol/inspector
 ```
 
-## Auth flow (manual test)
+1. Open the link printed in the terminal (includes auth token)
+2. Set **Transport Type** → **Streamable HTTP**
+3. Set **URL** → `http://localhost:8000/mcp`
+4. Click **Connect**
+5. Go to **Tools** tab → **List Tools** → select a tool → fill args → **Run Tool**
 
-1. Start the server locally
-2. Call `tum_login` with your TUM credentials via MCP Inspector or agent
-3. Playwright opens headless Chromium → TUM Shibboleth SSO → captures session
-4. Session encrypted with Fernet, stored on disk
-5. Subsequent tools (`moodle_list_courses`, `zhs_book_slot`, etc.) load the session
-6. Call `tum_session_status` to verify, `tum_logout` to clear
+### Test flows you can try now
+
+**Flow 1 — Mensa menu (no auth, instant):**
+- `mensa_list_canteens` → copy a canteen ID
+- `mensa_get_menu` with `canteen_id=mensa-garching` → live menu data
+
+**Flow 2 — Campus search (no auth):**
+- `navigatum_search` with `query=MW` → find Mechanical Engineering building
+- `navigatum_get_room` with the ID from the result
+
+**Flow 3 — Course search (no auth):**
+- `tumonline_search_courses` with `query=Machine Learning`
+- `tumonline_get_semester_info` → current semester dates
+
+**Flow 4 — Public transport (no auth):**
+- `mvv_search_station` with `query=Garching Forschungszentrum`
+- `mvv_get_departures` with the station ID from the result
+
+**Flow 5 — Full auth flow (needs TUM credentials):**
+1. `tum_login` — `username=YOUR_TUM_ID`, `password=YOUR_PASSWORD`
+2. `tum_session_status` — `username=YOUR_TUM_ID` → should return `{"valid": true}`
+3. `moodle_list_courses` — `username=YOUR_TUM_ID` → your enrolled courses
+4. `tum_logout` — `username=YOUR_TUM_ID` → clears the session
 
 **Credentials never hit disk** — only the encrypted browser storageState is persisted.
 
 ## Deploy (Fly.io)
 
+Pushes to `main` auto-deploy via Fly.io GitHub integration (CWD set to `mcp/`).
+
+### First-time setup
+
 ```bash
 cd mcp
-fly launch          # creates app
-fly volumes create data --size 1 --region fra
-fly secrets set FERNET_KEY=<key> GOOGLE_API_KEY=<key>
+fly volumes create session_data --size 1 --region ams
+fly secrets set \
+  FERNET_KEY="$(python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())')" \
+  GOOGLE_API_KEY="your-key"
+```
+
+### Manual deploy
+
+```bash
+cd mcp
 fly deploy
+```
+
+### Useful commands
+
+```bash
+fly status              # app & machine status
+fly logs                # tail logs
+fly ssh console         # shell into the VM
+fly secrets list        # check which secrets are set
 ```
 
 ## Key design decisions
