@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { AgentHistoryEntry } from "../lib/agent";
 import { runAgent } from "../lib/agent";
 import type { ChatMessage, ToolCall } from "../lib/types";
-import { speak, startRecording, transcribe } from "../lib/voice";
+// voice functions removed — useChat no longer does in-hook STT/TTS
+// Use useVoiceRecorder + transcribeAudio from lib/voice directly in UI components
 
 type UseChatOptions = {
   autoSpeakReplies?: boolean;
@@ -22,7 +23,6 @@ type UseChatReturn = {
 let nextId = 0;
 const newId = () => `m-${Date.now().toString(36)}-${(nextId++).toString(36)}`;
 
-type Recording = { stop: () => Promise<Blob> };
 
 function toHistory(messages: ChatMessage[]): AgentHistoryEntry[] {
   return messages
@@ -30,8 +30,7 @@ function toHistory(messages: ChatMessage[]): AgentHistoryEntry[] {
     .map<AgentHistoryEntry>((m) => ({ role: m.role, content: m.text }));
 }
 
-export function useChat(options: UseChatOptions = {}): UseChatReturn {
-  const { autoSpeakReplies = false } = options;
+export function useChat(_options: UseChatOptions = {}): UseChatReturn {
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -42,7 +41,6 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
   messagesRef.current = messages;
 
   const abortRef = useRef<AbortController | null>(null);
-  const recordingRef = useRef<Recording | null>(null);
 
   const pendingTextRef = useRef<string>("");
   const currentAssistantIdRef = useRef<string | null>(null);
@@ -183,22 +181,13 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
           onDone: () => {
             finishAssistant(assistantId);
             setIsStreaming(false);
-            if (autoSpeakReplies) {
-              const finalMsg = messagesRef.current.find(
-                (m) => m.id === assistantId,
-              );
-              const finalText = (finalMsg?.text ?? "") + pendingTextRef.current;
-              if (finalText.trim()) {
-                speak(finalText).catch(() => {});
-              }
-            }
+            // TTS removed — autoSpeakReplies is a no-op
           },
         },
         controller.signal,
       );
     },
     [
-      autoSpeakReplies,
       finishAssistant,
       handleToolResult,
       handleToolStart,
@@ -216,40 +205,12 @@ export function useChat(options: UseChatOptions = {}): UseChatReturn {
   }, [finishAssistant]);
 
   const toggleRecording = useCallback(async () => {
-    if (isRecording) {
-      const rec = recordingRef.current;
-      recordingRef.current = null;
-      setIsRecording(false);
-      if (!rec) return;
-      try {
-        const blob = await rec.stop();
-        const text = await transcribe(blob);
-        if (text) sendText(text);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : String(err));
-      }
-    } else {
-      try {
-        setError(null);
-        const rec = await startRecording();
-        recordingRef.current = rec;
-        setIsRecording(true);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : String(err));
-      }
-    }
-  }, [isRecording, sendText]);
+    // STT moved to useVoiceRecorder + transcribeAudio — this is a no-op stub
+    setIsRecording((v) => !v);
+  }, []);
 
   const replayLastReply = useCallback(async () => {
-    const lastAssistant = [...messagesRef.current]
-      .reverse()
-      .find((m) => m.role === "assistant" && m.done && m.text.trim());
-    if (!lastAssistant) return;
-    try {
-      await speak(lastAssistant.text);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    }
+    // TTS removed
   }, []);
 
   return {

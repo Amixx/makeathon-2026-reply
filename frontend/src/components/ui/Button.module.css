@@ -1,0 +1,81 @@
+/* Button.module.css */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: transform 100ms ease, opacity 120ms ease, background 120ms ease;
+  user-select: none;
+  line-height: 1;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Size variants */
+.sizeLg {
+  padding: 16px 22px;
+  font-size: 15px;
+}
+
+.sizeSm {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.full {
+  width: 100%;
+}
+
+/* Variant: primary */
+.primary {
+  background: var(--primary-800);
+  color: var(--fg-inverted);
+}
+.primary:hover {
+  background: var(--primary-900);
+}
+
+/* Variant: accent */
+.accent {
+  background: var(--accent-500);
+  color: #ffffff;
+}
+.accent:hover {
+  background: var(--accent-600);
+}
+
+/* Variant: ghost */
+.ghost {
+  background: transparent;
+  color: var(--fg-default);
+  border-color: var(--border-default);
+}
+.ghost:hover {
+  background: var(--bg-muted);
+}
+
+/* Variant: outline */
+.outline {
+  background: var(--bg-card);
+  color: var(--fg-default);
+  border-color: var(--border-strong);
+}
+.outline:hover {
+  background: var(--bg-muted);
+}

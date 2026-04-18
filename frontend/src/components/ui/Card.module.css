@@ -1,0 +1,37 @@
+/* Card.module.css */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: 18px;
+}
+
+.muted {
+  background: var(--bg-muted);
+  border-color: transparent;
+}
+
+.dark {
+  background: var(--primary-800);
+  color: var(--fg-inverted);
+  border-color: transparent;
+}
+
+.accent {
+  background: var(--accent-50);
+  border-color: var(--accent-300);
+}
+
+.successBorder {
+  border-color: var(--success);
+  border-width: 2px;
+}
+
+.tight {
+  padding: 14px;
+}
+
+.lg {
+  padding: 22px;
+}

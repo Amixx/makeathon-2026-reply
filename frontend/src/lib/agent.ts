@@ -1,6 +1,77 @@
 import { config } from "./config";
 import { buildSystemPrompt } from "./systemPrompt";
-import type { AgentEvent, ChatRole, DiscoverItem } from "./types";
+import type { AgentEvent, ChatRole, DiscoverItem, Profile } from "./types";
+
+function profileEndpoint(): string {
+  return `${config.agentUrl.replace(/\/+$/, "")}/agent/profile`;
+}
+
+async function readErrorMessage(res: Response): Promise<string> {
+  const contentType = res.headers.get("content-type") ?? "";
+  if (contentType.includes("application/json")) {
+    const data = (await res.json().catch(() => null)) as
+      | { detail?: string }
+      | null;
+    if (typeof data?.detail === "string" && data.detail.trim()) {
+      return data.detail;
+    }
+  }
+  return (await res.text().catch(() => res.statusText)) || res.statusText;
+}
+
+export async function postProfile(patch: Partial<Profile>): Promise<Profile> {
+  const res = await fetch(profileEndpoint(), {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(patch),
+  });
+  if (!res.ok) throw new Error(`postProfile failed: ${res.status}`);
+  return res.json() as Promise<Profile>;
+}
+
+export async function getProfile(): Promise<Profile> {
+  const res = await fetch(profileEndpoint(), { method: "GET" });
+  if (!res.ok) throw new Error(`getProfile failed: ${res.status}`);
+  return res.json() as Promise<Profile>;
+}
+
+function tumConnectEndpoint(): string {
+  return `${config.agentUrl.replace(/\/+$/, "")}/agent/onboarding/tum-connect`;
+}
+
+function cvUploadEndpoint(): string {
+  return `${config.agentUrl.replace(/\/+$/, "")}/agent/onboarding/cv`;
+}
+
+export async function connectTumAccount(payload: {
+  tumSsoId: string;
+  password: string;
+}): Promise<Profile> {
+  const res = await fetch(tumConnectEndpoint(), {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const text = await readErrorMessage(res);
+    throw new Error(text || `tum connect failed: ${res.status}`);
+  }
+  return res.json() as Promise<Profile>;
+}
+
+export async function uploadCv(file: File): Promise<Profile> {
+  const form = new FormData();
+  form.append("file", file, file.name);
+  const res = await fetch(cvUploadEndpoint(), {
+    method: "POST",
+    body: form,
+  });
+  if (!res.ok) {
+    const text = await readErrorMessage(res);
+    throw new Error(text || `cv upload failed: ${res.status}`);
+  }
+  return res.json() as Promise<Profile>;
+}
 
 export type AgentCallbacks = {
   onTextDelta: (delta: string) => void;
@@ -61,7 +132,16 @@ function normalizeItems(raw: unknown): DiscoverItem[] {
         typeof e.id === "string" && e.id.trim().length > 0
           ? e.id.trim()
           : `item-${idx}`;
-      return { id, title, why };
+      const validTypes = ["course", "event", "person", "scholarship"] as const;
+      const rawType = typeof e.type === "string" ? e.type : "";
+      const type: DiscoverItem["type"] = (validTypes as readonly string[]).includes(rawType)
+        ? (rawType as DiscoverItem["type"])
+        : "course";
+      const meta: DiscoverItem["meta"] =
+        e.meta && typeof e.meta === "object" && !Array.isArray(e.meta)
+          ? (e.meta as DiscoverItem["meta"])
+          : {};
+      return { id, title, why, type, meta };
     })
     .filter((x): x is DiscoverItem => x !== null);
 }

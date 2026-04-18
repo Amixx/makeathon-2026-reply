@@ -1,0 +1,66 @@
+/* InputRow.module.css */
+
+.row {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.selected {
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 2px var(--accent-100);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+.labelRequired {
+  color: var(--accent-600);
+}
+
+.value {
+  font-size: 14px;
+  color: var(--fg-default);
+  font-weight: 500;
+  min-height: 18px;
+}
+
+.valueMuted {
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+
+.split {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.miniBtn {
+  background: transparent;
+  color: var(--fg-default);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.miniBtn:hover {
+  background: var(--bg-muted);
+  border-color: var(--primary-800);
+}

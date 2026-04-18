@@ -1,0 +1,10 @@
+/* SwipeStack.module.css */
+
+.stack {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}

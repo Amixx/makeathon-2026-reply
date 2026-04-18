@@ -1,0 +1,35 @@
+/* Pill.module.css */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* Semantic variants */
+.accent   { background: var(--accent-50);     color: var(--accent-700);   border-color: var(--accent-200); }
+.course   { background: var(--secondary-100); color: var(--secondary-500); border-color: var(--secondary-100); }
+.event    { background: #fff1d6;              color: #a87300;              border-color: #fde3ab; }
+.person   { background: #dceaff;              color: var(--info);          border-color: #c2d8f5; }
+.scholar  { background: var(--accent-100);    color: var(--accent-700);    border-color: var(--accent-300); }
+.success  { background: #d7ecdf;              color: #1e6e48;              border-color: #b9ddc7; }
+.dark     { background: var(--primary-900);   color: #ffffff;              border-color: transparent; }
+
+/* Agent status variants */
+.draft    { background: #ffd0c5; color: var(--accent-700); border-color: transparent; }
+.sent     { background: #d7ecdf; color: #1e6e48;           border-color: transparent; }
+.pending  { background: #fff1d6; color: #a87300;           border-color: transparent; }
+.working  { background: #dcdde3; color: var(--primary-600); border-color: transparent; }
+.drafting { background: var(--accent-100); color: var(--accent-700); border-color: transparent; }
+.writing  { background: #dceaff; color: var(--info);        border-color: transparent; }
+.scheduled { background: #fff1d6; color: #a87300;          border-color: transparent; }
+.ready    { background: #d7ecdf; color: #1e6e48;           border-color: transparent; }

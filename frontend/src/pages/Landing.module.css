@@ -1,0 +1,121 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-inverted);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0 24px;
+}
+
+.inner {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 0 40px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.logo {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--fg-inverted);
+  letter-spacing: -0.3px;
+}
+
+.mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--primary-600);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.mark::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--accent-500);
+}
+
+.betaPill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-400);
+  background: rgba(255, 107, 82, 0.12);
+  border: 1px solid rgba(255, 107, 82, 0.25);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.heroTitle {
+  font-size: clamp(36px, 8vw, 52px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -1.2px;
+  color: var(--fg-inverted);
+  margin: 0;
+}
+
+.heroSub {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--fg-inverted-muted);
+  margin: 0;
+  max-width: 380px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 18px 24px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg-inverted);
+  background: var(--accent-500);
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 150ms ease, transform 100ms ease;
+}
+
+.ctaBtn:hover {
+  background: var(--accent-400);
+}
+
+.ctaBtn:active {
+  transform: scale(0.98);
+}
+
+.footerCaption {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-inverted-muted);
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 16px 0 0;
+}
