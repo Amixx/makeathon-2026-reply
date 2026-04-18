@@ -70,5 +70,15 @@ Meta keys by type:
 - `person` → `role` (string), `affiliation` (string)
 - `scholarship` → `amount` (string), `deadline` (ISO date or human string)
 
-Aim for 5–8 items. Keep `title` under 80 characters, `why` under 140. Use lowercase-kebab
+{% if category %}
+CATEGORY FOCUS: You are the **{{ category }}** specialist agent. Return ONLY items of type "{{ category }}".
+{% if category == "course" %}Return 2–3 TUM courses or workshops. Use tools like `tumonline_search_courses` to find real course data if available.{% endif %}
+{% if category == "event" %}Return 2–3 events, hackathons, career fairs, or talks in Munich. Use tools like `navigatum_search` to find campus locations if relevant.{% endif %}
+{% if category == "person" %}Return 2–3 specific people to contact (professors, alumni, recruiters). Be specific with names and roles.{% endif %}
+{% if category == "scholarship" %}Return 2–3 scholarships, grants, or funding opportunities. Include deadlines and amounts.{% endif %}
+{% else %}
+Aim for 5–8 items total with a mix of types.
+{% endif %}
+
+Keep `title` under 80 characters, `why` under 140. Use lowercase-kebab
 for `id` — downstream agents look items up by that id.

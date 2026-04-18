@@ -13,7 +13,7 @@ export default function Swarm() {
   const navigate = useNavigate();
   const { program, interest } = useOnboarding();
   const setItems = useOpportunities((s) => s.set);
-  const { agents, items, isDiscovering, discoveryReady, done, error, start } = useSwarm();
+  const { agents, items, isDiscovering, done, error, start } = useSwarm();
 
   useEffect(() => {
     start({ program: program || undefined, interest: interest || undefined });
@@ -53,9 +53,8 @@ export default function Swarm() {
         <motion.div
           className={styles.grid}
           initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: discoveryReady ? 1 : 0, y: discoveryReady ? 0 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.32 }}
-          style={{ pointerEvents: discoveryReady ? 'auto' : 'none' }}
         >
           {agents.map((agent, i) => (
             <AgentCard
@@ -64,6 +63,8 @@ export default function Swarm() {
               emoji={agent.emoji}
               status={agent.status}
               bullets={agent.bullets}
+              toolCalls={agent.toolCalls}
+              toolsExpanded={i === 0}
               borderAccent={agent.id === 'scholarship'}
               index={i}
             />

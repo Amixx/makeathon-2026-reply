@@ -38,7 +38,7 @@ export default function App() {
   }, [hydrate]);
 
   return (
-    <BrowserRouter basename="/makeathon-2026-reply">
+    <BrowserRouter>
       <Navbar />
       <Suspense fallback={null}>
         <Routes>

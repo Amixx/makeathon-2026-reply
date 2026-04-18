@@ -107,7 +107,7 @@ export type DiscoverCallbacks = {
   onDone: () => void;
 };
 
-function extractJsonArray(text: string): unknown {
+export function extractJsonArray(text: string): unknown {
   const start = text.indexOf("[");
   const end = text.lastIndexOf("]");
   if (start < 0 || end <= start) return null;
@@ -119,7 +119,7 @@ function extractJsonArray(text: string): unknown {
   }
 }
 
-function normalizeItems(raw: unknown): DiscoverItem[] {
+export function normalizeItems(raw: unknown): DiscoverItem[] {
   if (!Array.isArray(raw)) return [];
   return raw
     .map((entry, idx) => {
@@ -128,6 +128,8 @@ function normalizeItems(raw: unknown): DiscoverItem[] {
       const title = typeof e.title === "string" ? e.title.trim() : "";
       if (!title) return null;
       const why = typeof e.why === "string" ? e.why.trim() : "";
+      const what = typeof e.what === 'string' ? e.what.trim() : '';
+      const land = typeof e.land === 'string' ? e.land.trim() : '';
       const id =
         typeof e.id === "string" && e.id.trim().length > 0
           ? e.id.trim()
@@ -141,7 +143,7 @@ function normalizeItems(raw: unknown): DiscoverItem[] {
         e.meta && typeof e.meta === "object" && !Array.isArray(e.meta)
           ? (e.meta as DiscoverItem["meta"])
           : {};
-      return { id, title, why, type, meta };
+      return { id, title, why, what, land, type, meta };
     })
     .filter((x): x is DiscoverItem => x !== null);
 }

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import styles from './AgentCard.module.css';
 import { Pill } from './Pill';
 import type { PillVariant } from './Pill';
+import type { ToolCall } from '../../lib/types';
 
 export type BulletStatus = 'queued' | 'running' | 'done' | 'alert';
 
@@ -16,6 +17,9 @@ interface AgentCardProps {
   emoji: string;
   status: PillVariant;
   bullets: AgentBullet[];
+  toolCalls?: ToolCall[];
+  /** Show tool trail expanded by default */
+  toolsExpanded?: boolean;
   borderAccent?: boolean;
   /** Stagger delay index — the parent passes the card index so each card is offset */
   index?: number;
@@ -55,16 +59,26 @@ const STATUS_LABELS: Record<PillVariant, string> = {
   ready: 'Ready',
 };
 
+const TOOL_DOT_CLASS: Record<ToolCall['status'], string> = {
+  running: styles.toolStatusRunning,
+  done: styles.toolStatusDone,
+  error: styles.toolStatusError,
+};
+
 export function AgentCard({
   name,
   emoji,
   status,
   bullets,
+  toolCalls = [],
+  toolsExpanded = false,
   borderAccent = false,
   index = 0,
   className = '',
   style,
 }: AgentCardProps) {
+  const hasTools = toolCalls.length > 0;
+  const isRunning = toolCalls.some((tc) => tc.status === 'running');
   return (
     <motion.div
       className={[styles.card, borderAccent ? styles.greenBorder : '', className]
@@ -105,6 +119,24 @@ export function AgentCard({
               <span>{b.text}</span>
             </motion.div>
           ))}
+        </div>
+      )}
+
+      {hasTools && (
+        <div className={styles.toolTrail}>
+          <details open={toolsExpanded || isRunning}>
+            <summary className={styles.toolTrailSummary}>
+              {toolCalls.length} tool call{toolCalls.length !== 1 ? 's' : ''}
+            </summary>
+            <div className={styles.toolList}>
+              {toolCalls.map((tc) => (
+                <div key={tc.id} className={styles.toolItem}>
+                  <span className={[styles.toolStatusDot, TOOL_DOT_CLASS[tc.status]].join(' ')} />
+                  <span className={styles.toolBadge}>{tc.toolName}</span>
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
       )}
     </motion.div>
