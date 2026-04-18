@@ -18,7 +18,7 @@ def register(mcp: FastMCP) -> None:
         """Search the TUM Collab Wiki (Confluence) using CQL.
         Requires a Personal Access Token for authentication."""
         if mock.is_demo_mode():
-            m = mock.get_mock("collab", "collab_search", query=query)
+            m = await mock.get_mock("collab", "collab_search", query=query)
             if m is not None:
                 return m
         cql = f'text ~ "{query}"'
@@ -49,7 +49,7 @@ def register(mcp: FastMCP) -> None:
         """Get a specific Collab Wiki page by ID with its rendered content.
         Requires a Personal Access Token for authentication."""
         if mock.is_demo_mode():
-            m = mock.get_mock("collab", "collab_get_page", page_id=page_id)
+            m = await mock.get_mock("collab", "collab_get_page", page_id=page_id)
             if m is not None:
                 return m
         url = f"{COLLAB_BASE}/rest/api/content/{page_id}"

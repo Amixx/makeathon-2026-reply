@@ -33,7 +33,7 @@ from config import (
 from render import render_prompt
 from tools import PLAN_TOOL_DECLS, PLAN_TOOLS, TOOL_DECLS, TOOLS
 
-app = FastAPI(title="Campus Co-Pilot Agent")
+app = FastAPI(title="WayTum Agent")
 
 app.add_middleware(
     CORSMiddleware,
@@ -405,6 +405,32 @@ async def voice_transcribe(audio: UploadFile = File(...)) -> dict:
     return {"text": "", "fields": {}}
 
 
+def _extract_items(text: str) -> list:
+    """Extract JSON array of items from LLM text output."""
+    start = text.find("[")
+    end = text.rfind("]")
+    if start < 0 or end <= start:
+        return []
+    try:
+        arr = json.loads(text[start:end + 1])
+        return arr if isinstance(arr, list) else []
+    except (json.JSONDecodeError, ValueError):
+        return []
+
+
+def _build_summary(items: list) -> str:
+    """Build a short markdown summary from parsed items."""
+    if not items:
+        return "No opportunities found."
+    lines = []
+    for item in items[:4]:
+        title = item.get("title", "")
+        why = item.get("why", "")
+        if title:
+            lines.append(f"- **{title}**" + (f" — {why}" if why else ""))
+    return "\n".join(lines)
+
+
 @app.post("/agent/discover")
 def discover(req: DiscoverRequest) -> StreamingResponse:
     """Main-agent orchestrator: brainstorm actionable items (JSON array).
@@ -426,8 +452,20 @@ def discover(req: DiscoverRequest) -> StreamingResponse:
 
     def generate():
         try:
-            yield from _run_agent(messages, system_prompt, tool_decls=tool_decls, tools=tools)
-            yield _ndjson({"type": "done"})
+            full_text = ""
+            for chunk in _run_agent(messages, system_prompt, tool_decls=tool_decls, tools=tools):
+                # Peek at text deltas to accumulate full_text
+                try:
+                    ev = json.loads(chunk.decode("utf-8"))
+                    if ev.get("type") == "text":
+                        full_text += ev.get("delta", "")
+                except Exception:
+                    pass
+                yield chunk
+            # Parse items from accumulated text
+            items = _extract_items(full_text)
+            summary = _build_summary(items)
+            yield _ndjson({"type": "done", "items": items, "summary": summary})
         except Exception as exc:  # noqa: BLE001
             yield _ndjson({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
 

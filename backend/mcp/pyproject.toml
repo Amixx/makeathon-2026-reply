@@ -1,5 +1,5 @@
 [project]
-name = "campus-copilot-mcp"
+name = "waytum-mcp"
 version = "0.1.0"
 description = "MCP server exposing TUM campus systems as agent-callable tools"
 requires-python = ">=3.11"

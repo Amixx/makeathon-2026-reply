@@ -45,7 +45,7 @@ export default function ChatInput({
         placeholder={
           isRecording
             ? "Recording… click the mic again to stop"
-            : "Ask Campus Co-Pilot…"
+            : "Ask WayTum…"
         }
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}

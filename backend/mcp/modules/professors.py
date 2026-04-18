@@ -14,7 +14,7 @@ def register(mcp: FastMCP) -> None:
     async def professors_list_fachbereiche() -> dict:
         """List all TUM Fachbereiche (research departments / subject areas).
         Useful for discovering which fields of study and research groups exist at TUM."""
-        m = mock.get_mock("professors", "fachbereiche")
+        m = await mock.get_mock("professors", "fachbereiche")
         if m is not None:
             return {"fachbereiche": m}
         return {"error": "No data available."}
@@ -25,7 +25,7 @@ def register(mcp: FastMCP) -> None:
         Returns matching professors with their department and research focus.
         The query is matched case-insensitively against professor names,
         Fachbereich names, and Bereich (research area) descriptions."""
-        m = mock.get_mock("professors", "profs")
+        m = await mock.get_mock("professors", "profs")
         if m is None:
             return {"error": "No data available."}
 

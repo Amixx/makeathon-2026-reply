@@ -30,7 +30,7 @@ def register(mcp: FastMCP) -> None:
     async def mensa_list_canteens() -> dict:
         """List available TUM canteens and their IDs."""
         if mock.is_demo_mode():
-            m = mock.get_mock("mensa", "mensa_list_canteens")
+            m = await mock.get_mock("mensa", "mensa_list_canteens")
             if m is not None:
                 return m
         return {"canteens": CANTEEN_IDS}
@@ -45,7 +45,7 @@ def register(mcp: FastMCP) -> None:
         Defaults to current week at Mensa Garching.
         Use mensa_list_canteens to get valid canteen_id values."""
         if mock.is_demo_mode():
-            m = mock.get_mock("mensa", "mensa_get_menu", canteen_id=canteen_id)
+            m = await mock.get_mock("mensa", "mensa_get_menu", canteen_id=canteen_id)
             if m is not None:
                 return m
         today = date.today()
