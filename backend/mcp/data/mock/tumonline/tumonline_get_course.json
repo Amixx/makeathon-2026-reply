@@ -1,156 +1,135 @@
 {
-  "course_code": "0820811445",
-  "course_name": "Analytik und Prüftechnik",
-  "course_name_en": "-",
-  "course_id": 950877768,
-  "hoursperweek": "2.0",
-  "modified_tumonline": "2026-02-20T20:47:46.765968+01:00",
-  "activity": {
-    "activity_id": "UE",
-    "activity_name": "Übung",
-    "activity_name_en": "exercise"
-  },
-  "course_name_list": "0820811445: Analytik und Prüftechnik (Hilbig, Niewöhner, Stoklosa)",
-  "course_name_list_en": "0820811445: - (Hilbig, Niewöhner, Stoklosa)",
-  "semester": {
-    "semester_tag": "SS 2026",
-    "semester_title": "Sommersemester 2026",
-    "semester_title_en": "Summer Semester 2026",
-    "semester_key": "2026s",
-    "semester_period_start": "2026-04-01",
-    "semester_period_end": "2026-09-30",
-    "lecture_period_start": "2026-04-13",
-    "lecture_period_end": "2026-07-17"
-  },
-  "org": {
-    "org_id": 51037,
-    "org_code": "TUBVMCM",
-    "org_name": "Professur für Mineral Construction Materials (Prof. Machner)",
-    "org_name_en": "Assistant Professorship of Mineral Construction Materials (Prof. Machner)",
-    "org_url": "https://www.bgu.tum.de/cbm",
-    "org_type": "Lehrstuhl",
-    "school": {
-      "org_id": 51267,
-      "org_code": "TUS2000",
-      "org_name": "TUM School of Engineering and Design",
-      "org_name_en": "TUM School of Engineering and Design",
-      "org_url": "https://www.ed.tum.de/ed/startseite/"
-    },
-    "tumonline_url": "https://campus.tum.de/tumonline/wborg.display?PORGNR=51037"
-  },
-  "ghk": 20811445,
-  "instruction_languages": [
-    "de"
-  ],
-  "description": "Untersuchung von Baustoffen mit folgenden Methoden: \n - Mikroskopie \n- Röntgenbeugungsanalyse \n - Thermoanalyse \n - Chemische Analytik \n - Lasergranulometrie und Luftstrahlsiebung \n- Bestimmung von Porosität \n- Bestimmung Oberfläche &amp; Korngrößenverteilung \nDarüber hinaus werden praxisnahe Fallbeispiele erst in Kleingruppen von Studierenden bearbeitet und dann gemeinsam mit dem Dozenten besprochen.",
-  "teachingmethod": "In der Veranstaltung werden die theoretischen Lehrinhalte in Form einer klassischen Vorlesung mit ständiger Unterstützung durch eine PowerPoint-Präsentation vermittelt. Berechnungsbeispiele werden auf Overheadfolien oder an der Tafel unter Einbeziehung der Studierenden durchgeführt. Teilweise werden Anschauungsmaterialien zur besseren Darstellung und zum besseren Verständnis der Sachverhalte verwendet. \nUm den Studierenden die besprochenen Analysemethoden zu zeigen, werden in den Laboren direkt im Anschluss zur Lehrveranstaltung Fallbeispiele von den Studierenden in Kleingruppen (2 – 3 Studierenden) weitgehend eigenständig durchgeführt. Die Auswertungen der gewonnen Versuchs- und Prüfungsergebnisse werden von den Studierenden alleine durchgeführt und anschließend mit dem Dozenten besprochen. Hierbei lernen die Studierenden die neu gewonnen theoretischen Kenntnisse mit der Praxis zu verbinden sowie die Ergebnisse wissenschaftlich darzustellen und zu interpretieren. \nEin wichtiger Baustein im Rahmen der Projektarbeit ist das Arbeiten im Team. Da jeder Studierende einer Kleinstgruppe gleich bewertet wird, ist ein zielorientiertes und zeiteffizientes Denken, Diskutieren und Ausarbeiten des Berichts für einen erfolgreichen Abschluss des Moduls von großer Bedeutung.",
-  "note": "Bei organisatorischen Fragen wenden Sie sich bitte an Fabian Niewöhner (fabian.niewoehner@tum.de).",
-  "groups": [
-    {
-      "course_id": 950877768,
-      "group_id": 1280467,
-      "group_name": "Standardgruppe",
-      "max_students": 18,
-      "anmv_id": 73192,
-      "events": [],
-      "register_url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/73192?$ctx=design=ca&courseId=950877768"
-    }
-  ],
-  "exams": [],
-  "modules": [],
-  "roles": [
-    {
-      "role_id": "V",
-      "role_title": "Vortragende*r",
-      "role_title_en": "Lecturer",
-      "persons": [
-        {
-          "firstname": "Agnieszka",
-          "lastname": "Stoklosa",
-          "email": "ge23has@mytum.de",
-          "gender_id": 0,
-          "person_id": "FB1464F5BAB22C73",
-          "fullname": "Agnieszka Stoklosa",
-          "listname": "Stoklosa, Agnieszka",
-          "titlename": "Agnieszka Stoklosa",
-          "gender": {
-            "gender": "unbekannt",
-            "gender_en": "unknown",
-            "gendershort": "?",
-            "gendershort_en": "?"
-          },
-          "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=FB1464F5BAB22C73"
-        },
-        {
-          "firstname": "Fabian",
-          "lastname": "Niewöhner",
-          "email": "ge49daw@mytum.de",
-          "gender_id": 0,
-          "person_id": "3DC0C1E8F56627D1",
-          "fullname": "Fabian Niewöhner",
-          "listname": "Niewöhner, Fabian",
-          "titlename": "Fabian Niewöhner",
-          "gender": {
-            "gender": "unbekannt",
-            "gender_en": "unknown",
-            "gendershort": "?",
-            "gendershort_en": "?"
-          },
-          "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=3DC0C1E8F56627D1"
-        },
-        {
-          "firstname": "Harald",
-          "lastname": "Hilbig",
-          "email": "gi95roc@mytum.de",
-          "gender_id": 0,
-          "person_id": "D0ABE7C455A79D23",
-          "fullname": "Harald Hilbig",
-          "listname": "Hilbig, Harald",
-          "titlename": "Harald Hilbig",
-          "gender": {
-            "gender": "unbekannt",
-            "gender_en": "unknown",
-            "gendershort": "?",
-            "gendershort_en": "?"
-          },
-          "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=D0ABE7C455A79D23"
-        }
-      ]
-    },
-    {
-      "role_id": "L",
-      "role_title": "Leiter*in",
-      "role_title_en": "Main lecturer",
-      "persons": [
-        {
-          "firstname": "Harald",
-          "lastname": "Hilbig",
-          "email": "gi95roc@mytum.de",
-          "gender_id": 0,
-          "person_id": "D0ABE7C455A79D23",
-          "fullname": "Harald Hilbig",
-          "listname": "Hilbig, Harald",
-          "titlename": "Harald Hilbig",
-          "gender": {
-            "gender": "unbekannt",
-            "gender_en": "unknown",
-            "gendershort": "?",
-            "gendershort_en": "?"
-          },
-          "tumonline_vcard_url": "https://campus.tum.de/tumonline/visitenkarte.show_vcard?pPersonenGruppe=3&pPersonenId=D0ABE7C455A79D23"
-        }
-      ]
-    }
-  ],
-  "links": {
-    "11": {
-      "url": "https://www.moodle.tum.de/course/view.php?idnumber=950668504",
-      "link_type": {
-        "course_link_title": "E-Learning Kurs (Moodle)",
-        "course_link_title_en": "e-learning course (moodle)",
-        "course_link_id": 11
+  "__key__": "course_id",
+  "960120112": {
+    "course_code": "0000004012",
+    "course_name": "Autonomous Mobile Systems on Planetary Surfaces",
+    "course_name_en": "Autonomous Mobile Systems on Planetary Surfaces",
+    "course_id": 960120112,
+    "description_en": "Methods for rover autonomy on rough terrain, including mobility planning, slip-aware state estimation, hazard handling, and mission-oriented autonomy under communication delay.",
+    "note_en": "Recommended for students considering thesis work in planetary mobility or field robotics.",
+    "groups": [
+      {
+        "group_name": "Standard group",
+        "max_students": 24,
+        "register_url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/82001?$ctx=design=ca&courseId=960120112"
       }
-    }
+    ],
+    "roles": [
+      {
+        "role_title_en": "Lecturer",
+        "persons": [
+          {
+            "fullname": "Ralf Kennel",
+            "email": "ralf.kennel@tum.de"
+          },
+          {
+            "fullname": "Matteo Riva",
+            "email": "matteo.riva@tum.de"
+          }
+        ]
+      }
+    ],
+    "org": {
+      "org_name_en": "Institute of Astronautics",
+      "org_url": "https://www.asg.ed.tum.de/lrt/"
+    },
+    "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=960120112&pSpracheNr=2"
   },
-  "tumonline_url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/courses/950877768?$scrollTo=toc_overview"
+  "960120221": {
+    "course_code": "0000004021",
+    "course_name": "Orbital Robotic Systems: Mechanics and Control",
+    "course_name_en": "Orbital Robotic Systems: Mechanics and Control",
+    "course_id": 960120221,
+    "description_en": "Introduces docking dynamics, manipulation in microgravity, proximity operations, and control design for orbital robotic systems.",
+    "note_en": "Good bridge course if Lina is deciding between agency robotics and startup GNC paths.",
+    "groups": [
+      {
+        "group_name": "Standard group",
+        "max_students": 18,
+        "register_url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/82002?$ctx=design=ca&courseId=960120221"
+      }
+    ],
+    "roles": [
+      {
+        "role_title_en": "Lecturer",
+        "persons": [
+          {
+            "fullname": "Ralf Kennel",
+            "email": "ralf.kennel@tum.de"
+          },
+          {
+            "fullname": "Dirk Wollherr",
+            "email": "dirk.wollherr@tum.de"
+          }
+        ]
+      }
+    ],
+    "org": {
+      "org_name_en": "Institute of Astronautics",
+      "org_url": "https://www.asg.ed.tum.de/lrt/"
+    },
+    "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=960120221&pSpracheNr=2"
+  },
+  "960120307": {
+    "course_code": "0000004033",
+    "course_name": "Visual Navigation for Field Robotics",
+    "course_name_en": "Visual Navigation for Field Robotics",
+    "course_id": 960120307,
+    "description_en": "Visual odometry, localization under uncertainty, and perception pipelines for robots operating in GPS-denied environments.",
+    "note_en": "Useful if Lina wants a stronger autonomy signal before thesis outreach.",
+    "groups": [
+      {
+        "group_name": "Standard group",
+        "max_students": 20,
+        "register_url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/82003?$ctx=design=ca&courseId=960120307"
+      }
+    ],
+    "roles": [
+      {
+        "role_title_en": "Lecturer",
+        "persons": [
+          {
+            "fullname": "Alin Albu-Schaeffer",
+            "email": "alin.albu-schaeffer@tum.de"
+          }
+        ]
+      }
+    ],
+    "org": {
+      "org_name_en": "Institute of Robotics and Machine Intelligence",
+      "org_url": "https://www.ce.cit.tum.de/air/"
+    },
+    "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=960120307&pSpracheNr=2"
+  },
+  "960120602": {
+    "course_code": "2200003302",
+    "course_name": "Spanish A2.2 for Academic Mobility",
+    "course_name_en": "Spanish A2.2 for Academic Mobility",
+    "course_id": 960120602,
+    "description_en": "Conversation-focused Spanish for study, travel, and academic exchange contexts.",
+    "note_en": "Unrelated to Lina's main career path, but included to make the catalog feel like a real university environment.",
+    "groups": [
+      {
+        "group_name": "Standard group",
+        "max_students": 28,
+        "register_url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/registrationProcedures/82004?$ctx=design=ca&courseId=960120602"
+      }
+    ],
+    "roles": [
+      {
+        "role_title_en": "Lecturer",
+        "persons": [
+          {
+            "fullname": "Lucia Fernandez",
+            "email": "lucia.fernandez@tum.de"
+          }
+        ]
+      }
+    ],
+    "org": {
+      "org_name_en": "TUM Language Center",
+      "org_url": "https://www.sprachenzentrum.tum.de/"
+    },
+    "tumonline_url": "https://campus.tum.de/tumonline/wbLv.wbShowLVDetail?pStpSpNr=960120602&pSpracheNr=2"
+  }
 }
