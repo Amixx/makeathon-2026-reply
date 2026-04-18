@@ -31,6 +31,8 @@ export type DiscoverItem = {
   id: string;
   title: string;
   why: string;
+  what?: string;
+  land?: string;
   /** Typed variant — defaults to 'course' for legacy items */
   type: DiscoverItemType;
   /** Type-specific metadata */

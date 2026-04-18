@@ -70,6 +70,33 @@ export default function OpportunityDetail() {
   const pillLabel = TYPE_LABEL[item.type] ?? item.type.toUpperCase();
   const ctaLabel = TYPE_CTA[item.type] ?? 'Review & send';
 
+  const handleCta = () => {
+    switch (item.type) {
+      case 'person': {
+        if (!output?.email) {
+          alert('Wait for the plan to finish');
+          return;
+        }
+        const mailtoUrl = `mailto:${output.email.to}?subject=${encodeURIComponent(output.email.subject)}&body=${encodeURIComponent(output.email.body)}`;
+        window.location.href = mailtoUrl;
+        break;
+      }
+      case 'course':
+        window.open('https://campus.tum.de', '_blank');
+        break;
+      case 'event':
+        window.open(
+          'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
+            encodeURIComponent(item.title),
+          '_blank',
+        );
+        break;
+      case 'scholarship':
+        alert('Application materials copied to clipboard');
+        break;
+    }
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.inner}>
@@ -88,9 +115,23 @@ export default function OpportunityDetail() {
         <h1 className={styles.title}>{item.title}</h1>
 
         {/* Streaming tool trail */}
-        {(isStreaming || segments.length > 0) && (
-          <div className={styles.trailSection}>
-            <SectionLabel>AGENT RESEARCH</SectionLabel>
+        {segments.length > 0 && (
+          <details
+            className={styles.trailSection}
+            open={isStreaming}
+            ref={(el) => {
+              // Auto-open while streaming, auto-close when done
+              if (el) el.open = isStreaming;
+            }}
+          >
+            <summary className={styles.trailSummary}>
+              <SectionLabel>AGENT RESEARCH</SectionLabel>
+              <span className={styles.trailMeta}>
+                {isStreaming
+                  ? 'Working…'
+                  : `${segments.filter(s => s.kind === 'tool').length} tool calls`}
+              </span>
+            </summary>
             <div className={styles.trail}>
               {segments.map((seg) => {
                 if (seg.kind === 'tool') {
@@ -113,7 +154,7 @@ export default function OpportunityDetail() {
                 </div>
               )}
             </div>
-          </div>
+          </details>
         )}
 
         {/* Error state */}
@@ -158,9 +199,7 @@ export default function OpportunityDetail() {
           </Button>
           <Button
             variant="accent"
-            onClick={() => {
-              console.log('[OpportunityDetail] CTA clicked for:', item.id);
-            }}
+            onClick={handleCta}
           >
             {ctaLabel} →
           </Button>

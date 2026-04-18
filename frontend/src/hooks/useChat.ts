@@ -2,22 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { AgentHistoryEntry } from "../lib/agent";
 import { runAgent } from "../lib/agent";
 import type { ChatMessage, ToolCall } from "../lib/types";
-// voice functions removed — useChat no longer does in-hook STT/TTS
-// Use useVoiceRecorder + transcribeAudio from lib/voice directly in UI components
-
-type UseChatOptions = {
-  autoSpeakReplies?: boolean;
-};
 
 type UseChatReturn = {
   messages: ChatMessage[];
   isStreaming: boolean;
-  isRecording: boolean;
   error: string | null;
   sendText: (text: string) => void;
-  toggleRecording: () => Promise<void>;
   cancel: () => void;
-  replayLastReply: () => Promise<void>;
 };
 
 let nextId = 0;
@@ -30,11 +21,10 @@ function toHistory(messages: ChatMessage[]): AgentHistoryEntry[] {
     .map<AgentHistoryEntry>((m) => ({ role: m.role, content: m.text }));
 }
 
-export function useChat(_options: UseChatOptions = {}): UseChatReturn {
+export function useChat(): UseChatReturn {
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const messagesRef = useRef<ChatMessage[]>([]);
@@ -181,7 +171,6 @@ export function useChat(_options: UseChatOptions = {}): UseChatReturn {
           onDone: () => {
             finishAssistant(assistantId);
             setIsStreaming(false);
-            // TTS removed — autoSpeakReplies is a no-op
           },
         },
         controller.signal,
@@ -204,23 +193,11 @@ export function useChat(_options: UseChatOptions = {}): UseChatReturn {
     setIsStreaming(false);
   }, [finishAssistant]);
 
-  const toggleRecording = useCallback(async () => {
-    // STT moved to useVoiceRecorder + transcribeAudio — this is a no-op stub
-    setIsRecording((v) => !v);
-  }, []);
-
-  const replayLastReply = useCallback(async () => {
-    // TTS removed
-  }, []);
-
   return {
     messages,
     isStreaming,
-    isRecording,
     error,
     sendText,
-    toggleRecording,
     cancel,
-    replayLastReply,
   };
 }

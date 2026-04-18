@@ -25,7 +25,7 @@ export function PersonCard({ item, onSkip, onAccept }: Props) {
       <h3 className={styles.title}>{item.title}</h3>
       <div>
         <div className={styles.blockLabel}>WHAT IT IS</div>
-        <div className={styles.blockWhat}>{meta.description ?? desc}</div>
+        <div className={styles.blockWhat}>{item.what || meta.description || desc}</div>
       </div>
       <div>
         <div className={styles.blockLabel}>WHY IT MATTERS</div>
@@ -34,7 +34,7 @@ export function PersonCard({ item, onSkip, onAccept }: Props) {
       <div>
         <div className={styles.blockLabelInverted}>IF THIS LANDS</div>
         <div className={styles.blockLand}>
-          You stop feeling stuck. Worst case: polite no. Best case: thesis advisor or job offer.
+          {item.land || "You stop feeling stuck. Worst case: polite no. Best case: thesis advisor or job offer."}
         </div>
       </div>
       <div className={styles.btnRow}>
