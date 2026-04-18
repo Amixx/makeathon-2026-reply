@@ -4,45 +4,10 @@ import styles from "./StepPath.module.css";
 
 type Props = {
   output: PlanOutput;
-  completedSteps: Set<number>;
-  onToggleStep: (index: number) => void;
 };
 
-type StepState = "done" | "current" | "locked";
-
-function stepState(
-  index: number,
-  firstIncomplete: number,
-  completed: Set<number>,
-): StepState {
-  if (completed.has(index)) return "done";
-  if (index === firstIncomplete) return "current";
-  return "locked";
-}
-
-function rowClass(index: number, total: number): string {
-  if (total <= 1) return styles.rowCenter;
-  // zig-zag: 0=center, 1=left, 2=right, 3=left, 4=right, ...
-  if (index === 0) return styles.rowCenter;
-  return index % 2 === 1 ? styles.rowLeft : styles.rowRight;
-}
-
-export default function StepPath({
-  output,
-  completedSteps,
-  onToggleStep,
-}: Props) {
-  const [expandedStep, setExpandedStep] = useState<number | null>(null);
+export default function StepPath({ output }: Props) {
   const [copied, setCopied] = useState<string | null>(null);
-
-  const total = output.steps.length;
-  const firstIncomplete = output.steps.findIndex(
-    (_, idx) => !completedSteps.has(idx),
-  );
-  const actualFirstIncomplete = firstIncomplete < 0 ? total : firstIncomplete;
-
-  const progressPct =
-    total > 0 ? Math.round((completedSteps.size / total) * 100) : 0;
 
   const copyToClipboard = async (text: string, key: string) => {
     try {
@@ -58,99 +23,19 @@ export default function StepPath({
     <div className={styles.wrap}>
       {output.intro && <p className={styles.intro}>{output.intro}</p>}
 
-      <div className={styles.progress}>
-        <span>
-          {completedSteps.size} / {total} steps
-        </span>
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progressFill}
-            style={{ width: `${progressPct}%` }}
-          />
-        </div>
-        <span>{progressPct}%</span>
-      </div>
-
-      <div className={styles.path}>
-        {output.steps.map((step, idx) => {
-          const state = stepState(idx, actualFirstIncomplete, completedSteps);
-          const isExpanded = expandedStep === idx;
-          const isCurrent = state === "current";
-
-          return (
-            <div
-              key={`${step.title}-${idx}`}
-              className={`${styles.row} ${rowClass(idx, total)}`}
-            >
-              <div className={styles.nodeWrap}>
-                {isCurrent && !isExpanded && (
-                  <span className={styles.startLabel}>START</span>
-                )}
-                <button
-                  type="button"
-                  className={`${styles.node} ${styles[state]}`}
-                  onClick={() => setExpandedStep(isExpanded ? null : idx)}
-                  aria-label={`Step ${idx + 1}: ${step.title}`}
-                >
-                  {state === "done" ? (
-                    <span className={styles.nodeIcon}>✓</span>
-                  ) : state === "locked" ? (
-                    <span className={styles.nodeIcon}>🔒</span>
-                  ) : (
-                    <span>{idx + 1}</span>
-                  )}
-                </button>
-                {isExpanded && (
-                  <div className={styles.detail}>
-                    <div className={styles.detailTitle}>
-                      {idx + 1}. {step.title}
-                    </div>
-                    <div className={styles.detailMeta}>
-                      {step.duration && (
-                        <span className={styles.metaTag}>{step.duration}</span>
-                      )}
-                      <span className={styles.metaTag}>
-                        {state === "done"
-                          ? "Done"
-                          : state === "current"
-                            ? "Next up"
-                            : "Locked"}
-                      </span>
-                    </div>
-                    <div className={styles.detailBody}>{step.detail}</div>
-                    {step.why && (
-                      <div className={styles.why}>
-                        <span className={styles.whyLabel}>
-                          Why this specifically
-                        </span>
-                        {step.why}
-                      </div>
-                    )}
-                    <div className={styles.detailActions}>
-                      {step.link && (
-                        <a
-                          className={styles.linkBtn}
-                          href={step.link.href}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {step.link.label} ↗
-                        </a>
-                      )}
-                      <button
-                        type="button"
-                        className={`${styles.markBtn} ${state === "done" ? styles.markBtnDone : ""}`}
-                        onClick={() => onToggleStep(idx)}
-                      >
-                        {state === "done" ? "↺ Mark undone" : "✓ Mark done"}
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
+      <div className={styles.actionCard}>
+        <div className={styles.detailTitle}>{output.action.title}</div>
+        <div className={styles.detailBody}>{output.action.detail}</div>
+        {output.action.link && (
+          <a
+            className={styles.linkBtn}
+            href={output.action.link.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {output.action.link.label} ↗
+          </a>
+        )}
       </div>
 
       {output.email && (

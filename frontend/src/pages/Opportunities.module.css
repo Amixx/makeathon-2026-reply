@@ -3,7 +3,7 @@
   background: var(--bg-default);
   display: flex;
   justify-content: center;
-  padding: 24px 16px 40px;
+  padding: 16px 8px 32px;
   box-sizing: border-box;
 }
 
@@ -12,7 +12,7 @@
   max-width: 480px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .header {
@@ -32,13 +32,8 @@
   color: var(--accent-700);
 }
 
-.stackWrap {
-  position: relative;
+.cardWrap {
   width: 100%;
-  min-height: 500px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
 }
 
 .footer {
@@ -46,15 +41,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding-top: 8px;
-}
-
-.footerHint {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  color: var(--fg-muted);
-  text-transform: uppercase;
+  padding-top: 4px;
 }
 
 /* Empty state */

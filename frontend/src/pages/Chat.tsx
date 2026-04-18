@@ -21,8 +21,7 @@ export default function Chat() {
           item={plan.item}
           segments={plan.segments}
           output={plan.output}
-          completedSteps={plan.completedSteps}
-          onToggleStep={plan.toggleStep}
+
           isStreaming={plan.isStreaming}
           error={plan.error}
           onClose={plan.close}
