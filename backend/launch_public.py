@@ -17,6 +17,7 @@ from config import BACKEND_HOST, BACKEND_PORT, INSPECTOR_CLIENT_PORT, INSPECTOR_
 ROOT = Path(__file__).resolve().parent
 CHILD_PROCESSES: list[subprocess.Popen] = []
 
+load_dotenv(ROOT.parent / ".env")
 load_dotenv(ROOT / ".env")
 load_dotenv(ROOT / "mcp" / ".env")
 

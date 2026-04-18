@@ -7,5 +7,7 @@ python-dotenv
 uvicorn
 mvg
 fastapi
-anthropic
 starlette
+boto3
+jinja2
+pyyaml

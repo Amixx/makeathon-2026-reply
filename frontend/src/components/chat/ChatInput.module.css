@@ -1,0 +1,35 @@
+.wrap {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.input {
+  flex: 1;
+  resize: none;
+  padding: 0.6rem 0.85rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(38, 128, 235, 0.6);
+}
+
+.input:disabled {
+  opacity: 0.6;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}

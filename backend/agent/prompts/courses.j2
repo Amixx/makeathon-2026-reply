@@ -1,0 +1,9 @@
+{% if enrolled %}## Enrolled Courses ({{ semester }})
+{% for c in enrolled %}- {{ c.name }} ({{ c.id }}){% if c.get('ects') %} · {{ c.ects }} ECTS{% endif %}{% if c.get('grade') %} · Grade: {{ c.grade }}{% endif %}
+{% endfor %}
+{% endif %}
+{% if available %}
+## Available Courses
+{% for c in available %}- {{ c.name }} ({{ c.id }}){% if c.get('ects') %} · {{ c.ects }} ECTS{% endif %}
+{% endfor %}
+{% endif %}

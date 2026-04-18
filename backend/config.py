@@ -6,9 +6,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parent
+REPO = ROOT.parent
 
-# Prefer the new backend-level env file, but still load the old MCP env file so
-# existing local secrets keep working during the transition.
+# Load env files in priority order — last loaded wins on conflict.
+load_dotenv(REPO / ".env")
 load_dotenv(ROOT / ".env")
 load_dotenv(ROOT / "mcp" / ".env")
 

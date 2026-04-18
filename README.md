@@ -19,7 +19,7 @@ Frontend / clients  ──HTTP/SSE──▶  Agent API (/agent)
 The backend now hosts two isolated services behind one public origin:
 
 - `/mcp` — the MCP server exposing **20 tools** across 9 TUM systems
-- `/agent` — a separate FastAPI agent surface with Anthropic + SSE scaffolding
+- `/agent` — a Bedrock-backed FastAPI agent (`/agent/chat` streams NDJSON, `/agent/health` for probes)
 
 The MCP server exposes **20 tools** across 9 TUM systems as a single
 [Model Context Protocol](https://modelcontextprotocol.io) endpoint. The agent
@@ -122,7 +122,8 @@ fly volumes create session_data --size 1 --region ams
 fly secrets set \
   FERNET_KEY="$(python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())')" \
   GOOGLE_API_KEY="your-key" \
-  ANTHROPIC_API_KEY="your-key"
+  AWS_BEARER_TOKEN_BEDROCK="your-bedrock-bearer-token" \
+  AWS_REGION="eu-north-1"
 ```
 
 Add a repository secret named `FLY_API_TOKEN` in GitHub so the workflow can run

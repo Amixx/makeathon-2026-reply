@@ -1,0 +1,35 @@
+user_id: student-001
+name: "Max Mustermann"
+program: "B.Sc. Informatik"
+semester: "WS 2026/27"
+
+enrolled:
+  - id: IN0001
+    name: "Einführung in die Informatik"
+    ects: 8
+  - id: MA0901
+    name: "Lineare Algebra für Informatiker"
+    ects: 6
+  - id: IN0015
+    name: "Diskrete Strukturen"
+    ects: 8
+  - id: IN0018
+    name: "Einführung in die Softwaretechnik"
+    ects: 6
+
+available:
+  - id: IN2028
+    name: "Algorithmic Game Theory"
+    ects: 5
+  - id: IN2346
+    name: "Introduction to Deep Learning"
+    ects: 6
+  - id: IN2339
+    name: "Advanced Deep Learning for Computer Vision"
+    ects: 6
+  - id: IN2378
+    name: "Foundations of Cyber-Physical Systems"
+    ects: 5
+  - id: WI000018
+    name: "Fundamentals of Business Administration"
+    ects: 6

@@ -20,7 +20,9 @@
   font-size: 0.875rem;
   padding: 0.25rem 0;
   border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .link:hover {
