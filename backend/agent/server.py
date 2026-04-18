@@ -14,6 +14,8 @@ from pathlib import Path
 from secrets import token_hex
 from typing import Any, Dict, Iterator, List, Literal, Optional
 
+import io
+
 import boto3
 import yaml
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -337,6 +339,7 @@ def _discover_prompt_context(profile: Mapping[str, Any], req: DiscoverRequest) -
         "github_url": (profile.get("github_url") or "").strip(),
         "linkedin_url": (profile.get("linkedin_url") or "").strip(),
         "cv_uploaded": bool(profile.get("cv_uploaded")),
+        "cv_text": (profile.get("cv_text") or "").strip(),
         "category": (req.category or "").strip(),
     }
 
@@ -433,10 +436,26 @@ async def upload_cv(file: UploadFile = File(...)) -> dict:
     target = _UPLOADS_DIR / target_name
     target.write_bytes(raw)
 
+    cv_text = ""
+    if suffix == ".pdf":
+        try:
+            import pypdf  # noqa: PLC0415
+            reader = pypdf.PdfReader(io.BytesIO(raw))
+            cv_text = "\n".join(
+                page.extract_text() or "" for page in reader.pages
+            ).strip()
+            # Cap at 4 000 chars so it fits comfortably as context tokens
+            if len(cv_text) > 4000:
+                cv_text = cv_text[:4000] + "…"
+        except Exception:  # noqa: BLE001
+            cv_text = ""
+
     current = _load_profile()
     current["cv_file_name"] = file.filename
     current["cv_uploaded"] = True
     current["cv_storage_path"] = str(target.relative_to(Path(__file__).parent))
+    if cv_text:
+        current["cv_text"] = cv_text
     _save_profile(current)
     return _profile_to_api(current)
 
@@ -553,6 +572,7 @@ def plan(req: PlanRequest) -> StreamingResponse:
         github_url=prompt_context["github_url"],
         linkedin_url=prompt_context["linkedin_url"],
         cv_uploaded=prompt_context["cv_uploaded"],
+        cv_text=prompt_context["cv_text"],
         item=req.item.model_dump(),
     )
     system_prompt = render_prompt("system_plan.j2", date=date.today().isoformat())

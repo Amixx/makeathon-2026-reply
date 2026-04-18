@@ -11,3 +11,4 @@ starlette
 boto3
 jinja2
 pyyaml
+pypdf
