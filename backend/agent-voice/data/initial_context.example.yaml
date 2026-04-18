@@ -1,0 +1,15 @@
+student:
+  name: "Lina"
+  program: "Informatics"
+  semester: "4"
+  university: "TUM"
+career_context:
+  current_focus:
+    - "AI product work"
+    - "internship search"
+  known_constraints:
+    - "unclear target role"
+    - "not enough confidence reaching out"
+interview_goal: >
+  Build a strong picture of the student's interests, target roles,
+  motivations, blockers, and short-term career direction.
