@@ -46,10 +46,16 @@ def _landing(request):
     )
 
 
-# ── Run ──────────────────────────────────────────────────────────────────────
-if __name__ == "__main__":
+def build_app():
     app = mcp.streamable_http_app()
     app.routes.insert(0, Route("/", _landing))
+    return app
 
+
+app = build_app()
+
+
+# ── Run ──────────────────────────────────────────────────────────────────────
+if __name__ == "__main__":
     import uvicorn  # noqa: E402
     uvicorn.run(app, host=MCP_HOST, port=MCP_PORT)

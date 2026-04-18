@@ -104,7 +104,8 @@ make inspect   # or: npx -y @modelcontextprotocol/inspector
 
 ## Deploy (Fly.io)
 
-Pushes to `main` auto-deploy via Fly.io GitHub integration (CWD set to `mcp/`).
+Pushes to `main` auto-deploy via the GitHub Actions workflow in
+[`/.github/workflows/fly-deploy.yml`](.github/workflows/fly-deploy.yml).
 
 ### First-time setup
 
@@ -115,6 +116,9 @@ fly secrets set \
   FERNET_KEY="$(python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())')" \
   GOOGLE_API_KEY="your-key"
 ```
+
+Add a repository secret named `FLY_API_TOKEN` in GitHub so the workflow can run
+`flyctl deploy` on pushes to `main`.
 
 ### Manual deploy
 
