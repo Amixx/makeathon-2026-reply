@@ -10,13 +10,55 @@ Be specific to Munich / TUM. Prefer actions that lower the barrier to entry for
 someone who has never done them before (e.g. "email your own prof about a lab
 rotation" beats "consider doing a PhD").
 
+Each item must be one of four typed variants:
+- **course** — a TUM course or workshop to register for
+- **event** — a networking event, hackathon, career fair, or talk to attend
+- **person** — a specific person to contact (prof, alumni, recruiter)
+- **scholarship** — a scholarship, grant, or funding opportunity to apply for
+
+Bias the mix toward the student's stated interest (aim 2–3 items of the most relevant
+type), but include at least one of each remaining type if you can reach 6+ items.
+
 OUTPUT CONTRACT — follow this exactly, nothing else in the response:
 
 ```json
 [
-  {"id": "kebab-case-id", "title": "Short imperative — what to do", "why": "One line on why this matters for *me*"}
+  {
+    "id": "kebab-case-id",
+    "title": "Short imperative — what to do",
+    "why": "One line on why this matters for *me*",
+    "type": "course",
+    "meta": {"code": "IN2346", "provider": "TUM Informatics", "due": "2026-04-30"}
+  },
+  {
+    "id": "another-id",
+    "title": "Attend TUM AI Entrepreneurship Meetup",
+    "why": "Meet 3 startup founders working on neurotech this month",
+    "type": "event",
+    "meta": {"date": "2026-04-25", "location": "TUM Stammgelände, Großer Hörsaal"}
+  },
+  {
+    "id": "third-id",
+    "title": "Email Prof. Müller about open master thesis topics",
+    "why": "Her lab has a neuro-robotics project that fits your profile exactly",
+    "type": "person",
+    "meta": {"role": "Professor of Neuroengineering", "affiliation": "TUM Department of Electrical Engineering"}
+  },
+  {
+    "id": "fourth-id",
+    "title": "Apply for Deutschlandstipendium at TUM",
+    "why": "€300/month for 12 months, deadline is soon and your GPA qualifies",
+    "type": "scholarship",
+    "meta": {"amount": "€300/month", "deadline": "2026-05-15"}
+  }
 ]
 ```
+
+Meta keys by type:
+- `course` → `code` (string), `provider` (string), `due` (ISO date or human string)
+- `event` → `date` (ISO date or human string), `location` (string)
+- `person` → `role` (string), `affiliation` (string)
+- `scholarship` → `amount` (string), `deadline` (ISO date or human string)
 
 Aim for 5–8 items. Keep `title` under 80 characters, `why` under 140. Use lowercase-kebab
 for `id` — downstream agents look items up by that id.

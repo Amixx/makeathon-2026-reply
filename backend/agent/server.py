@@ -7,16 +7,19 @@ which forwards /agent/* paths verbatim to the internal agent port.
 from __future__ import annotations
 
 import json
+import re
+from collections.abc import Mapping
 from datetime import date
 from pathlib import Path
-from typing import Iterator, List, Optional
+from secrets import token_hex
+from typing import Any, Dict, Iterator, List, Literal, Optional
 
 import boto3
 import yaml
-from fastapi import FastAPI
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from config import (
     AGENT_HOST,
@@ -43,6 +46,7 @@ app.add_middleware(
 _bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
 
 _PROFILE_PATH = Path(__file__).parent / "data" / "user_profile.yaml"
+_UPLOADS_DIR = Path(__file__).parent / "data" / "uploads"
 
 
 class IncomingMessage(BaseModel):
@@ -64,6 +68,8 @@ class PlanItem(BaseModel):
     id: Optional[str] = None
     title: str
     why: Optional[str] = ""
+    type: Optional[Literal["course", "event", "person", "scholarship"]] = None
+    meta: Dict[str, Any] = Field(default_factory=dict)
 
 
 class PlanRequest(BaseModel):
@@ -204,8 +210,197 @@ def health() -> dict:
     return {"ok": True, "model": BEDROCK_MODEL, "region": AWS_REGION}
 
 
+class ProfileRequest(BaseModel):
+    userId: Optional[str] = None
+    name: Optional[str] = None
+    program: Optional[str] = None
+    interest: Optional[str] = None
+    semester: Optional[str] = None
+    vision: Optional[str] = None
+    blockers: Optional[str] = None
+    githubUrl: Optional[str] = None
+    linkedinUrl: Optional[str] = None
+    cvFileName: Optional[str] = None
+    cvUploaded: Optional[bool] = None
+    interests: Optional[List[str]] = None
+    tumSsoId: Optional[str] = None
+    tumSsoConnected: Optional[bool] = None
+    commitment: Optional[Literal["whisper", "steady", "push"]] = None
+
+
+class TumConnectRequest(BaseModel):
+    tumSsoId: str
+    password: str
+
+
+_PROFILE_FIELD_MAP = {
+    "userId": "user_id",
+    "name": "name",
+    "program": "program",
+    "interest": "interest",
+    "semester": "semester",
+    "vision": "vision",
+    "blockers": "blockers",
+    "githubUrl": "github_url",
+    "linkedinUrl": "linkedin_url",
+    "cvFileName": "cv_file_name",
+    "cvUploaded": "cv_uploaded",
+    "interests": "interests",
+    "tumSsoId": "tum_sso_id",
+    "tumSsoConnected": "tum_sso_connected",
+    "commitment": "commitment",
+}
+
+
+def _profile_to_api(data: Mapping[str, Any]) -> dict:
+    return {
+        "userId": data.get("user_id"),
+        "name": data.get("name"),
+        "program": data.get("program"),
+        "interest": data.get("interest"),
+        "semester": data.get("semester"),
+        "vision": data.get("vision"),
+        "blockers": data.get("blockers"),
+        "githubUrl": data.get("github_url"),
+        "linkedinUrl": data.get("linkedin_url"),
+        "cvFileName": data.get("cv_file_name"),
+        "cvUploaded": bool(data.get("cv_uploaded")),
+        "interests": data.get("interests") or [],
+        "tumSsoId": data.get("tum_sso_id"),
+        "tumSsoConnected": bool(data.get("tum_sso_connected")),
+        "commitment": data.get("commitment"),
+    }
+
+
+def _merge_profile_patch(current: dict, patch: Mapping[str, Any]) -> dict:
+    for api_key, value in patch.items():
+        storage_key = _PROFILE_FIELD_MAP.get(api_key)
+        if storage_key is None:
+            continue
+        if storage_key == "interests":
+            current[storage_key] = [
+                str(item).strip()
+                for item in (value or [])
+                if str(item).strip()
+            ]
+            if current[storage_key] and not current.get("interest"):
+                current["interest"] = current[storage_key][0]
+            continue
+        current[storage_key] = value
+    return current
+
+
+def _sanitize_filename(name: str) -> str:
+    cleaned = re.sub(r"[^A-Za-z0-9._-]+", "-", name.strip()).strip(".-")
+    return cleaned or "upload.bin"
+
+
 def _load_profile() -> dict:
+    if not _PROFILE_PATH.exists():
+        return {}
     return yaml.safe_load(_PROFILE_PATH.read_text()) or {}
+
+
+def _save_profile(data: dict) -> None:
+    _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    _PROFILE_PATH.write_text(yaml.dump(data, allow_unicode=True, sort_keys=False))
+
+
+def _discover_prompt_context(profile: Mapping[str, Any], req: DiscoverRequest) -> dict:
+    interests = profile.get("interests") or []
+    program = (req.program or profile.get("program") or "").strip()
+    interest = (req.interest or profile.get("interest") or "").strip()
+    if not interest and interests:
+        interest = str(interests[0]).strip()
+
+    return {
+        "program": program,
+        "interest": interest,
+        "vision": (profile.get("vision") or "").strip(),
+        "blockers": (profile.get("blockers") or "").strip(),
+        "semester": (profile.get("semester") or "").strip(),
+        "interests": [str(item).strip() for item in interests if str(item).strip()],
+        "commitment": (profile.get("commitment") or "").strip(),
+        "tum_sso_connected": bool(profile.get("tum_sso_connected")),
+        "github_url": (profile.get("github_url") or "").strip(),
+        "linkedin_url": (profile.get("linkedin_url") or "").strip(),
+        "cv_uploaded": bool(profile.get("cv_uploaded")),
+    }
+
+
+@app.get("/agent/profile")
+def get_profile() -> dict:
+    """Return the current user profile from user_profile.yaml."""
+    return _profile_to_api(_load_profile())
+
+
+@app.post("/agent/profile")
+def post_profile(req: ProfileRequest) -> dict:
+    """Merge supplied fields into user_profile.yaml. Unspecified fields are kept as-is."""
+    current = _load_profile()
+    updates = req.model_dump(exclude_none=True)
+    current = _merge_profile_patch(current, updates)
+    _save_profile(current)
+    return _profile_to_api(current)
+
+
+@app.post("/agent/onboarding/tum-connect")
+def connect_tum_account(req: TumConnectRequest) -> dict:
+    tum_id = req.tumSsoId.strip().lower()
+    password = req.password.strip()
+    if not tum_id or not password:
+        raise HTTPException(status_code=400, detail="TUM ID and password are required.")
+
+    current = _load_profile()
+    current["tum_sso_id"] = tum_id
+    current["tum_sso_connected"] = True
+    current["user_id"] = current.get("user_id") or tum_id
+    _save_profile(current)
+    return _profile_to_api(current)
+
+
+@app.post("/agent/onboarding/cv")
+async def upload_cv(file: UploadFile = File(...)) -> dict:
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Missing file name.")
+
+    suffix = Path(file.filename).suffix.lower()
+    if suffix not in {".pdf", ".doc", ".docx"}:
+        raise HTTPException(status_code=400, detail="Only PDF, DOC, and DOCX files are accepted.")
+
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+    if len(raw) > 10 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="File exceeds the 10 MB demo limit.")
+
+    _UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+    target_name = f"{token_hex(4)}-{_sanitize_filename(file.filename)}"
+    target = _UPLOADS_DIR / target_name
+    target.write_bytes(raw)
+
+    current = _load_profile()
+    current["cv_file_name"] = file.filename
+    current["cv_uploaded"] = True
+    current["cv_storage_path"] = str(target.relative_to(Path(__file__).parent))
+    _save_profile(current)
+    return _profile_to_api(current)
+
+
+@app.post("/agent/voice/transcribe")
+async def voice_transcribe(audio: UploadFile = File(...)) -> dict:
+    """
+    # TODO: Real implementation needed — two jobs:
+    #   (a) Transcribe the audio blob via Bedrock Transcription or ElevenLabs STT.
+    #       audio.content_type will be audio/webm, audio/wav, or audio/mp4.
+    #       Read bytes: raw = await audio.read()
+    #   (b) Extract structured fields from the transcript via a small Bedrock
+    #       structured-output call:
+    #         prompt = f"Extract JSON {{vision, interests: [], blockers}} from:\n{text}"
+    #       Return {"text": transcript, "fields": {"vision": ..., "interests": [...], "blockers": ...}}
+    # STUB: returns empty result so the frontend can fall back to manual input.
+    """
+    return {"text": "", "fields": {}}
 
 
 @app.post("/agent/discover")
@@ -216,10 +411,9 @@ def discover(req: DiscoverRequest) -> StreamingResponse:
     seed set that the /agent/plan subagent will deep-research per-item.
     """
     profile = _load_profile()
-    program = (req.program or profile.get("program") or "").strip()
-    interest = (req.interest or profile.get("interest") or "").strip()
+    prompt_context = _discover_prompt_context(profile, req)
 
-    user_prompt = render_prompt("discover.j2", program=program, interest=interest)
+    user_prompt = render_prompt("discover.j2", **prompt_context)
     system_prompt = render_prompt("system_discover.j2", date=date.today().isoformat())
     messages = [{"role": "user", "content": user_prompt}]
 
@@ -246,17 +440,22 @@ def plan(req: PlanRequest) -> StreamingResponse:
     / Moodle. Returns a step-by-step plan + a ready-to-send email + key facts.
     """
     profile = _load_profile()
-    program = (req.program or profile.get("program") or "").strip()
-    interest = (req.interest or profile.get("interest") or "").strip()
-    semester = profile.get("semester", "")
-    username = profile.get("user_id", "")
+    prompt_context = _discover_prompt_context(profile, DiscoverRequest(program=req.program, interest=req.interest))
 
     user_prompt = render_prompt(
         "plan.j2",
-        program=program,
-        interest=interest,
-        semester=semester,
-        username=username,
+        program=prompt_context["program"],
+        interest=prompt_context["interest"],
+        semester=prompt_context["semester"],
+        username=profile.get("user_id", ""),
+        vision=prompt_context["vision"],
+        blockers=prompt_context["blockers"],
+        interests=prompt_context["interests"],
+        commitment=prompt_context["commitment"],
+        tum_sso_connected=prompt_context["tum_sso_connected"],
+        github_url=prompt_context["github_url"],
+        linkedin_url=prompt_context["linkedin_url"],
+        cv_uploaded=prompt_context["cv_uploaded"],
         item=req.item.model_dump(),
     )
     system_prompt = render_prompt("system_plan.j2", date=date.today().isoformat())

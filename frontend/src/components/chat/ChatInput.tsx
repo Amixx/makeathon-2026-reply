@@ -1,4 +1,3 @@
-import { Button } from "@adobe/react-spectrum";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
 import { isVoiceConfigured } from "../../lib/config";
@@ -55,26 +54,26 @@ export default function ChatInput({
       />
       <div className={styles.buttons}>
         {voiceAvailable && (
-          <Button
-            variant={isRecording ? "negative" : "secondary"}
-            onPress={onToggleRecording}
-            isDisabled={disabled || isStreaming}
+          <button
+            type="button"
+            onClick={onToggleRecording}
+            disabled={disabled || isStreaming}
           >
             {isRecording ? "Stop" : "🎙"}
-          </Button>
+          </button>
         )}
         {isStreaming ? (
-          <Button variant="negative" onPress={onCancel}>
+          <button type="button" onClick={onCancel}>
             Cancel
-          </Button>
+          </button>
         ) : (
-          <Button
-            variant="accent"
-            onPress={send}
-            isDisabled={disabled || value.trim().length === 0}
+          <button
+            type="button"
+            onClick={send}
+            disabled={disabled || value.trim().length === 0}
           >
             Send
-          </Button>
+          </button>
         )}
       </div>
     </div>

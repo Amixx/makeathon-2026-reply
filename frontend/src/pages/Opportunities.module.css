@@ -1,0 +1,87 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-default);
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 40px;
+  box-sizing: border-box;
+}
+
+.inner {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  padding: 0 4px;
+}
+
+.headerLeft {
+  color: var(--accent-700);
+}
+
+.stackWrap {
+  position: relative;
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.footerHint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.emptyEmoji {
+  font-size: 48px;
+  color: var(--success);
+}
+
+.emptyTitle {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--fg-default);
+  margin: 0;
+}
+
+.emptyBody {
+  color: var(--fg-muted);
+  font-size: 15px;
+  margin: 0;
+}
