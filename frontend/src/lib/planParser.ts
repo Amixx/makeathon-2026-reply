@@ -1,4 +1,4 @@
-import type { PlanOutput, PlanSegment, PlanStep } from "./types";
+import type { PlanOutput, PlanSegment } from "./types";
 
 function extractJsonBlock(text: string): string | null {
   const fenceMatch = text.match(/```json\s*([\s\S]*?)```/i);
@@ -11,44 +11,34 @@ function extractJsonBlock(text: string): string | null {
   return null;
 }
 
-function normalizeStep(raw: unknown): PlanStep | null {
-  if (!raw || typeof raw !== "object") return null;
-  const r = raw as Record<string, unknown>;
-  const title = typeof r.title === "string" ? r.title.trim() : "";
-  const detail = typeof r.detail === "string" ? r.detail.trim() : "";
-  if (!title || !detail) return null;
-
-  const step: PlanStep = {
-    title,
-    detail,
-    why: typeof r.why === "string" ? r.why.trim() : "",
-  };
-  if (typeof r.duration === "string" && r.duration.trim()) {
-    step.duration = r.duration.trim();
-  }
-  const link = r.link as Record<string, unknown> | undefined;
-  if (
-    link &&
-    typeof link.label === "string" &&
-    typeof link.href === "string" &&
-    link.href.trim()
-  ) {
-    step.link = { label: link.label.trim(), href: link.href.trim() };
-  }
-  return step;
-}
-
 function normalizeOutput(raw: unknown): PlanOutput | null {
   if (!raw || typeof raw !== "object") return null;
   const r = raw as Record<string, unknown>;
 
-  const stepsRaw = Array.isArray(r.steps) ? r.steps : [];
-  const steps = stepsRaw
-    .map(normalizeStep)
-    .filter((s): s is PlanStep => s !== null);
-  if (steps.length === 0) return null;
+  // Parse action (required)
+  const actionRaw = r.action as Record<string, unknown> | undefined;
+  if (!actionRaw || typeof actionRaw !== "object") return null;
+  const actionTitle = typeof actionRaw.title === "string" ? actionRaw.title.trim() : "";
+  const actionDetail = typeof actionRaw.detail === "string" ? actionRaw.detail.trim() : "";
+  const actionType = typeof actionRaw.type === "string" ? actionRaw.type.trim() : "done";
+  if (!actionTitle) return null;
 
-  const output: PlanOutput = { steps };
+  const action: PlanOutput["action"] = {
+    type: actionType,
+    title: actionTitle,
+    detail: actionDetail,
+  };
+  const actionLink = actionRaw.link as Record<string, unknown> | undefined;
+  if (
+    actionLink &&
+    typeof actionLink.label === "string" &&
+    typeof actionLink.href === "string" &&
+    actionLink.href.trim()
+  ) {
+    action.link = { label: actionLink.label.trim(), href: actionLink.href.trim() };
+  }
+
+  const output: PlanOutput = { action };
 
   if (typeof r.intro === "string" && r.intro.trim()) {
     output.intro = r.intro.trim();

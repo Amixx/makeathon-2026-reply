@@ -1,0 +1,27 @@
+{
+  "__key__": "confirm",
+  "False": {
+    "status": "staged",
+    "message": "Exam registration procedure opened. Re-run with confirm=True to submit.",
+    "course_id": 960120112,
+    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/examRegistration/94001?$ctx=design=ca&courseId=960120112",
+    "heading": "Exam Registration – Autonomous Mobile Systems on Planetary Surfaces",
+    "page_excerpt": "Exam date: 28.07.2026, 10:00 – 12:00. Room: MW 0001 (Garching). Registration deadline: 15.06.2026. You have not yet submitted your exam registration. Please confirm to complete the process."
+  },
+  "True": {
+    "status": "submitted",
+    "message": "Exam registration submitted successfully.",
+    "course_id": 960120112,
+    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/examRegistration/94001?$ctx=design=ca&courseId=960120112&status=ok",
+    "heading": "Exam Registration – Autonomous Mobile Systems on Planetary Surfaces",
+    "page_excerpt": "Successfully registered for exam. Your place has been confirmed. Exam: 28.07.2026, 10:00 – 12:00, MW 0001 (Garching). A confirmation e-mail has been sent to lina.meier@tum.de."
+  },
+  "__default__": {
+    "status": "staged",
+    "message": "Exam registration procedure opened. Re-run with confirm=True to submit.",
+    "course_id": 960120112,
+    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/examRegistration/94001?$ctx=design=ca&courseId=960120112",
+    "heading": "Exam Registration – Autonomous Mobile Systems on Planetary Surfaces",
+    "page_excerpt": "Exam date: 28.07.2026, 10:00 – 12:00. Room: MW 0001 (Garching). Registration deadline: 15.06.2026. You have not yet submitted your exam registration. Please confirm to complete the process."
+  }
+}

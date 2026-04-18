@@ -1,10 +1,11 @@
 .page {
-  min-height: 100vh;
+  height: 100vh;
   background: var(--bg-default);
   display: flex;
   justify-content: center;
-  padding: 24px 16px 60px;
+  padding: 0 16px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .inner {
@@ -12,14 +13,26 @@
   max-width: 560px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scrollArea {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  padding: 0 0 16px;
 }
 
 .topNav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  padding: 20px 0 8px;
+  flex-shrink: 0;
 }
 
 .backBtn {
@@ -54,27 +67,26 @@
   letter-spacing: -0.8px;
   line-height: 1.1;
   color: var(--fg-default);
-  margin: 0;
+  margin: 6px 0 12px;
+  flex-shrink: 0;
 }
 
-/* Tool trail */
-.trailSection {
+/* ── Streaming card ────────────────────────────────────────────────── */
+.streamCard {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  padding: 18px;
+  background: var(--bg-card);
+  border-radius: 18px;
+  border: 1px solid var(--border-default);
+  box-shadow: 0 8px 30px -12px rgba(11, 14, 24, 0.18);
 }
 
-.trailSummary {
+.streamHeader {
   display: flex;
   align-items: center;
   gap: 8px;
-  cursor: pointer;
-  list-style: none;
-  user-select: none;
-}
-
-.trailSummary::-webkit-details-marker {
-  display: none;
 }
 
 .trailMeta {
@@ -85,17 +97,25 @@
   text-transform: uppercase;
 }
 
-.trail {
+.streamBody {
+  background: var(--bg-muted);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-default);
+  white-space: pre-wrap;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  align-items: baseline;
 }
 
 .toolBadge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--bg-muted);
+  background: var(--bg-card);
   border: 1px solid var(--border-default);
   border-radius: 999px;
   padding: 4px 10px;
@@ -139,53 +159,226 @@
   to   { transform: rotate(360deg); }
 }
 
-/* Plan section */
-.planSection {
+/* ── Action result card — matches CardBody style ───────────────────── */
+.resultCard {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 18px;
+  background: var(--bg-card);
+  border-radius: 18px;
+  border: 1px solid var(--border-default);
+  box-shadow: 0 8px 30px -12px rgba(11, 14, 24, 0.18);
 }
 
-/* Letter card */
-.letterHead {
+.actionHeader {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.actionEmoji {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.actionHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.actionTitle {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  color: var(--fg-default);
+  margin: 0;
+}
+
+.doneBadge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--success);
+  background: rgba(61, 153, 112, 0.1);
+  padding: 2px 8px;
+  border-radius: 999px;
+  width: fit-content;
 }
 
 .readyBadge {
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 1px;
   font-weight: 700;
-  color: var(--success);
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  color: var(--accent-600);
+  background: var(--accent-50);
+  padding: 2px 8px;
+  border-radius: 999px;
+  width: fit-content;
 }
 
-.letterBody {
-  font-size: 13.5px;
-  font-style: italic;
-  line-height: 1.6;
+/* Content blocks — reuse CardBody naming convention */
+.blockLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: var(--fg-muted);
+}
+
+.blockWhat {
+  background: var(--bg-muted);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--fg-default);
-  margin: 0 0 8px;
-  padding: 0;
-  border: none;
 }
 
-.letterMeta {
+.blockWhy {
+  background: var(--accent-50);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-default);
+}
+
+.blockLand {
+  background: var(--bg-inverted);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-inverted);
+}
+
+/* Key facts */
+.factsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.factRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  background: var(--bg-muted);
+  border-radius: var(--radius-md);
+}
+
+.factLabel {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--fg-default);
+}
+
+.factValue {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-default);
+}
+
+.factNote {
   font-size: 11px;
   color: var(--fg-muted);
-  font-family: var(--font-mono);
-  letter-spacing: 0.8px;
+  font-style: italic;
+}
+
+/* Email draft */
+.emailCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.emailMeta {
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.emailBody {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  white-space: pre-wrap;
+  font-size: 13px;
+  line-height: 1.5;
+  font-family: inherit;
+  color: var(--fg-default);
   margin: 0;
+}
+
+.anchorNote {
+  font-size: 11px;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.copyBtn {
+  align-self: flex-start;
+  appearance: none;
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  color: var(--fg-default);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Markdown resets inside content blocks */
+.streamBody p,
+.blockWhat p,
+.blockWhy p,
+.blockLand p {
+  margin: 0;
+}
+
+.streamBody ul,
+.blockWhat ul,
+.blockWhy ul,
+.blockLand ul {
+  margin: 4px 0;
+  padding-left: 18px;
+}
+
+.streamBody a,
+.blockWhat a,
+.blockWhy a,
+.blockLand a {
+  color: var(--accent-600);
+  text-decoration: underline;
+}
+
+.blockLand a {
+  color: var(--fg-inverted);
 }
 
 /* Footer */
 .footer {
   display: flex;
   gap: 10px;
-  margin-top: 8px;
+  padding: 12px 0 20px;
+  flex-shrink: 0;
 }
 
 .footer > * {
