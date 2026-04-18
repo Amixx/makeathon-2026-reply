@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+import re
 
 from playwright.async_api import Browser, BrowserContext, TimeoutError as PlaywrightTimeoutError, async_playwright
 
@@ -151,3 +152,23 @@ async def logout(username: str) -> None:
     """Delete stored session."""
     session_store.delete(username)
     logger.info("Session deleted for username=%s", username)
+
+
+async def click_first_matching(page, texts: list[str], timeout: int = 5_000) -> bool:
+    """Try clicking the first visible element matching any of the given texts."""
+    for text in texts:
+        try:
+            locator = page.get_by_role("button", name=re.compile(rf"^\s*{re.escape(text)}\s*$", re.I)).first
+            await locator.wait_for(state="visible", timeout=timeout)
+            await locator.click()
+            return True
+        except Exception:
+            pass
+        try:
+            locator = page.get_by_text(text, exact=False).first
+            await locator.wait_for(state="visible", timeout=timeout)
+            await locator.click()
+            return True
+        except Exception:
+            continue
+    return False

@@ -84,22 +84,42 @@ def register(mcp: FastMCP) -> None:
             m = mock.get_mock("career", "career_list_events", keyword=keyword)
             if m is not None:
                 return m
-        ctx = await auth.get_anonymous_context()
         try:
-            page = await ctx.new_page()
-            await page.goto(EVENTS_URL, wait_until="networkidle", timeout=30_000)
-
-            events = await page.eval_on_selector_all(
-                ".events-teaser__item",
-                """els => els.map(e => ({
-                    title: (e.querySelector('.events-teaser__title, h3')?.textContent || '').trim(),
-                    date: (e.querySelector('.events-teaser__date')?.textContent || '').trim(),
-                    datetime: e.querySelector('time')?.getAttribute('datetime') || '',
-                    location: (e.querySelector('.events-teaser__location')?.textContent || '').trim(),
-                    summary: (e.querySelector('.events-teaser__text, p')?.textContent || '').trim().slice(0, 280),
-                    url: e.querySelector('a')?.href || '',
-                })).filter(x => x.title)"""
-            )
+            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
+                resp = await client.get(EVENTS_URL)
+                resp.raise_for_status()
+            html = resp.text
+            strip_tags = lambda s: re.sub(r"<[^>]+>", "", s).strip()
+            events: list[dict] = []
+            for block_m in re.finditer(
+                r'class="[^"]*events-teaser__item[^"]*"[^>]*>(.*?)</(?:div|article|li|section)>',
+                html, re.DOTALL,
+            ):
+                block = block_m.group(1)
+                title_m = re.search(r'class="[^"]*events-teaser__title[^"]*"[^>]*>(.*?)</[^>]+>', block, re.DOTALL)
+                if not title_m:
+                    title_m = re.search(r"<h3[^>]*>(.*?)</h3>", block, re.DOTALL)
+                date_m = re.search(r'class="[^"]*events-teaser__date[^"]*"[^>]*>(.*?)</[^>]+>', block, re.DOTALL)
+                datetime_m = re.search(r'<time[^>]*datetime="([^"]*)"', block)
+                location_m = re.search(r'class="[^"]*events-teaser__location[^"]*"[^>]*>(.*?)</[^>]+>', block, re.DOTALL)
+                summary_m = re.search(r'class="[^"]*events-teaser__text[^"]*"[^>]*>(.*?)</[^>]+>', block, re.DOTALL)
+                if not summary_m:
+                    summary_m = re.search(r"<p[^>]*>(.*?)</p>", block, re.DOTALL)
+                url_m = re.search(r'<a[^>]*href="([^"]*)"', block)
+                title = strip_tags(title_m.group(1)) if title_m else ""
+                if not title:
+                    continue
+                ev_url = url_m.group(1) if url_m else ""
+                if ev_url and not ev_url.startswith("http"):
+                    ev_url = f"{CAREER_BASE}{ev_url}" if ev_url.startswith("/") else f"{CAREER_BASE}/{ev_url}"
+                events.append({
+                    "title": title,
+                    "date": strip_tags(date_m.group(1)) if date_m else "",
+                    "datetime": datetime_m.group(1) if datetime_m else "",
+                    "location": strip_tags(location_m.group(1)) if location_m else "",
+                    "summary": (strip_tags(summary_m.group(1))[:280] if summary_m else ""),
+                    "url": ev_url,
+                })
 
             if keyword:
                 kw = keyword.lower()
@@ -108,12 +128,17 @@ def register(mcp: FastMCP) -> None:
                     if kw in ev.get("title", "").lower() or kw in ev.get("summary", "").lower()
                 ]
 
+            if not events:
+                return {
+                    "events": [],
+                    "count": 0,
+                    "source": EVENTS_URL,
+                    "note": "No events found — the page may require JS rendering.",
+                }
             return {"events": events[:limit], "count": len(events[:limit]), "source": EVENTS_URL}
         except Exception as e:
             logger.exception("career_list_events failed")
             return {"error": str(e), "source": EVENTS_URL}
-        finally:
-            await ctx.close()
 
     @mcp.tool()
     async def career_audit_cv(cv_text: str) -> dict:

@@ -26,24 +26,6 @@ CHECKOUT_BUTTON_TEXTS = ["Weiter zur Buchung", "Weiter", "Checkout", "Buchung ab
 CONFIRM_BUTTON_TEXTS = ["Verbindlich buchen", "Bestätigen", "Confirm", "Zahlungspflichtig buchen"]
 
 
-async def _click_first_matching(page, texts: list[str], timeout: int = 5_000) -> bool:
-    for text in texts:
-        try:
-            loc = page.get_by_role("button", name=re.compile(rf"^\s*{re.escape(text)}\s*$", re.I)).first
-            await loc.wait_for(state="visible", timeout=timeout)
-            await loc.click()
-            return True
-        except Exception:
-            pass
-        try:
-            loc = page.get_by_text(text, exact=False).first
-            await loc.wait_for(state="visible", timeout=timeout)
-            await loc.click()
-            return True
-        except Exception:
-            continue
-    return False
-
 
 def register(mcp: FastMCP) -> None:
     @mcp.tool()
@@ -58,33 +40,38 @@ def register(mcp: FastMCP) -> None:
                 return m
         url = f"{ZHS_KURSE_BASE}/de/muenchen"
         logger.info("Fetching ZHS sports catalog from %s", url)
-        ctx = await auth.get_anonymous_context()
         try:
-            page = await ctx.new_page()
-            await page.goto(url, wait_until="networkidle", timeout=30_000)
-            # The new kurse.zhs-muenchen.de site renders sport cards via Svelte
-            sports = await page.eval_on_selector_all(
-                "a[href*='/de/'], .offer-card, .course-card, article a, [class*='sport'] a, [class*='card'] a, main a",
-                """els => {
-                    const seen = new Set();
-                    return els.map(e => {
-                        const name = (e.textContent || '').trim().split('\\n')[0].trim();
-                        const href = e.href || '';
-                        if (!name || name.length < 2 || name.length > 80 || seen.has(name) || !href) return null;
-                        seen.add(name);
-                        return { name, url: href };
-                    }).filter(Boolean);
-                }"""
-            )
+            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
+                resp = await client.get(url)
+                resp.raise_for_status()
+            html = resp.text
+            seen: set[str] = set()
+            sports: list[dict] = []
+            for m_link in re.finditer(r'<a\s[^>]*href="([^"]*)"[^>]*>(.*?)</a>', html, re.DOTALL):
+                href, inner = m_link.group(1), m_link.group(2)
+                name = re.sub(r"<[^>]+>", "", inner).strip().split("\n")[0].strip()
+                if not name or len(name) < 2 or len(name) > 80 or name in seen:
+                    continue
+                if not href:
+                    continue
+                if not href.startswith("http"):
+                    href = f"{ZHS_KURSE_BASE}{href}" if href.startswith("/") else f"{ZHS_KURSE_BASE}/{href}"
+                seen.add(name)
+                sports.append({"name": name, "url": href})
             if category:
                 cat = category.lower()
                 sports = [s for s in sports if cat in s["name"].lower()]
+            if not sports:
+                return {
+                    "sports": [],
+                    "count": 0,
+                    "source": url,
+                    "note": "No sports found — the page may require JS rendering. Try zhs_list_slots with a known sport URL instead.",
+                }
             return {"sports": sports, "count": len(sports), "source": url}
         except Exception as e:
             logger.exception("zhs_list_sports failed")
             return {"error": str(e), "source": url}
-        finally:
-            await ctx.close()
 
     @mcp.tool()
     async def zhs_list_slots(sport_url: str) -> dict:
@@ -96,32 +83,41 @@ def register(mcp: FastMCP) -> None:
             m = mock.get_mock("zhs", "zhs_list_slots", sport_url=sport_url)
             if m is not None:
                 return m
-        ctx = await auth.get_anonymous_context()
         try:
-            page = await ctx.new_page()
-            await page.goto(sport_url, wait_until="networkidle", timeout=30_000)
-            # Most ZHS pages embed a table of offerings (Kurs, Zeit, Ort, Leitung, Preis, Buchung)
-            slots = await page.eval_on_selector_all(
-                "table tr, .kurs, .angebot, [class*='kurs']",
-                """rows => rows.map(r => {
-                    const cells = r.querySelectorAll('td');
-                    const link = r.querySelector('a[href*=\"buchung.zhs\"], a.bs_btn, a[href*=\"Buchung\"]');
-                    return {
-                        course: (cells[0]?.textContent || r.querySelector('.kursname, .name')?.textContent || '').trim(),
-                        day_time: (cells[1]?.textContent || r.querySelector('.zeit, .time')?.textContent || '').trim(),
-                        location: (cells[2]?.textContent || r.querySelector('.ort, .location')?.textContent || '').trim(),
-                        instructor: (cells[3]?.textContent || '').trim(),
-                        price: (cells[4]?.textContent || r.querySelector('.preis, .price')?.textContent || '').trim(),
-                        booking_url: link?.href || '',
-                    };
-                }).filter(x => x.course && x.booking_url)"""
-            )
+            async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
+                resp = await client.get(sport_url)
+                resp.raise_for_status()
+            html = resp.text
+            slots: list[dict] = []
+            for row_m in re.finditer(r"<tr[^>]*>(.*?)</tr>", html, re.DOTALL):
+                row_html = row_m.group(1)
+                cells = re.findall(r"<td[^>]*>(.*?)</td>", row_html, re.DOTALL)
+                link_m = re.search(r'<a[^>]*href="([^"]*buchung\.zhs[^"]*|[^"]*Buchung[^"]*)"', row_html, re.I)
+                if len(cells) < 3 or not link_m:
+                    continue
+                strip_tags = lambda s: re.sub(r"<[^>]+>", "", s).strip()
+                booking_url = link_m.group(1)
+                if not booking_url.startswith("http"):
+                    booking_url = f"{ZHS_BOOKING_BASE}{booking_url}" if booking_url.startswith("/") else f"{ZHS_BOOKING_BASE}/{booking_url}"
+                slots.append({
+                    "course": strip_tags(cells[0]),
+                    "day_time": strip_tags(cells[1]) if len(cells) > 1 else "",
+                    "location": strip_tags(cells[2]) if len(cells) > 2 else "",
+                    "instructor": strip_tags(cells[3]) if len(cells) > 3 else "",
+                    "price": strip_tags(cells[4]) if len(cells) > 4 else "",
+                    "booking_url": booking_url,
+                })
+            if not slots:
+                return {
+                    "slots": [],
+                    "count": 0,
+                    "source": sport_url,
+                    "note": "No slots found — the page may require JS rendering or have a different layout.",
+                }
             return {"slots": slots, "count": len(slots), "source": sport_url}
         except Exception as e:
             logger.exception("zhs_list_slots failed")
             return {"error": str(e), "source": sport_url}
-        finally:
-            await ctx.close()
 
     @mcp.tool()
     async def zhs_book_slot(
@@ -150,7 +146,7 @@ def register(mcp: FastMCP) -> None:
             await page.goto(booking_url, wait_until="networkidle", timeout=30_000)
 
             # Step 1 — add to cart / start booking
-            if not await _click_first_matching(page, BOOK_BUTTON_TEXTS, timeout=8_000):
+            if not await auth.click_first_matching(page, BOOK_BUTTON_TEXTS, timeout=8_000):
                 return {
                     "error": "Could not find a 'Buchen' / Book button on the slot page.",
                     "url": page.url,
@@ -158,7 +154,7 @@ def register(mcp: FastMCP) -> None:
             await page.wait_for_load_state("networkidle", timeout=15_000)
 
             # Step 2 — proceed to checkout (may go through SSO if not already authed)
-            await _click_first_matching(page, CHECKOUT_BUTTON_TEXTS, timeout=8_000)
+            await auth.click_first_matching(page, CHECKOUT_BUTTON_TEXTS, timeout=8_000)
             await page.wait_for_load_state("networkidle", timeout=20_000)
 
             # If redirected into Shibboleth, the storageState cookies should carry us through.
@@ -176,7 +172,7 @@ def register(mcp: FastMCP) -> None:
                     "page_excerpt": summary_excerpt,
                 }
 
-            if not await _click_first_matching(page, CONFIRM_BUTTON_TEXTS, timeout=8_000):
+            if not await auth.click_first_matching(page, CONFIRM_BUTTON_TEXTS, timeout=8_000):
                 return {
                     "error": "Could not find a final-confirmation button.",
                     "url": page.url,

@@ -42,26 +42,6 @@ def _desktop_url(fragment: str) -> str:
     return f"{TUM_BASE_URL}{TUM_ONLINE_PATH}/ee/ui/ca2/app/desktop/#/{fragment.lstrip('/')}"
 
 
-async def _click_first_matching(page, texts: list[str], timeout: int = 5_000) -> bool:
-    """Try clicking the first visible element matching any of the given texts."""
-    for text in texts:
-        try:
-            locator = page.get_by_role("button", name=re.compile(rf"^\s*{re.escape(text)}\s*$", re.I)).first
-            await locator.wait_for(state="visible", timeout=timeout)
-            await locator.click()
-            return True
-        except Exception:
-            pass
-        try:
-            locator = page.get_by_text(text, exact=False).first
-            await locator.wait_for(state="visible", timeout=timeout)
-            await locator.click()
-            return True
-        except Exception:
-            continue
-    return False
-
-
 def _extract_lang(lang_obj: dict | None, prefer: str = "en") -> str:
     """Extract a human-readable string from TUMonline's langdata objects."""
     if not lang_obj:
@@ -240,6 +220,43 @@ def register(mcp: FastMCP) -> None:
                 catalogs = [c for c in catalogs if q in (c.get("catalog_title_en") or "").lower()
                             or q in (c.get("catalog_title") or "").lower()]
             return {"catalogs": catalogs}
+
+    @mcp.tool()
+    async def tumonline_search_orgs(query: str, limit: int = 10) -> dict:
+        """Search TUM organizations, chairs, and departments.
+        Useful for finding research groups or professors working on a topic.
+        Example: 'informatik', 'machine learning', 'robotics'."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_search_orgs", query=query)
+            if m is not None:
+                return m
+        url = f"{NAT_API_BASE}/orgs"
+        params = {"q": query, "count": limit}
+        logger.info("Searching orgs: %s", params)
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.get(url, params=params)
+            if resp.status_code != 200:
+                return {"error": f"NAT API returned {resp.status_code}", "detail": resp.text[:500]}
+            return resp.json()
+
+    @mcp.tool()
+    async def tumonline_get_course_schedule(course_id: int) -> dict:
+        """Get the weekly schedule/timetable for a course.
+        Returns day, time, room, and instructor for each session.
+        Use tumonline_search_courses to find course_id first."""
+        if mock.is_demo_mode():
+            m = mock.get_mock("tumonline", "tumonline_get_course_schedule", course_id=course_id)
+            if m is not None:
+                return m
+        url = f"{NAT_API_BASE}/course/{course_id}/schedule"
+        logger.info("Fetching course schedule: %s", course_id)
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.get(url)
+            if resp.status_code == 404:
+                return {"error": f"Course {course_id} not found"}
+            if resp.status_code != 200:
+                return {"error": f"NAT API returned {resp.status_code}", "detail": resp.text[:500]}
+            return resp.json()
 
     # ── Authenticated REST API tools ────────────────────────────────────────
     @mcp.tool()
@@ -524,7 +541,7 @@ def register(mcp: FastMCP) -> None:
                     "page_excerpt": summary["body"][:800],
                 }
 
-            if not await _click_first_matching(page, SUBMIT_REGISTRATION_TEXTS, timeout=8_000):
+            if not await auth.click_first_matching(page, SUBMIT_REGISTRATION_TEXTS, timeout=8_000):
                 return {
                     "error": "Could not find the 'Enter place request' submit button — a curriculum context may be required first.",
                     "course_id": course_id,
@@ -572,7 +589,7 @@ def register(mcp: FastMCP) -> None:
             )
             page_title = await page.title()
 
-            opened = await _click_first_matching(page, EXAM_REGISTER_TEXTS, timeout=8_000)
+            opened = await auth.click_first_matching(page, EXAM_REGISTER_TEXTS, timeout=8_000)
             if not opened:
                 return {
                     "error": "Could not find an exam-registration button.",
@@ -590,7 +607,7 @@ def register(mcp: FastMCP) -> None:
                     "url": page.url,
                 }
 
-            confirmed = await _click_first_matching(page, SUBMIT_REGISTRATION_TEXTS, timeout=8_000)
+            confirmed = await auth.click_first_matching(page, SUBMIT_REGISTRATION_TEXTS, timeout=8_000)
             if not confirmed:
                 return {
                     "error": "Could not find a confirmation button.",
