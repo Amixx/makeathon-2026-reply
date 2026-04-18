@@ -38,7 +38,7 @@ export default function App() {
   }, [hydrate]);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Navbar />
       <Suspense fallback={null}>
         <Routes>
