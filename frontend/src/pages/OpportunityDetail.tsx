@@ -118,7 +118,7 @@ export default function OpportunityDetail() {
     }
 
     if (action.type === 'enrolled' || action.type === 'registered' || action.type === 'enrollment_ready' || action.type === 'registration_ready') {
-      window.open('https://campus.tum.de', '_blank');
+      window.open('https://demo.campus.tum.de', '_blank');
     }
   };
 

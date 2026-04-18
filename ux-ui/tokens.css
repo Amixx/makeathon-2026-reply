@@ -1,0 +1,206 @@
+/* ============================================================
+   Traject — Design Tokens (Direction: Copilot)
+   Linear-quality utility · quietly confident
+   Ink navy + coral on cool off-white · Inter + JetBrains Mono
+   ============================================================ */
+
+:root {
+  /* ---------- Brand ---------- */
+  --brand-name: "Traject";
+  --brand-tagline: "The friend who actually makes you start.";
+
+  /* ---------- Primary (Ink Navy — trust, command) ---------- */
+  --color-primary-50:  #f2f3f7;
+  --color-primary-100: #dfe2eb;
+  --color-primary-200: #b9bfd0;
+  --color-primary-300: #8e96b0;
+  --color-primary-400: #5f6885;
+  --color-primary-500: #3d465f;
+  --color-primary-600: #2b3349;
+  --color-primary-700: #1d2336;
+  --color-primary-800: #141925;
+  --color-primary-900: #0b0e18;
+  --color-primary-950: #06080f;
+  --color-primary: var(--color-primary-800);
+
+  /* ---------- Accent (Coral — warmth, action) ---------- */
+  --color-accent-50:  #fff4f1;
+  --color-accent-100: #ffe3db;
+  --color-accent-200: #ffd0c5;
+  --color-accent-300: #ffb39f;
+  --color-accent-400: #ff8f75;
+  --color-accent-500: #ff6b52;
+  --color-accent-600: #e85034;
+  --color-accent-700: #c33e24;
+  --color-accent-800: #9e321f;
+  --color-accent-900: #7d291c;
+  --color-accent: var(--color-accent-500);
+
+  /* ---------- Secondary (Steel sky — supporting surfaces) ---------- */
+  --color-secondary-50:  #f0f5fa;
+  --color-secondary-100: #dce8f0;
+  --color-secondary-200: #bbd1e1;
+  --color-secondary-300: #93b5cd;
+  --color-secondary-400: #6b96b5;
+  --color-secondary-500: #4d7a9a;
+  --color-secondary-600: #3a617e;
+  --color-secondary-700: #2e4c64;
+  --color-secondary-800: #253b4e;
+  --color-secondary-900: #1d2e3c;
+  --color-secondary: var(--color-secondary-500);
+
+  /* ---------- Neutral (Warm-cool stone) ---------- */
+  --color-neutral-50:  #fbfaf7;
+  --color-neutral-100: #f4f3ee;
+  --color-neutral-200: #e6e4dd;
+  --color-neutral-300: #d1cec3;
+  --color-neutral-400: #a8a49a;
+  --color-neutral-500: #7c7971;
+  --color-neutral-600: #5c6171;
+  --color-neutral-700: #3c3d42;
+  --color-neutral-800: #26282f;
+  --color-neutral-900: #141925;
+  --color-neutral-950: #0b0e18;
+
+  /* ---------- Semantic ---------- */
+  --color-success: #3d9970;
+  --color-warning: #e8a53a;
+  --color-error:   #b8362f;
+  --color-info:    #3d78b5;
+
+  /* ---------- Background ---------- */
+  --bg-default: #fbfaf7;
+  --bg-muted:   #f4f3ee;
+  --bg-card:    #ffffff;
+  --bg-inverted:       #141925;
+  --bg-inverted-muted: #1d2336;
+  --bg-inverted-card:  #2b3349;
+
+  /* ---------- Foreground ---------- */
+  --fg-default: #141925;
+  --fg-muted:   #5c6171;
+  --fg-accent:  #c33e24;
+  --fg-inverted:       #fbfaf7;
+  --fg-inverted-muted: #a8a49a;
+  --fg-inverted-accent:#ff8f75;
+
+  /* ---------- Border ---------- */
+  --border-default: #e6e4dd;
+  --border-muted:   #f4f3ee;
+  --border-strong:  #d1cec3;
+  --border-inverted:#2b3349;
+
+  /* ---------- Typography ---------- */
+  --font-heading: "Inter", "Helvetica Neue", sans-serif;
+  --font-body:    "Inter", "Helvetica Neue", sans-serif;
+  --font-mono:    "JetBrains Mono", "SF Mono", monospace;
+
+  --fs-xs:   12px;
+  --fs-sm:   14px;
+  --fs-base: 16px;
+  --fs-lg:   18px;
+  --fs-xl:   20px;
+  --fs-2xl:  24px;
+  --fs-3xl:  30px;
+  --fs-4xl:  38px;
+  --fs-5xl:  48px;
+  --fs-6xl:  64px;
+  --fs-7xl:  84px;
+
+  --fw-light:     300;
+  --fw-normal:    400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-bold:      700;
+  --fw-extrabold: 800;
+
+  --lh-tight:   1.02;
+  --lh-snug:    1.15;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.65;
+
+  --ls-tightest: -0.04em;
+  --ls-tight:    -0.025em;
+  --ls-normal:    0;
+  --ls-wide:      0.02em;
+  --ls-widest:    0.18em;
+
+  /* ---------- Spacing ---------- */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+  --space-5xl: 128px;
+
+  /* ---------- Radii (Linear-like 8–10px) ---------- */
+  --radius-none: 0;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   10px;
+  --radius-xl:   14px;
+  --radius-2xl:  20px;
+  --radius-full: 9999px;
+
+  /* ---------- Shadows (crisp, ink-tinted) ---------- */
+  --shadow-sm:    0 1px 2px rgba(20, 25, 37, 0.06);
+  --shadow-md:    0 4px 12px rgba(20, 25, 37, 0.08), 0 1px 2px rgba(20, 25, 37, 0.04);
+  --shadow-lg:    0 12px 28px rgba(20, 25, 37, 0.10), 0 4px 8px rgba(20, 25, 37, 0.05);
+  --shadow-xl:    0 24px 48px rgba(20, 25, 37, 0.14), 0 8px 16px rgba(20, 25, 37, 0.06);
+  --shadow-glow:  0 0 32px rgba(255, 107, 82, 0.28);
+  --shadow-focus: 0 0 0 3px rgba(255, 107, 82, 0.32);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* ---------- Animation (snappy Linear-feel) ---------- */
+  --dur-fast:   120ms;
+  --dur-normal: 200ms;
+  --dur-slow:   320ms;
+  --dur-slower: 500ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth:  cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- Dark-mode overrides (ink inversion) ---------- */
+[data-theme="dark"], .theme-dark {
+  --bg-default: #141925;
+  --bg-muted:   #1d2336;
+  --bg-card:    #2b3349;
+  --fg-default: #fbfaf7;
+  --fg-muted:   #a8a49a;
+  --fg-accent:  #ff8f75;
+  --border-default: #2b3349;
+  --border-muted:   #1d2336;
+  --border-strong:  #3d465f;
+}
+
+/* ---------- Base styles ---------- */
+html { font-family: var(--font-body); color: var(--fg-default); background: var(--bg-default); }
+body { font-size: var(--fs-base); line-height: var(--lh-normal); }
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+h1 { letter-spacing: var(--ls-tightest); font-weight: var(--fw-extrabold); }
+code, pre, kbd { font-family: var(--font-mono); }
+
+/* ---------- Signature: coral focus ring ---------- */
+*:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
