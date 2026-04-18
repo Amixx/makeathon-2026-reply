@@ -64,6 +64,27 @@
   gap: 8px;
 }
 
+.trailSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.trailSummary::-webkit-details-marker {
+  display: none;
+}
+
+.trailMeta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
 .trail {
   display: flex;
   flex-wrap: wrap;

@@ -15,7 +15,7 @@ export default function Navbar() {
   return (
     <nav className={styles.nav}>
       <NavLink to="/" className={styles.brand}>
-        Waypoint
+        WayTum
       </NavLink>
       <NavLink to="/playground" className={navClass}>
         Playground

@@ -1,168 +1,44 @@
 import { useCallback, useRef, useState } from 'react';
 import { config } from '../lib/config';
-import type { DiscoverItem, AgentEvent } from '../lib/types';
+import { extractJsonArray, normalizeItems } from '../lib/agent';
+import type { DiscoverItem, AgentEvent, ToolCall } from '../lib/types';
 import type { PillVariant } from '../components/ui/Pill';
 import type { BulletStatus } from '../components/ui/AgentCard';
 
-export type AgentId =
-  | 'study'
-  | 'career'
-  | 'university'
-  | 'scholarship';
+export type AgentId = 'study' | 'career' | 'university' | 'scholarship';
+
+type AgentCategory = 'course' | 'event' | 'person' | 'scholarship';
 
 export type SwarmAgent = {
   id: AgentId;
   name: string;
   emoji: string;
+  category: AgentCategory;
   status: PillVariant;
   bullets: { text: string; status: BulletStatus }[];
+  toolCalls: ToolCall[];
+  items: DiscoverItem[];
 };
 
-const AGENT_DEFAULTS: SwarmAgent[] = [
-  {
-    id: 'study',
-    name: 'Study Buddy',
-    emoji: '🛰️',
-    status: 'working',
-    bullets: [
-      { text: 'Scanning TUM module catalogue…', status: 'queued' },
-      { text: 'Matching with your program & interests…', status: 'queued' },
-      { text: 'Checking enrollment windows…', status: 'queued' },
-    ],
-  },
-  {
-    id: 'career',
-    name: 'Career Agent',
-    emoji: '💼',
-    status: 'working',
-    bullets: [
-      { text: 'Scanning recent open roles & PRs…', status: 'queued' },
-      { text: 'Filtering matches to your profile…', status: 'queued' },
-      { text: 'Drafting outreach copy…', status: 'queued' },
-    ],
-  },
-  {
-    id: 'university',
-    name: 'University Nav',
-    emoji: '🏛️',
-    status: 'working',
-    bullets: [
-      { text: 'Looking up campus resources…', status: 'queued' },
-      { text: 'Pulling room & mensa data…', status: 'queued' },
-      { text: 'Composing intro email…', status: 'queued' },
-    ],
-  },
-  {
-    id: 'scholarship',
-    name: 'Scholarship',
-    emoji: '🎓',
-    status: 'working',
-    bullets: [
-      { text: 'Matching criteria for funded positions…', status: 'queued' },
-      { text: 'Drafting motivation letter…', status: 'queued' },
-      { text: 'Flagging deadlines…', status: 'queued' },
-    ],
-  },
+const AGENT_CONFIGS: Omit<SwarmAgent, 'status' | 'bullets' | 'toolCalls' | 'items'>[] = [
+  { id: 'study', name: 'Study Buddy', emoji: '🛰️', category: 'course' },
+  { id: 'career', name: 'Career Agent', emoji: '💼', category: 'person' },
+  { id: 'university', name: 'University Nav', emoji: '🏛️', category: 'event' },
+  { id: 'scholarship', name: 'Scholarship', emoji: '🎓', category: 'scholarship' },
 ];
 
 function freshAgents(): SwarmAgent[] {
-  return AGENT_DEFAULTS.map((a) => ({
+  return AGENT_CONFIGS.map((a) => ({
     ...a,
-    bullets: a.bullets.map((b) => ({ ...b })),
+    status: 'working' as PillVariant,
+    bullets: [{ text: 'Starting up…', status: 'queued' as BulletStatus }],
+    toolCalls: [],
+    items: [],
   }));
-}
-
-function extractJsonArray(text: string): unknown {
-  const start = text.indexOf('[');
-  const end = text.lastIndexOf(']');
-  if (start < 0 || end <= start) return null;
-  try { return JSON.parse(text.slice(start, end + 1)); } catch { return null; }
-}
-
-function normalizeItems(raw: unknown): DiscoverItem[] {
-  if (!Array.isArray(raw)) return [];
-  const validTypes = ['course', 'event', 'person', 'scholarship'] as const;
-  return raw
-    .map((e, idx) => {
-      if (!e || typeof e !== 'object') return null;
-      const entry = e as Record<string, unknown>;
-      const title = typeof entry.title === 'string' ? entry.title.trim() : '';
-      if (!title) return null;
-      const why = typeof entry.why === 'string' ? entry.why.trim() : '';
-      const id = typeof entry.id === 'string' && entry.id.trim() ? entry.id.trim() : `item-${idx}`;
-      const rawType = typeof entry.type === 'string' ? entry.type : '';
-      const type: DiscoverItem['type'] =
-        (validTypes as readonly string[]).includes(rawType)
-          ? (rawType as DiscoverItem['type'])
-          : 'course';
-      const meta: DiscoverItem['meta'] =
-        entry.meta && typeof entry.meta === 'object' && !Array.isArray(entry.meta)
-          ? (entry.meta as DiscoverItem['meta'])
-          : {};
-      return { id, title, why, type, meta };
-    })
-    .filter((x): x is DiscoverItem => x !== null);
-}
-
-function itemToAgentId(item: DiscoverItem): AgentId {
-  switch (item.type) {
-    case 'course':
-      return 'study';
-    case 'person':
-      return 'career';
-    case 'event':
-      return 'university';
-    case 'scholarship':
-      return 'scholarship';
-    default:
-      return 'study';
-  }
-}
-
-function buildAgentsFromItems(items: DiscoverItem[]): SwarmAgent[] {
-  const grouped = new Map<AgentId, DiscoverItem[]>();
-  for (const item of items) {
-    const agentId = itemToAgentId(item);
-    const existing = grouped.get(agentId) ?? [];
-    existing.push(item);
-    grouped.set(agentId, existing);
-  }
-
-  return freshAgents().map((agent) => {
-    const matched = grouped.get(agent.id) ?? [];
-    if (matched.length === 0) {
-      return {
-        ...agent,
-        status: 'scheduled',
-        bullets: [{ text: 'No matching opportunities in this pass', status: 'done' }],
-      };
-    }
-
-    return {
-      ...agent,
-      status: 'ready',
-      bullets: matched.slice(0, 3).map((item) => ({
-        text: JSON.stringify(
-          {
-            id: item.id,
-            title: item.title,
-            why: item.why,
-            type: item.type,
-            meta: item.meta,
-          },
-          null,
-          2,
-        ),
-        status: 'done' as BulletStatus,
-      })),
-    };
-  });
 }
 
 export function useSwarm() {
   const [agents, setAgents] = useState<SwarmAgent[]>(freshAgents);
-  const [items, setItems] = useState<DiscoverItem[]>([]);
-  const [discoveryDraft, setDiscoveryDraft] = useState('');
   const [isDiscovering, setIsDiscovering] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -175,33 +51,44 @@ export function useSwarm() {
     abortRef.current = controller;
 
     setAgents(freshAgents());
-    setItems([]);
-    setDiscoveryDraft('');
     setIsDiscovering(true);
     setDone(false);
     setError(null);
 
     const endpoint = `${config.agentUrl.replace(/\/+$/, '')}/agent/discover`;
 
-    fetch(endpoint, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        program: params.program ?? null,
-        interest: params.interest ?? null,
-      }),
-      signal: controller.signal,
-    })
-      .then(async (res) => {
+    // Helper: update a single agent by id
+    const updateAgent = (agentId: AgentId, updater: (agent: SwarmAgent) => SwarmAgent) => {
+      setAgents((prev) => prev.map((a) => (a.id === agentId ? updater(a) : a)));
+    };
+
+    // Run a single agent stream for a given category
+    async function runAgent(agentId: AgentId, category: AgentCategory) {
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            program: params.program ?? null,
+            interest: params.interest ?? null,
+            category,
+          }),
+          signal: controller.signal,
+        });
+
         if (!res.ok) {
           const text = await res.text().catch(() => res.statusText);
-          if (!controller.signal.aborted) setError(`${res.status}: ${text}`);
+          if (!controller.signal.aborted) {
+            updateAgent(agentId, (a) => ({
+              ...a,
+              status: 'scheduled',
+              bullets: [{ text: `Error: ${text}`, status: 'alert' }],
+            }));
+          }
           return;
         }
-        if (!res.body) {
-          if (!controller.signal.aborted) setError('No response body');
-          return;
-        }
+
+        if (!res.body) return;
 
         const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
         let buf = '';
@@ -221,17 +108,45 @@ export function useSwarm() {
                 switch (ev.type) {
                   case 'text':
                     fullText += ev.delta;
-                    setDiscoveryDraft(fullText);
+                    break;
+                  case 'tool_start':
+                    updateAgent(agentId, (a) => ({
+                      ...a,
+                      bullets: [
+                        ...a.bullets.filter((b) => b.status === 'done'),
+                        { text: `Using ${ev.name}…`, status: 'running' },
+                      ],
+                      toolCalls: [
+                        ...a.toolCalls,
+                        { id: ev.id, toolName: ev.name, input: ev.input, status: 'running' },
+                      ],
+                    }));
+                    break;
+                  case 'tool_result':
+                    updateAgent(agentId, (a) => ({
+                      ...a,
+                      bullets: a.bullets.map((b) =>
+                        b.status === 'running' ? { ...b, status: 'done' } : b,
+                      ),
+                      toolCalls: a.toolCalls.map((tc) =>
+                        tc.id === ev.id
+                          ? { ...tc, status: ev.isError ? 'error' : 'done', result: ev.content }
+                          : tc,
+                      ),
+                    }));
                     break;
                   case 'error':
-                    if (!controller.signal.aborted) setError(ev.message);
+                    updateAgent(agentId, (a) => ({
+                      ...a,
+                      status: 'scheduled',
+                      bullets: [...a.bullets, { text: ev.message, status: 'alert' }],
+                    }));
                     break;
                   case 'done':
-                    // handled after loop
                     break;
                 }
               } catch {
-                // malformed line — ignore
+                // malformed line
               }
             }
             idx = buf.indexOf('\n');
@@ -240,31 +155,50 @@ export function useSwarm() {
 
         if (controller.signal.aborted) return;
 
-        // Parse items from accumulated text
+        // Parse final items
         const parsed = normalizeItems(extractJsonArray(fullText));
-        if (parsed.length > 0) {
-          setItems(parsed);
-          setAgents(buildAgentsFromItems(parsed));
-        }
-        if (parsed.length > 0) {
-          setDiscoveryDraft(JSON.stringify(parsed, null, 2));
-        }
+        updateAgent(agentId, (a) => ({
+          ...a,
+          status: 'ready',
+          items: parsed,
+          bullets:
+            parsed.length > 0
+              ? parsed.slice(0, 3).map((item) => ({
+                  text: item.title,
+                  status: 'done' as BulletStatus,
+                }))
+              : [{ text: 'No opportunities found', status: 'queued' as BulletStatus }],
+        }));
+      } catch (err: unknown) {
+        if (controller.signal.aborted) return;
+        updateAgent(agentId, (a) => ({
+          ...a,
+          status: 'scheduled',
+          bullets: [
+            { text: err instanceof Error ? err.message : String(err), status: 'alert' },
+          ],
+        }));
+      }
+    }
+
+    // Fire all 4 in parallel
+    const promises = AGENT_CONFIGS.map((a) => runAgent(a.id, a.category));
+
+    Promise.all(promises).then(() => {
+      if (!controller.signal.aborted) {
         setIsDiscovering(false);
         setDone(true);
-      })
-      .catch((err: unknown) => {
-        if (controller.signal.aborted) return;
-        setIsDiscovering(false);
-        setError(err instanceof Error ? err.message : String(err));
-      });
+      }
+    });
   }, []);
+
+  // Flatten all items from all agents
+  const items = agents.flatMap((a) => a.items);
 
   return {
     agents,
     items,
-    discoveryDraft,
     isDiscovering,
-    discoveryReady: items.length > 0,
     done,
     error,
     start,
