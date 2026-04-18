@@ -14,6 +14,9 @@ export default function Navbar() {
       <NavLink to="/" className={navClass} end>
         Home
       </NavLink>
+      <NavLink to="/docs" className={navClass}>
+        Docs
+      </NavLink>
       <NavLink to="/chat" className={navClass}>
         Chat
       </NavLink>

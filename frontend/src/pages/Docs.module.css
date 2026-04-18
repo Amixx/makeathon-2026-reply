@@ -1,0 +1,394 @@
+.page {
+  --docs-bg: oklch(97% 0.008 95);
+  --docs-surface: oklch(99% 0.005 95 / 0.88);
+  --docs-surface-strong: oklch(100% 0 0 / 0.92);
+  --docs-ink: oklch(23% 0.03 250);
+  --docs-muted: oklch(51% 0.025 250);
+  --docs-soft: oklch(88% 0.015 95);
+  --docs-border: oklch(87% 0.012 90);
+  --docs-line: oklch(79% 0.018 85);
+  --docs-accent: oklch(63% 0.16 215);
+  --docs-accent-soft: oklch(94% 0.04 215);
+  --docs-accent-strong: oklch(44% 0.16 215);
+  --docs-shadow: 0 24px 80px oklch(46% 0.03 240 / 0.12);
+  --docs-radius: 1.5rem;
+  min-height: calc(100vh - 68px);
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at top left, oklch(91% 0.045 195 / 0.85), transparent 28%),
+    radial-gradient(circle at top right, oklch(93% 0.04 110 / 0.8), transparent 26%),
+    linear-gradient(180deg, oklch(99% 0.006 100), var(--docs-bg));
+  color: var(--docs-ink);
+}
+
+.sidebar {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+}
+
+.sidebarCard,
+.section,
+.installCard,
+.referenceCard,
+.heroPanel {
+  background: var(--docs-surface);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius);
+  box-shadow: var(--docs-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.sidebarCard {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.sidebarEyebrow,
+.eyebrow,
+.sectionKicker {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  color: var(--docs-muted);
+}
+
+.sidebarTitle,
+.hero h1,
+.sectionHeader h2,
+.installCard h3,
+.referenceHeader h3 {
+  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.sidebarTitle {
+  font-size: 1.65rem;
+  line-height: 1;
+  margin-top: 0.45rem;
+}
+
+.sidebarText {
+  margin-top: 0.85rem;
+  color: var(--docs-muted);
+  line-height: 1.6;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebarLink {
+  color: var(--docs-ink);
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.7rem 0.95rem;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease,
+    color 180ms ease;
+}
+
+.sidebarLink:hover {
+  background: var(--docs-accent-soft);
+  color: var(--docs-accent-strong);
+  transform: translateX(4px);
+}
+
+.content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.9fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.heroCopy,
+.heroPanel,
+.section,
+.installCard,
+.referenceCard {
+  padding: 1.5rem;
+}
+
+.hero h1 {
+  margin-top: 0.55rem;
+  font-size: clamp(2.5rem, 5vw, 4.8rem);
+  line-height: 0.95;
+  max-width: 12ch;
+}
+
+.heroText,
+.sectionHeader p,
+.installCard p,
+.referenceHeader p,
+.bodyText,
+.toolRow p {
+  color: var(--docs-muted);
+  line-height: 1.72;
+  font-size: 1rem;
+}
+
+.heroText {
+  max-width: 62ch;
+  margin-top: 1rem;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.8rem;
+  padding: 0.8rem 1.1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.primaryAction {
+  color: white;
+  background: linear-gradient(135deg, var(--docs-accent), oklch(58% 0.17 250));
+  box-shadow: 0 16px 40px oklch(62% 0.15 220 / 0.28);
+}
+
+.secondaryAction {
+  color: var(--docs-ink);
+  background: var(--docs-surface-strong);
+  border: 1px solid var(--docs-border);
+}
+
+.primaryAction:hover,
+.secondaryAction:hover {
+  transform: translateY(-2px);
+}
+
+.heroPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border-radius: 1.15rem;
+  background: var(--docs-surface-strong);
+  border: 1px solid var(--docs-border);
+}
+
+.statValue {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+.statLabel {
+  color: var(--docs-muted);
+  font-size: 0.92rem;
+}
+
+.installSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.installGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.section {
+  scroll-margin-top: 88px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.sectionHeader h2 {
+  font-size: clamp(1.75rem, 3vw, 2.7rem);
+  line-height: 1;
+}
+
+.sectionBody {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bulletList {
+  display: grid;
+  gap: 0.8rem;
+  padding-left: 1.15rem;
+  color: var(--docs-ink);
+}
+
+.bulletList li {
+  padding-left: 0.25rem;
+  line-height: 1.65;
+}
+
+.callout {
+  border-left: 4px solid var(--docs-accent);
+  background: var(--docs-accent-soft);
+  color: var(--docs-accent-strong);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  line-height: 1.65;
+}
+
+.codeBlock {
+  overflow: hidden;
+  border-radius: 1.15rem;
+  border: 1px solid var(--docs-line);
+  background: oklch(20% 0.015 250);
+  color: oklch(93% 0.01 95);
+}
+
+.codeHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  background: oklch(28% 0.018 250);
+  border-bottom: 1px solid oklch(38% 0.02 250);
+  color: oklch(78% 0.02 95);
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.codeBlock pre {
+  overflow-x: auto;
+  padding: 1rem;
+  font-family: "SFMono-Regular", "IBM Plex Mono", "Menlo", monospace;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.referenceList {
+  display: grid;
+  gap: 1rem;
+}
+
+.referenceHeader {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.referenceCount {
+  white-space: nowrap;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background: var(--docs-accent-soft);
+  color: var(--docs-accent-strong);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.toolTable {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.toolRow {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--docs-border);
+}
+
+.toolRow:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.toolRow code {
+  display: inline-flex;
+  align-items: start;
+  font-family: "SFMono-Regular", "IBM Plex Mono", "Menlo", monospace;
+  font-size: 0.92rem;
+  color: var(--docs-accent-strong);
+  word-break: break-word;
+}
+
+@media (max-width: 1100px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .hero,
+  .installGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .heroCopy,
+  .heroPanel,
+  .section,
+  .installCard,
+  .referenceCard,
+  .sidebarCard {
+    padding: 1.1rem;
+  }
+
+  .statGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .referenceHeader,
+  .toolRow {
+    grid-template-columns: 1fr;
+  }
+}

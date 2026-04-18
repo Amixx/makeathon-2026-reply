@@ -6,8 +6,37 @@
   padding: 0;
 }
 
+:root {
+  color-scheme: light;
+  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  background: oklch(97% 0.008 95);
+  color: oklch(23% 0.03 250);
+}
+
 html,
 body,
 #root {
   height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top left, oklch(95% 0.035 190 / 0.45), transparent 28%),
+    linear-gradient(180deg, oklch(99% 0.005 100), oklch(97% 0.008 95));
+}
+
+body,
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
 }
