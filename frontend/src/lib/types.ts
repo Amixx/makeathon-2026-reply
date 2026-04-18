@@ -48,11 +48,10 @@ export type PlanLink = {
   href: string;
 };
 
-export type PlanStep = {
+export type PlanAction = {
+  type: string;
   title: string;
   detail: string;
-  why: string;
-  duration?: string;
   link?: PlanLink;
 };
 
@@ -71,7 +70,7 @@ export type PlanFact = {
 
 export type PlanOutput = {
   intro?: string;
-  steps: PlanStep[];
+  action: PlanAction;
   email?: PlanEmail;
   key_facts?: PlanFact[];
   reassurance?: string;

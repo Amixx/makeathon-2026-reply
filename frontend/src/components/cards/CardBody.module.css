@@ -1,13 +1,16 @@
-/* Shared swipe-card body layout */
+/* Shared card body layout */
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 22px 20px 18px;
+  gap: 12px;
+  padding: 18px;
   width: 100%;
   box-sizing: border-box;
-  min-height: 380px;
+  background: var(--bg-card);
+  border-radius: 18px;
+  border: 1px solid var(--border-default);
+  box-shadow: 0 8px 30px -12px rgba(11, 14, 24, 0.18);
 }
 
 .metaRow {
@@ -25,10 +28,10 @@
 }
 
 .title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: -0.6px;
-  line-height: 1.1;
+  letter-spacing: -0.4px;
+  line-height: 1.15;
   color: var(--fg-default);
   margin: 0;
 }
