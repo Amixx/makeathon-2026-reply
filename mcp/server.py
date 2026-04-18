@@ -38,7 +38,9 @@ from starlette.routing import Route  # noqa: E402
 
 
 def _landing(request):
-    server_url = f"{request.url.scheme}://{request.url.netloc}/mcp"
+    scheme = request.headers.get("x-forwarded-proto", request.url.scheme)
+    host = request.headers.get("x-forwarded-host", request.headers.get("host", request.url.netloc))
+    server_url = f"{scheme}://{host}/mcp"
     inspector_url = f"https://inspector.tools.modelcontextprotocol.io/?serverUrl={server_url}&transportType=streamableHttp"
     return HTMLResponse(
         f'<html><head><meta http-equiv="refresh" content="0;url={inspector_url}"></head>'
