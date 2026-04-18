@@ -1,0 +1,53 @@
+{
+  "count": 4,
+  "hits": [
+    {
+      "org_id": 54011,
+      "org_code": "TUMLRTA",
+      "org_name": "Institute of Astronautics",
+      "org_name_en": "Institute of Astronautics",
+      "org_url": "https://www.asg.ed.tum.de/lrt/",
+      "org_type": "Lehrstuhl"
+    },
+    {
+      "org_id": 54012,
+      "org_code": "TUMFSD",
+      "org_name": "Chair of Flight System Dynamics",
+      "org_name_en": "Chair of Flight System Dynamics",
+      "org_url": "https://www.fsd.ed.tum.de/",
+      "org_type": "Lehrstuhl"
+    },
+    {
+      "org_id": 54013,
+      "org_code": "TUMAIR",
+      "org_name": "Institute of Robotics and Machine Intelligence",
+      "org_name_en": "Institute of Robotics and Machine Intelligence",
+      "org_url": "https://www.ce.cit.tum.de/air/",
+      "org_type": "Institut"
+    },
+    {
+      "org_id": 54014,
+      "org_code": "TUMSPACE",
+      "org_name": "TUM Space Initiative",
+      "org_name_en": "TUM Space Initiative",
+      "org_url": "https://www.tumspace.de/",
+      "org_type": "Student Initiative"
+    },
+    {
+      "org_id": 54015,
+      "org_code": "TUMLANG",
+      "org_name": "TUM Language Center",
+      "org_name_en": "TUM Language Center",
+      "org_url": "https://www.sprachenzentrum.tum.de/",
+      "org_type": "Zentrale Einrichtung"
+    },
+    {
+      "org_id": 54016,
+      "org_code": "TUMUTUM",
+      "org_name": "UnternehmerTUM Venture Labs",
+      "org_name_en": "UnternehmerTUM Venture Labs",
+      "org_url": "https://www.unternehmertum.de/",
+      "org_type": "Innovation Center"
+    }
+  ]
+}

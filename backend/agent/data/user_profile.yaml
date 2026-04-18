@@ -1,44 +1,65 @@
-user_id: student-001
-name: Max Mustermann
-program: ''
-interest: ''
-semester: ''
-interests: []
+user_id: lina.berger
+name: Lina Berger
+program: M.Sc. Aerospace Engineering
+interest: Mars robotics
+semester: 2nd semester
+interests:
+  - space robotics
+  - planetary mobility
+  - guidance, navigation and control
+  - autonomous systems
 enrolled:
-- id: IN0001
-  name: Einführung in die Informatik
-  ects: 8
-- id: MA0901
-  name: Lineare Algebra für Informatiker
-  ects: 6
-- id: IN0015
-  name: Diskrete Strukturen
-  ects: 8
-- id: IN0018
-  name: Einführung in die Softwaretechnik
-  ects: 6
+  - id: LRT2009
+    name: Orbital Mechanics and Mission Design
+    ects: 6
+  - id: LRT2022
+    name: Guidance, Navigation and Control for Space Systems
+    ects: 6
+  - id: LRT2015
+    name: Space Systems Engineering
+    ects: 6
+  - id: EI7043
+    name: Embedded Real-Time Systems for Robotics
+    ects: 5
+  - id: CIT3006
+    name: "Scientific Project: Planetary Rover Perception"
+    ects: 5
 available:
-- id: IN2028
-  name: Algorithmic Game Theory
-  ects: 5
-- id: IN2346
-  name: Introduction to Deep Learning
-  ects: 6
-- id: IN2339
-  name: Advanced Deep Learning for Computer Vision
-  ects: 6
-- id: IN2378
-  name: Foundations of Cyber-Physical Systems
-  ects: 5
-- id: WI000018
-  name: Fundamentals of Business Administration
-  ects: 6
-vision: ''
-blockers: ''
-github_url: ''
-linkedin_url: ''
-cv_file_name: ''
-cv_uploaded: false
-tum_sso_id: ''
-tum_sso_connected: false
+  - id: LRT2301
+    name: Autonomous Mobile Systems on Planetary Surfaces
+    ects: 6
+  - id: LRT2314
+    name: Orbital Robotic Systems
+    ects: 5
+  - id: CIT4128
+    name: Visual Navigation for Field Robotics
+    ects: 5
+  - id: LRT2402
+    name: Space Systems Design Lab
+    ects: 5
+  - id: GEO4721
+    name: Planetary Remote Sensing and Terrain Analysis
+    ects: 4
+  - id: LANG3302
+    name: Spanish A2.2 for Academic Mobility
+    ects: 3
+  - id: MGT4011
+    name: Technology Entrepreneurship Basics
+    ects: 4
+vision: >-
+  I want to work on Mars robotics, ideally on the systems that actually move,
+  navigate, and make decisions on the surface. I am torn between an ESA or DLR
+  path, a startup like Isar Aerospace, and maybe aiming for the US later. I
+  have to choose a thesis topic next semester and I do not feel like I have a
+  clean story yet.
+blockers: >-
+  The heavy part is comparison. Everyone around me feels more polished and more
+  obvious about where they are going. I delay outreach because I keep rewriting
+  the message and worrying that I am not exceptional enough for space robotics.
+github_url: https://github.com/lberger-orbits
+linkedin_url: https://www.linkedin.com/in/lina-berger-aerospace
+cv_file_name: lina-berger-cv.pdf
+cv_uploaded: true
+tum_sso_id: ge47lbg
+tum_sso_connected: true
 commitment: steady

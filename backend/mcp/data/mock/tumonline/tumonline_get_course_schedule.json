@@ -1,0 +1,53 @@
+{
+  "__key__": "course_id",
+  "960120112": {
+    "course_id": 960120112,
+    "schedule": [
+      {
+        "day": "Tuesday",
+        "time": "14:00-16:00",
+        "room": "MW 2001",
+        "instructor": "Ralf Kennel"
+      },
+      {
+        "day": "Thursday",
+        "time": "10:00-12:00",
+        "room": "MW 3615",
+        "instructor": "Matteo Riva"
+      }
+    ]
+  },
+  "960120221": {
+    "course_id": 960120221,
+    "schedule": [
+      {
+        "day": "Wednesday",
+        "time": "16:00-18:00",
+        "room": "MW 3610",
+        "instructor": "Ralf Kennel"
+      }
+    ]
+  },
+  "960120307": {
+    "course_id": 960120307,
+    "schedule": [
+      {
+        "day": "Friday",
+        "time": "09:00-12:00",
+        "room": "MI 00.08.038",
+        "instructor": "Alin Albu-Schaeffer"
+      }
+    ]
+  },
+  "960120602": {
+    "course_id": 960120602,
+    "schedule": [
+      {
+        "day": "Monday",
+        "time": "18:00-20:00",
+        "room": "Arcisstr. 21, Language Center 103",
+        "instructor": "Lucia Fernandez"
+      }
+    ]
+  }
+}
