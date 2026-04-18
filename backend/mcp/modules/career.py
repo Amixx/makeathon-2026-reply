@@ -160,8 +160,8 @@ def register(mcp: FastMCP) -> None:
         # 1. Email hygiene
         emails = re.findall(r"[\w.+-]+@[\w-]+\.[\w.-]+", text)
         unprofessional_re = re.compile(
-            r"\b(gamer|xx|x_|cool|sexy|pimp|babe|kitty|princess|hottie|"
-            r"lover|killer|ninja|noob|king|queen|lord|god|420|69|666|1337)\b",
+            r"(gamer|xx|x_|cool|sexy|pimp|babe|kitty|princess|hottie|"
+            r"lover|killer|ninja|noob|king|queen|lord|god|420|69|666|1337)",
             re.I,
         )
         for em in emails:
