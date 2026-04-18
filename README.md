@@ -56,12 +56,12 @@ New terminal + start MCP server:
 cd backend && python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && playwright install chromium && cd mcp && MCP_HOST=127.0.0.1 MCP_PORT=8001 python server.py
 ```
 
-New terminal + tart agent backend:
+New terminal + start agent backend:
 ```bash
 cd backend && source .venv/bin/activate && cd agent && AGENT_PORT=8002 MCP_URL=http://127.0.0.1:8001/mcp python server.py
 ```
 
-New terminal + tart Vite frontend and connect via the link in the terminal:
+New terminal + start Vite frontend and connect via the link in the terminal:
 ```bash
 cd frontend && npm install && npm run dev
 ```
