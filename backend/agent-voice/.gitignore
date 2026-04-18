@@ -3,3 +3,6 @@ logs/*.yaml
 logs/*.yml
 *.pyc
 __pycache__/
+.env
+.env.local
+.env.*.local

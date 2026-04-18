@@ -25,9 +25,9 @@ class Settings:
     package_root: Path = PACKAGE_ROOT
     logs_dir: Path = PACKAGE_ROOT / "logs"
     cache_dir: Path = PACKAGE_ROOT / "cache"
-    aws_region: str = os.getenv("AWS_REGION", "us-east-1")
+    aws_region: str = os.getenv("AWS_REGION", "eu-north-1")
     bedrock_haiku_model: str = os.getenv(
-        "BEDROCK_HAIKU_MODEL", "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+        "BEDROCK_HAIKU_MODEL", "eu.anthropic.claude-haiku-4-5-20251001-v1:0"
     )
     conversation_max_tokens: int = int(os.getenv("CONVERSATION_MAX_TOKENS", "300"))
     question_agent_timeout_sec: float = float(os.getenv("QUESTION_AGENT_TIMEOUT_SEC", "30"))
@@ -43,6 +43,7 @@ class Settings:
     language: str = os.getenv("VOICE_AGENT_LANGUAGE", "en")
     max_turns: int = int(os.getenv("VOICE_AGENT_MAX_TURNS", "10"))
     recording_sample_rate: int = int(os.getenv("VOICE_AGENT_RECORDING_SAMPLE_RATE", "16000"))
+    anthropic_api_key: str = os.getenv("ANTHROPIC_API_KEY", "")
 
 
 def load_settings() -> Settings:
