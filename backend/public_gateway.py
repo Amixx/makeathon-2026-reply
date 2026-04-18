@@ -98,7 +98,10 @@ async def _serve_frontend(request: Request) -> Response:
 
 async def _serve_prototype(request: Request) -> Response:
     """Serve the static HTML prototype from /prototype."""
-    rel = request.url.path.removeprefix("/prototype").lstrip("/")
+    path = request.url.path
+    if path == "/prototype":
+        return RedirectResponse(url="/prototype/", status_code=308)
+    rel = path.removeprefix("/prototype").lstrip("/")
     candidate = PROTOTYPE_DIR / rel if rel else PROTOTYPE_DIR / "index.html"
     if candidate.is_file():
         return FileResponse(candidate)
