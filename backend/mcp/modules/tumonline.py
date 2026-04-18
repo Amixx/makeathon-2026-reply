@@ -82,7 +82,7 @@ def register(mcp: FastMCP) -> None:
     async def tumonline_search_courses(query: str, limit: int = 10) -> dict:
         """Search TUMonline course catalog. Returns matching courses."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_search_courses", query=query)
+            m = await mock.get_mock("tumonline", "tumonline_search_courses", query=query)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/course"
@@ -98,7 +98,7 @@ def register(mcp: FastMCP) -> None:
     async def tumonline_search_rooms(query: str, limit: int = 10) -> dict:
         """Search for rooms in TUMonline."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_search_rooms", query=query)
+            m = await mock.get_mock("tumonline", "tumonline_search_rooms", query=query)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/rom/list"
@@ -114,7 +114,7 @@ def register(mcp: FastMCP) -> None:
     async def tumonline_get_semester_info() -> dict:
         """Get current semester info including exam periods and registration dates."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_get_semester_info")
+            m = await mock.get_mock("tumonline", "tumonline_get_semester_info")
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/semesters/extended"
@@ -133,7 +133,7 @@ def register(mcp: FastMCP) -> None:
         """Get full details for a single course by its TUMonline course_id.
         Returns description, schedule, instructors, exam info, registration links."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_get_course", course_id=course_id)
+            m = await mock.get_mock("tumonline", "tumonline_get_course", course_id=course_id)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/course/{course_id}"
@@ -151,7 +151,7 @@ def register(mcp: FastMCP) -> None:
         """Get module handbook entry by module code (e.g. 'IN0011').
         Returns ECTS credits, description, prerequisites, responsible professor."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_get_module", module_code=module_code)
+            m = await mock.get_mock("tumonline", "tumonline_get_module", module_code=module_code)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/mhb/module/{module_code}"
@@ -169,7 +169,7 @@ def register(mcp: FastMCP) -> None:
         """Search degree programs (e.g. 'Informatics', 'Mechanical Engineering').
         Returns study_id which can be used to find program-specific module catalogs."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_search_programs", query=query)
+            m = await mock.get_mock("tumonline", "tumonline_search_programs", query=query)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/programs/search"
@@ -187,7 +187,7 @@ def register(mcp: FastMCP) -> None:
         Use tumonline_list_module_catalogs to discover catalog_tags first.
         Example: '163016030_electives_mla' for M.Sc. Informatics ML electives."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_list_program_modules", catalog_tag=catalog_tag)
+            m = await mock.get_mock("tumonline", "tumonline_list_program_modules", catalog_tag=catalog_tag)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/mhb/module"
@@ -205,7 +205,7 @@ def register(mcp: FastMCP) -> None:
         Filter by query (e.g. 'Informatics', 'Maschinenwesen').
         Returns catalog_tag values for use with tumonline_list_program_modules."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_list_module_catalogs", query=query)
+            m = await mock.get_mock("tumonline", "tumonline_list_module_catalogs", query=query)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/mhb/catalog"
@@ -227,7 +227,7 @@ def register(mcp: FastMCP) -> None:
         Useful for finding research groups or professors working on a topic.
         Example: 'informatik', 'machine learning', 'robotics'."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_search_orgs", query=query)
+            m = await mock.get_mock("tumonline", "tumonline_search_orgs", query=query)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/orgs"
@@ -245,7 +245,7 @@ def register(mcp: FastMCP) -> None:
         Returns day, time, room, and instructor for each session.
         Use tumonline_search_courses to find course_id first."""
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_get_course_schedule", course_id=course_id)
+            m = await mock.get_mock("tumonline", "tumonline_get_course_schedule", course_id=course_id)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/course/{course_id}/schedule"
@@ -267,7 +267,7 @@ def register(mcp: FastMCP) -> None:
         Requires prior tum_login. semester_id defaults to current (206 = Summer 2026).
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_my_courses", username=username)
+            m = await mock.get_mock("tumonline", "tumonline_my_courses", username=username)
             if m is not None:
                 return m
         ctx = await auth.get_context(username)
@@ -384,7 +384,7 @@ def register(mcp: FastMCP) -> None:
         Returns the room's calendar entries — useful for finding free study rooms.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_get_room_schedule", room_code=room_code)
+            m = await mock.get_mock("tumonline", "tumonline_get_room_schedule", room_code=room_code)
             if m is not None:
                 return m
         url = f"{NAT_API_BASE}/rom/{room_code}/schedule"
@@ -406,7 +406,7 @@ def register(mcp: FastMCP) -> None:
         Requires prior tum_login. semester_id defaults to 206 (Summer 2026).
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_my_exams", username=username)
+            m = await mock.get_mock("tumonline", "tumonline_my_exams", username=username)
             if m is not None:
                 return m
         ctx = await auth.get_context(username)
@@ -488,7 +488,7 @@ def register(mcp: FastMCP) -> None:
                  registration procedure page and reports what it sees.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_register_course", course_id=course_id, confirm=confirm)
+            m = await mock.get_mock("tumonline", "tumonline_register_course", course_id=course_id, confirm=confirm)
             if m is not None:
                 return m
         ctx = await auth.get_context(username)
@@ -574,7 +574,7 @@ def register(mcp: FastMCP) -> None:
         confirm: must be True to submit. Otherwise only navigates + reports.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("tumonline", "tumonline_register_exam", exam_id=exam_id, confirm=confirm)
+            m = await mock.get_mock("tumonline", "tumonline_register_exam", exam_id=exam_id, confirm=confirm)
             if m is not None:
                 return m
         ctx = await auth.get_context(username)

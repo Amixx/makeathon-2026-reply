@@ -22,7 +22,7 @@ export type AgentEvent =
   | { type: "text"; delta: string }
   | { type: "tool_start"; id: string; name: string; input: unknown }
   | { type: "tool_result"; id: string; content: string; isError: boolean }
-  | { type: "done" }
+  | { type: "done"; items?: Record<string, unknown>[]; summary?: string }
   | { type: "error"; message: string };
 
 export type DiscoverItemType = 'course' | 'event' | 'person' | 'scholarship';

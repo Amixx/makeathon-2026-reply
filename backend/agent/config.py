@@ -1,4 +1,4 @@
-"""Configuration for the Bedrock-backed Campus Co-Pilot agent service."""
+"""Configuration for the Bedrock-backed WayTum agent service."""
 
 import os
 from pathlib import Path

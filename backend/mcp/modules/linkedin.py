@@ -5,7 +5,7 @@ service. For the hackathon demo this module returns curated mock contacts
 so the agent can reason about "who to reach out to" realistically.
 
 Contract matches the other MCP modules: register(mcp) exports @mcp.tool()
-functions that honor demo mode via mock.get_mock(...).
+functions that honor demo mode via await mock.get_mock(...).
 """
 
 import logging
@@ -37,7 +37,7 @@ def register(mcp: FastMCP) -> None:
                            to student outreach.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("linkedin", "linkedin_search_people", query=query)
+            m = await mock.get_mock("linkedin", "linkedin_search_people", query=query)
             if m is not None:
                 if open_to_chat_only and isinstance(m, dict) and "people" in m:
                     filtered = [p for p in m["people"] if p.get("open_to_chat")]

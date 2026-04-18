@@ -19,7 +19,7 @@ export default function DiscoverList({
   return (
     <div className={styles.wrap}>
       <div className={styles.header}>
-        <span className={styles.eyebrow}>Campus Co-Pilot · Discover</span>
+        <span className={styles.eyebrow}>WayTum · Discover</span>
         <h1 className={styles.title}>Things you could do right now</h1>
         <p className={styles.subtitle}>
           Pragmatic, actionable items tailored to your program and interests —
