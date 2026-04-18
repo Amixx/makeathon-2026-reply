@@ -1,5 +1,0 @@
-.venv/
-logs/*.yaml
-logs/*.yml
-*.pyc
-__pycache__/

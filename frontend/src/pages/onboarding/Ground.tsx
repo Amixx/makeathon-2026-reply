@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { ProgressDots, SectionLabel, MiniInput, UploadDrop } from '../../components/ui';
 import { connectTumAccount, postProfile, uploadCv } from '../../lib/agent';
-
 import { useOnboarding } from '../../store/onboarding';
 import s from './onboarding.module.css';
 
@@ -26,10 +25,29 @@ export default function Ground() {
   const githubUrl = useOnboarding((st) => st.githubUrl);
   const linkedinUrl = useOnboarding((st) => st.linkedinUrl);
 
+  const [connecting, setConnecting] = useState(false);
   const [uploadingCv, setUploadingCv] = useState(false);
   const [saving, setSaving] = useState(false);
   const [tumError, setTumError] = useState<string | null>(null);
   const [cvError, setCvError] = useState<string | null>(null);
+
+  async function handleConnect() {
+    if (!tumSsoId.trim() || !tumPassword.trim()) {
+      setTumError('Enter your TUM ID and password.');
+      return;
+    }
+    setTumError(null);
+    setConnecting(true);
+    try {
+      const profile = await connectTumAccount({ tumSsoId, password: tumPassword });
+      setField('tumSsoId', profile.tumSsoId ?? tumSsoId);
+      setField('tumSsoConnected', profile.tumSsoConnected ?? true);
+    } catch (error) {
+      setTumError(error instanceof Error ? error.message : 'Could not connect right now.');
+    } finally {
+      setConnecting(false);
+    }
+  }
 
   async function handleCvFile(file: File) {
     setCvError(null);
@@ -45,32 +63,14 @@ export default function Ground() {
   }
 
   async function handleContinue() {
-    if (!tumSsoId.trim() || !tumPassword.trim()) {
-      setTumError('Enter your TUM ID and password.');
-      return;
-    }
-    setTumError(null);
     setSaving(true);
-    let connected = tumSsoConnected;
-    try {
-      if (!connected) {
-        const profile = await connectTumAccount({ tumSsoId, password: tumPassword });
-        setField('tumSsoId', profile.tumSsoId ?? tumSsoId);
-        connected = profile.tumSsoConnected ?? true;
-        setField('tumSsoConnected', connected);
-      }
-    } catch (error) {
-      setTumError(error instanceof Error ? error.message : 'Could not connect right now.');
-      setSaving(false);
-      return;
-    }
     try {
       await postProfile({
         githubUrl,
         linkedinUrl,
         cvFileName,
         tumSsoId,
-        tumSsoConnected: connected,
+        tumSsoConnected,
       });
     } catch {
       // local state remains the source of truth when backend is unavailable
@@ -80,7 +80,7 @@ export default function Ground() {
     navigate('/onboarding/commitment');
   }
 
-  const canContinue = tumSsoId.trim().length > 0 && tumPassword.trim().length > 0;
+  const canContinue = tumSsoConnected;
 
   return (
     <div className={s.page}>
@@ -115,6 +115,14 @@ export default function Ground() {
               <div className={s.groupTitle}>TUM SSO login · required</div>
               <div className={s.groupSub}>Enter your TUM login and password</div>
             </div>
+            {tumSsoConnected && (
+              <span className={s.successBadge}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Logged in
+              </span>
+            )}
           </div>
           <div className={s.fieldGroup}>
             <div>
@@ -136,6 +144,14 @@ export default function Ground() {
                 autoComplete="current-password"
               />
             </div>
+            <button
+              className={s.connectBtn}
+              onClick={handleConnect}
+              disabled={connecting}
+              style={{ alignSelf: 'flex-end' }}
+            >
+              {connecting ? 'Logging in…' : tumSsoConnected ? 'Log in again' : 'Log in'}
+            </button>
           </div>
           {tumError && <p className={s.inlineError}>{tumError}</p>}
         </motion.div>
