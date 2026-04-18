@@ -1,86 +1,66 @@
 {
-  "username": "torvalds",
-  "name": "Linus Torvalds",
-  "bio": null,
-  "public_repos": 11,
-  "followers": 297773,
-  "created_at": "2011-09-03T15:26:22Z",
-  "total_stars": 240314,
+  "username": "lberger-orbits",
+  "name": "Lina Berger",
+  "bio": "Aerospace MSc @ TUM building autonomy, GN&C, and simulation tools for small space systems.",
+  "public_repos": 14,
+  "followers": 47,
+  "created_at": "2021-11-09T10:12:21Z",
+  "total_stars": 128,
   "top_languages": [
     {
-      "language": "C",
+      "language": "Python",
       "repos": 7
     },
     {
-      "language": "OpenSCAD",
-      "repos": 1
+      "language": "C++",
+      "repos": 5
+    },
+    {
+      "language": "MATLAB",
+      "repos": 2
     }
   ],
   "recent_repos": [
     {
-      "name": "linux",
-      "language": "C",
-      "stars": 229673,
-      "pushed_at": "2026-04-18T01:07:09Z",
-      "description": "Linux kernel source tree",
-      "url": "https://github.com/torvalds/linux"
+      "name": "cubesat-formation-optimizer",
+      "language": "Python",
+      "stars": 24,
+      "pushed_at": "2026-04-11T18:42:10Z",
+      "description": "Trajectory optimization experiments for small satellite formation flying.",
+      "url": "https://github.com/lberger-orbits/cubesat-formation-optimizer"
     },
     {
-      "name": "AudioNoise",
-      "language": "C",
-      "stars": 4330,
-      "pushed_at": "2026-02-26T20:29:40Z",
-      "description": "Random digital audio effects",
-      "url": "https://github.com/torvalds/AudioNoise"
+      "name": "rover-nav-sim",
+      "language": "C++",
+      "stars": 18,
+      "pushed_at": "2026-04-03T21:16:04Z",
+      "description": "Small simulator for visual odometry and waypoint tracking on rough terrain.",
+      "url": "https://github.com/lberger-orbits/rover-nav-sim"
     },
     {
-      "name": "uemacs",
-      "language": "C",
-      "stars": 1995,
-      "pushed_at": "2026-02-25T19:15:47Z",
-      "description": "Random version of microemacs with my private modificatons",
-      "url": "https://github.com/torvalds/uemacs"
+      "name": "gs-pass-scheduler",
+      "language": "Python",
+      "stars": 15,
+      "pushed_at": "2026-03-22T09:51:49Z",
+      "description": "Ground-station pass planning utilities from Lina's DLR student work.",
+      "url": "https://github.com/lberger-orbits/gs-pass-scheduler"
     },
     {
-      "name": "HunspellColorize",
-      "language": "C",
-      "stars": 335,
-      "pushed_at": "2026-01-19T20:23:09Z",
-      "description": "Wrapper around 'less' to colorize spelling mistakes using Hunspell",
-      "url": "https://github.com/torvalds/HunspellColorize"
+      "name": "poliastro-contrib-notes",
+      "language": "Python",
+      "stars": 9,
+      "pushed_at": "2026-02-28T13:03:14Z",
+      "description": "Repro notebooks and issue notes around Lambert solver edge cases.",
+      "url": "https://github.com/lberger-orbits/poliastro-contrib-notes"
     },
     {
-      "name": "GuitarPedal",
-      "language": "C",
-      "stars": 1881,
-      "pushed_at": "2026-01-05T23:26:52Z",
-      "description": "Linus learns analog circuits",
-      "url": "https://github.com/torvalds/GuitarPedal"
-    },
-    {
-      "name": "1590A",
-      "language": "OpenSCAD",
-      "stars": 558,
-      "pushed_at": "2025-09-19T02:54:14Z",
-      "description": "Random odd guitar pedal design in kicad",
-      "url": "https://github.com/torvalds/1590A"
-    },
-    {
-      "name": "test-tlb",
-      "language": "C",
-      "stars": 983,
-      "pushed_at": "2024-08-19T21:13:36Z",
-      "description": "Stupid memory latency and TLB tester",
-      "url": "https://github.com/torvalds/test-tlb"
-    },
-    {
-      "name": "pesconvert",
-      "language": "C",
-      "stars": 559,
-      "pushed_at": "2022-12-22T10:46:37Z",
-      "description": "Brother PES file converter",
-      "url": "https://github.com/torvalds/pesconvert"
+      "name": "adcs-lab-utils",
+      "language": "MATLAB",
+      "stars": 11,
+      "pushed_at": "2026-02-12T17:48:33Z",
+      "description": "Attitude determination and control helper scripts for CubeSat labs.",
+      "url": "https://github.com/lberger-orbits/adcs-lab-utils"
     }
   ],
-  "profile_url": "https://github.com/torvalds"
+  "profile_url": "https://github.com/lberger-orbits"
 }

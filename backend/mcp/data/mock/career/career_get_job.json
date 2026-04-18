@@ -1,0 +1,43 @@
+{
+  "__key__": "url",
+  "__default__": {
+    "title": "Space systems role",
+    "url": "https://jobportal.community.tum.de/show/demo",
+    "content": "Curated demo posting for Lina. The role values autonomy, simulation, and communication across research and engineering teams."
+  },
+  "https://jobportal.community.tum.de/show/333901": {
+    "title": "Working Student Flight Software - Isar Aerospace",
+    "url": "https://jobportal.community.tum.de/show/333901",
+    "content": "You will support mission and flight-software engineers building internal tooling for launch-vehicle operations. Desired signals include Python or C++, simulation work, confidence with debugging, and the ability to explain technical tradeoffs clearly. Nice-to-have: prior work on satellite operations, autonomy, or robotics projects."
+  },
+  "https://jobportal.community.tum.de/show/333902": {
+    "title": "Master Thesis: Terrain-Relative Navigation for Rover Prototypes - DLR Institute of Robotics and Mechatronics",
+    "url": "https://jobportal.community.tum.de/show/333902",
+    "content": "The thesis focuses on visual terrain-relative navigation for rover-scale autonomy prototypes. Candidates should be comfortable with estimation, computer vision, and experimental validation. The lab explicitly welcomes students from aerospace who want to move closer to planetary mobility and autonomy."
+  },
+  "https://jobportal.community.tum.de/show/333903": {
+    "title": "Student Research Assistant - Autonomous Systems for In-Space Servicing - TUM Institute of Astronautics",
+    "url": "https://jobportal.community.tum.de/show/333903",
+    "content": "Support a small research team working on autonomy stacks for proximity operations and servicing scenarios. Tasks include simulation setup, evaluation tooling, and short literature reviews. Strong fit for students who already know orbital mechanics and want a thesis-adjacent foot in the door."
+  },
+  "https://jobportal.community.tum.de/show/333904": {
+    "title": "Working Student GN&C Simulation - Rocket Factory Augsburg",
+    "url": "https://jobportal.community.tum.de/show/333904",
+    "content": "Build and validate simulation components for guidance, navigation, and control workflows. The team values MATLAB or Python modeling, systems thinking, and concise written communication. Best fit for students considering startup rather than agency paths."
+  },
+  "https://jobportal.community.tum.de/show/333905": {
+    "title": "Working Student Product Analytics - Personio",
+    "url": "https://jobportal.community.tum.de/show/333905",
+    "content": "Support product teams with dashboards, experiment analysis, and stakeholder reporting. Strong SQL and communication skills matter more than domain alignment. Included to keep the job board looking like a real mixed market, not a space-only feed."
+  },
+  "https://jobportal.community.tum.de/show/333906": {
+    "title": "Intern Strategy and Operations - BMW Startup Garage",
+    "url": "https://jobportal.community.tum.de/show/333906",
+    "content": "Work across startup scouting, partnership operations, and internal venture coordination. Good example of a solid Munich opportunity that is credible but not directly relevant to Lina's Mars robotics goal."
+  },
+  "https://jobportal.community.tum.de/show/333907": {
+    "title": "Student Assistant Spanish Language Support - TUM Language Center",
+    "url": "https://jobportal.community.tum.de/show/333907",
+    "content": "Help prepare peer-learning materials and conversation sessions for beginner Spanish courses. A realistic campus posting that adds unrelated texture to the demo job board."
+  }
+}

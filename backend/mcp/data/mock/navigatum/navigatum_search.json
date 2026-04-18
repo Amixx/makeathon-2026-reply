@@ -2,9 +2,22 @@
   "sections": [
     {
       "facet": "rooms",
-      "entries": [],
-      "n_visible": 0,
-      "estimatedTotalHits": 1000
+      "entries": [
+        {
+          "id": "mw-astronautics-office",
+          "type": "room",
+          "name": "MW 3610 Institute of Astronautics Seminar Room",
+          "subtext": "Good drop-in point for thesis matchmaking and chair office hours"
+        },
+        {
+          "id": "mw-space-robotics-lab",
+          "type": "room",
+          "name": "MW 3615 Space Robotics Project Lab",
+          "subtext": "Project lab for autonomy and robotics demos"
+        }
+      ],
+      "n_visible": 2,
+      "estimatedTotalHits": 2
     },
     {
       "facet": "sites_buildings",
@@ -12,37 +25,19 @@
         {
           "id": "garching",
           "type": "campus",
-          "name": "\u0019Garching\u0017 \u0019Forschungszentrum\u0017",
+          "name": "Garching Forschungszentrum",
           "subtext": "Campus"
-        },
-        {
-          "id": "garching-sued-west",
-          "type": "site",
-          "name": "\u0019Garching\u0017 \u0019Forschungszentrum\u0017 (süd-west)",
-          "subtext": "Standort"
-        },
-        {
-          "id": "garching-extra",
-          "type": "area",
-          "name": "\u0019Garching\u0017 \u0019Forschungszentrum\u0017 (außerhalb)",
-          "subtext": "Gebiet / Gruppe von Gebäuden"
         },
         {
           "id": "mw",
           "type": "joined_building",
           "name": "Maschinenwesen (MW)",
-          "subtext": "Gebäudekomplex"
-        },
-        {
-          "id": "mi",
-          "type": "joined_building",
-          "name": "Fakultät Mathematik & Informatik (FMI oder MI)",
-          "subtext": "Gebäudekomplex"
+          "subtext": "Institute of Astronautics and related aerospace chairs"
         }
       ],
-      "n_visible": 0,
-      "estimatedTotalHits": 113
+      "n_visible": 2,
+      "estimatedTotalHits": 2
     }
   ],
-  "time_ms": 50
+  "time_ms": 18
 }
