@@ -22,6 +22,7 @@ RUN playwright install chromium
 
 COPY backend/ /app/backend
 COPY --from=frontend-build /build/dist /app/frontend-dist
+COPY prototype/ /app/prototype
 
 EXPOSE 8000
 
