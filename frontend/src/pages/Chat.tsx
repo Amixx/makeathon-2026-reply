@@ -1,4 +1,3 @@
-import { Flex } from "@adobe/react-spectrum";
 import DiscoverList from "../components/discover/DiscoverList";
 import PlanPanel from "../components/discover/PlanPanel";
 import { useDiscover } from "../hooks/useDiscover";
@@ -9,7 +8,7 @@ export default function Chat() {
   const plan = usePlan();
 
   return (
-    <Flex direction="column" height="calc(100vh - 4rem)">
+    <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 4rem)" }}>
       <DiscoverList
         items={discover.items}
         isLoading={discover.isLoading}
@@ -30,6 +29,6 @@ export default function Chat() {
           onRetry={plan.retry}
         />
       )}
-    </Flex>
+    </div>
   );
 }

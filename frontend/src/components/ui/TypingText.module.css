@@ -1,0 +1,19 @@
+/* TypingText.module.css */
+
+.root {
+  display: inline;
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--accent-500);
+  animation: blink 900ms steps(2, start) infinite;
+  vertical-align: text-bottom;
+  margin-left: 1px;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}

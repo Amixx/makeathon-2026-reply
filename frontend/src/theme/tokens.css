@@ -1,0 +1,166 @@
+/* =====================================================================
+ * Campus Co-Pilot — Design Tokens
+ * Ported from prototype/shared/styles.css
+ * ===================================================================== */
+
+:root {
+  /* Brand — Pencil design tokens */
+  --bg-default: #fbfaf7;
+  --bg-card: #ffffff;
+  --bg-muted: #f4f3ee;
+  --bg-inverted: #141925;
+  --bg-inverted-card: #2b3349;
+  --bg-inverted-muted: #1d2336;
+
+  --border-default: #e6e4dd;
+  --border-muted: #f4f3ee;
+  --border-strong: #d1cec3;
+  --border-inverted: #2b3349;
+
+  --fg-default: #141925;
+  --fg-muted: #5c6171;
+  --fg-inverted: #fbfaf7;
+  --fg-inverted-muted: #a8a49a;
+  --fg-inverted-accent: #ff8f75;
+  --fg-accent: #c33e24;
+
+  --accent-50: #fff4f1;
+  --accent-100: #ffe3db;
+  --accent-200: #ffd0c5;
+  --accent-300: #ffb39f;
+  --accent-400: #ff8f75;
+  --accent-500: #ff6b52;
+  --accent-600: #e85034;
+  --accent-700: #c33e24;
+  --accent-800: #9e321f;
+  --accent-900: #7d291c;
+
+  --primary-50: #f2f3f7;
+  --primary-100: #dfe2eb;
+  --primary-200: #b9bfd0;
+  --primary-300: #8e96b0;
+  --primary-400: #5f6885;
+  --primary-500: #3d465f;
+  --primary-600: #2b3349;
+  --primary-700: #1d2336;
+  --primary-800: #141925;
+  --primary-900: #0b0e18;
+
+  --neutral-100: #f4f3ee;
+  --neutral-200: #e6e4dd;
+  --neutral-300: #d1cec3;
+  --neutral-400: #a8a49a;
+  --neutral-500: #7c7971;
+  --neutral-600: #5c6171;
+
+  --success: #3d9970;
+  --warning: #e8a53a;
+  --info: #3d78b5;
+  --secondary-500: #4d7a9a;
+  --secondary-100: #dce8f0;
+
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+}
+
+/* Global base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-default);
+  color: var(--fg-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes phoneFadeIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50%      { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes chipIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes agentIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bulletIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spinMarker {
+  from { transform: rotate(0); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes hollowPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,107,82,0.4); }
+  50%     { box-shadow: 0 0 0 6px rgba(255,107,82,0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(32px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes accentPulse {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.35; }
+}
+
+/* Animation utility classes */
+.fade-in  { animation: fadeIn 260ms ease-out; }
+.fade-up  { animation: fadeInUp 300ms ease-out both; }
+.pop-in   { animation: popIn 500ms cubic-bezier(.34,1.56,.64,1); }
+.slide-in { animation: slideInRight 260ms ease-out; }
+
+.delay-1 { animation-delay: 100ms; }
+.delay-2 { animation-delay: 200ms; }
+.delay-3 { animation-delay: 350ms; }
+.delay-4 { animation-delay: 500ms; }
+.delay-5 { animation-delay: 700ms; }
+.delay-6 { animation-delay: 900ms; }

@@ -1,3 +1,29 @@
-Hi, I'm a bachelor student studying {{ program }} right now, and I'm really interested in {{ interest }}. I feel like there's a lot of opportunities out there, but I'm not really aware of all of them. Please only act as a smart individual who knows a lot of career paths or things that I could do that I am not aware of right now. Please only give me actionable items that I could do right now, not directions or topics that I could get into, but things that I could actually do right now. be pragmatic
+I am a TUM student and I want a shortlist of concrete things I can actually do now.
 
-Only list them shortly.
+{% if program %}My program: **{{ program }}**.{% endif %}
+{% if semester %} I am in **{{ semester }}**.{% endif %}
+{% if interest %} My strongest interest right now is **{{ interest }}**.{% endif %}
+{% if interests %} Other signals from onboarding: {{ interests | join(", ") }}.{% endif %}
+
+{% if vision %}
+What future me wants:
+{{ vision }}
+{% endif %}
+
+{% if blockers %}
+What is getting in the way:
+{{ blockers }}
+{% endif %}
+
+{% if commitment %}
+Time budget / commitment setting: **{{ commitment }}**.
+{% endif %}
+
+Grounding facts:
+- TUM SSO connected: {{ "yes" if tum_sso_connected else "no" }}
+- CV uploaded: {{ "yes" if cv_uploaded else "no" }}
+- GitHub linked: {{ "yes" if github_url else "no" }}
+- LinkedIn linked: {{ "yes" if linkedin_url else "no" }}
+
+Please propose only pragmatic, high-agency next moves. Do not give vague directions or generic topics.
+Each idea should be something I could start this week.
