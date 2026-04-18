@@ -1,4 +1,4 @@
-"""Campus Co-Pilot MCP Server — MCP app entry point."""
+"""WayTum MCP Server — MCP app entry point."""
 
 import logging
 import sys
@@ -13,14 +13,14 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
     stream=sys.stderr,
 )
-logger = logging.getLogger("campus-copilot")
+logger = logging.getLogger("waytum")
 if not FERNET_KEY:
     logger.warning("FERNET_KEY is not set; auth session persistence will fail")
 logger.info("Session store path: %s", SESSION_STORE_PATH)
 
 # ── MCP server ───────────────────────────────────────────────────────────────
 mcp = FastMCP(
-    "Campus Co-Pilot",
+    "WayTum",
     instructions="TUM campus systems exposed as agent-callable tools",
     host=MCP_HOST,
     port=MCP_PORT,

@@ -17,7 +17,7 @@ def register(mcp: FastMCP) -> None:
         """Search TUM campus locations, buildings, and rooms via Navigatum.
         Returns matching locations with coordinates and details."""
         if mock.is_demo_mode():
-            m = mock.get_mock("navigatum", "navigatum_search", query=query)
+            m = await mock.get_mock("navigatum", "navigatum_search", query=query)
             if m is not None:
                 return m
         url = f"{NAVIGATUM_API_BASE}/search"
@@ -32,7 +32,7 @@ def register(mcp: FastMCP) -> None:
     async def navigatum_get_room(room_id: str) -> dict:
         """Get detailed info about a specific room/location by its Navigatum ID."""
         if mock.is_demo_mode():
-            m = mock.get_mock("navigatum", "navigatum_get_room", room_id=room_id)
+            m = await mock.get_mock("navigatum", "navigatum_get_room", room_id=room_id)
             if m is not None:
                 return m
         url = f"{NAVIGATUM_API_BASE}/locations/{room_id}"

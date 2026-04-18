@@ -32,7 +32,7 @@ def register(mcp: FastMCP) -> None:
         limit: max number of postings to return.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("career", "career_list_jobs", keyword=keyword)
+            m = await mock.get_mock("career", "career_list_jobs", keyword=keyword)
             if m is not None:
                 return m
         try:
@@ -81,7 +81,7 @@ def register(mcp: FastMCP) -> None:
         limit: max number of events to return.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("career", "career_list_events", keyword=keyword)
+            m = await mock.get_mock("career", "career_list_events", keyword=keyword)
             if m is not None:
                 return m
         try:
@@ -150,7 +150,7 @@ def register(mcp: FastMCP) -> None:
         from a PDF first, then call this for a structured audit.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("career", "career_audit_cv")
+            m = await mock.get_mock("career", "career_audit_cv")
             if m is not None:
                 return m
         text = cv_text or ""
@@ -278,7 +278,7 @@ def register(mcp: FastMCP) -> None:
         Useful as the technical-presence half of a CV audit.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("career", "career_github_audit", username=username)
+            m = await mock.get_mock("career", "career_github_audit", username=username)
             if m is not None:
                 return m
         async with httpx.AsyncClient(timeout=15, headers={"Accept": "application/vnd.github+json"}) as client:
@@ -371,7 +371,7 @@ def register(mcp: FastMCP) -> None:
         then match against a job posting in the agent layer.
         """
         if mock.is_demo_mode():
-            m = mock.get_mock("career", "career_skills_from_courses")
+            m = await mock.get_mock("career", "career_skills_from_courses")
             if m is not None:
                 return m
         skill_to_courses: dict[str, list[str]] = {}
@@ -394,7 +394,7 @@ def register(mcp: FastMCP) -> None:
     async def career_get_job(url: str) -> dict:
         """Fetch the full details of a single job posting by URL."""
         if mock.is_demo_mode():
-            m = mock.get_mock("career", "career_get_job", url=url)
+            m = await mock.get_mock("career", "career_get_job", url=url)
             if m is not None:
                 return m
         if not (url.startswith(CAREER_BASE) or url.startswith(JOBS_BASE)):

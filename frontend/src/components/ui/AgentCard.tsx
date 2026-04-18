@@ -1,9 +1,11 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
+import Markdown from 'react-markdown';
 import styles from './AgentCard.module.css';
 import { Pill } from './Pill';
 import type { PillVariant } from './Pill';
-import type { ToolCall } from '../../lib/types';
+import type { StreamEntry } from '../../hooks/useSwarm';
+import type { DiscoverItem } from '../../lib/types';
 
 export type BulletStatus = 'queued' | 'running' | 'done' | 'alert';
 
@@ -17,29 +19,23 @@ interface AgentCardProps {
   emoji: string;
   status: PillVariant;
   bullets: AgentBullet[];
-  toolCalls?: ToolCall[];
-  /** Show tool trail expanded by default */
-  toolsExpanded?: boolean;
-  borderAccent?: boolean;
-  /** Stagger delay index — the parent passes the card index so each card is offset */
+  streamLog?: StreamEntry[];
+  summary?: string;
+  items?: DiscoverItem[];
+  /** Stagger delay index */
   index?: number;
   className?: string;
   style?: CSSProperties;
 }
 
-const MARKER_CHARS: Record<BulletStatus, string> = {
-  queued: '○',
-  running: '↻',
-  done: '✓',
-  alert: '!',
-};
-
-const MARKER_CLASS: Record<BulletStatus, string> = {
-  queued: styles.markerQueued,
-  running: styles.markerRunning,
-  done: styles.markerDone,
-  alert: styles.markerAlert,
-};
+/** Strip fenced JSON blocks and bare JSON arrays from display text */
+function stripJson(text: string): string {
+  // Remove ```json ... ``` blocks
+  let cleaned = text.replace(/```json\s*\n[\s\S]*?```/g, '');
+  // Remove bare JSON arrays starting with [ on its own line
+  cleaned = cleaned.replace(/^\[[\s\S]*\]$/m, '');
+  return cleaned.trim();
+}
 
 const STATUS_LABELS: Record<PillVariant, string> = {
   accent: 'Accent',
@@ -59,36 +55,37 @@ const STATUS_LABELS: Record<PillVariant, string> = {
   ready: 'Ready',
 };
 
-const TOOL_DOT_CLASS: Record<ToolCall['status'], string> = {
-  running: styles.toolStatusRunning,
-  done: styles.toolStatusDone,
-  error: styles.toolStatusError,
-};
-
 export function AgentCard({
   name,
   emoji,
   status,
-  bullets,
-  toolCalls = [],
-  toolsExpanded = false,
-  borderAccent = false,
+  streamLog = [],
+  summary = '',
+  items = [],
   index = 0,
   className = '',
   style,
 }: AgentCardProps) {
-  const hasTools = toolCalls.length > 0;
-  const isRunning = toolCalls.some((tc) => tc.status === 'running');
+  const isWorking = status === 'working';
+  const isDone = status === 'ready';
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll stream log to bottom while working
+  useEffect(() => {
+    if (!isWorking) return;
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [streamLog, isWorking]);
+
   return (
     <motion.div
-      className={[styles.card, borderAccent ? styles.greenBorder : '', className]
-        .filter(Boolean)
-        .join(' ')}
+      className={[styles.card, isWorking ? styles.cardWorking : '', className].filter(Boolean).join(' ')}
       style={style}
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.32, ease: 'easeOut', delay: index * 0.09 }}
     >
+      {/* Header */}
       <div className={styles.header}>
         <div className={styles.left}>
           <span className={styles.iconCircle}>{emoji}</span>
@@ -97,48 +94,63 @@ export function AgentCard({
         <Pill variant={status}>{STATUS_LABELS[status]}</Pill>
       </div>
 
-      {bullets.length > 0 && (
-        <div className={styles.bullets}>
-          {bullets.map((b, i) => (
-            <motion.div
-              key={i}
-              className={[
-                styles.bullet,
-                b.status === 'alert' ? styles.bulletAlert : '',
-                b.status === 'queued' ? styles.bulletMuted : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.24, ease: 'easeOut', delay: index * 0.09 + i * 0.06 }}
-            >
-              <span className={[styles.marker, MARKER_CLASS[b.status]].join(' ')}>
-                {MARKER_CHARS[b.status]}
-              </span>
-              <span>{b.text}</span>
-            </motion.div>
-          ))}
-        </div>
-      )}
-
-      {hasTools && (
-        <div className={styles.toolTrail}>
-          <details open={toolsExpanded || isRunning}>
-            <summary className={styles.toolTrailSummary}>
-              {toolCalls.length} tool call{toolCalls.length !== 1 ? 's' : ''}
+      {/* Body: fixed-height scrollable area */}
+      <div className={styles.body}>
+        {/* Collapsible stream section */}
+        {streamLog.length > 0 && (
+          <details className={styles.streamDetails} open={isWorking}>
+            <summary className={styles.streamSummary}>
+              {isWorking ? '⟳ working…' : `${streamLog.length} steps completed`}
             </summary>
-            <div className={styles.toolList}>
-              {toolCalls.map((tc) => (
-                <div key={tc.id} className={styles.toolItem}>
-                  <span className={[styles.toolStatusDot, TOOL_DOT_CLASS[tc.status]].join(' ')} />
-                  <span className={styles.toolBadge}>{tc.toolName}</span>
-                </div>
-              ))}
+            <div className={styles.streamScroll} ref={scrollRef}>
+              {streamLog.map((entry, i) => {
+                if (entry.kind === 'text') {
+                  const cleaned = stripJson(entry.content);
+                  if (!cleaned) return null;
+                  return (
+                    <div key={i} className={styles.streamText}>
+                      <Markdown>{cleaned}</Markdown>
+                    </div>
+                  );
+                }
+                if (entry.kind === 'tool_start') {
+                  return (
+                    <div key={i} className={styles.streamTool}>
+                      <span className={styles.toolDotRunning} />
+                      <span className={styles.toolBadge}>{entry.name}</span>
+                    </div>
+                  );
+                }
+                if (entry.kind === 'tool_done') {
+                  return (
+                    <div key={i} className={styles.streamTool}>
+                      <span className={entry.error ? styles.toolDotError : styles.toolDotDone} />
+                      <span className={styles.toolBadge}>{entry.name}</span>
+                      <span className={styles.toolCheck}>{entry.error ? '✗' : '✓'}</span>
+                    </div>
+                  );
+                }
+                return null;
+              })}
             </div>
           </details>
-        </div>
-      )}
+        )}
+
+        {/* Items shown when done — title only, expandable */}
+        {isDone && items.length > 0 && (
+          <div className={styles.itemList}>
+            {items.map((item) => (
+              <details key={item.id} className={styles.itemDetails}>
+                <summary className={styles.itemTitle}>{item.title}</summary>
+                <div className={styles.itemBody}>
+                  {item.what && <p>{item.what}</p>}
+                  {item.why && <p className={styles.itemWhy}>{item.why}</p>}
+                </div>
+              </details>
+            ))}
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 }

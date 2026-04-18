@@ -32,24 +32,6 @@ export default function Swarm() {
       <div className={styles.inner}>
         <SectionLabel pulsing>AGENT SWARM · LIVE</SectionLabel>
 
-        {isDiscovering && (
-          <motion.div
-            className={styles.thinkingWrap}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <motion.div
-              className={styles.thinkingBubble}
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 1.8, repeat: Number.POSITIVE_INFINITY, ease: 'easeInOut' }}
-            >
-              <span className={styles.thinkingDot} />
-              <span>Thinking about opportunities</span>
-            </motion.div>
-          </motion.div>
-        )}
-
         <motion.div
           className={styles.grid}
           initial={{ opacity: 0, y: 10 }}
@@ -63,9 +45,9 @@ export default function Swarm() {
               emoji={agent.emoji}
               status={agent.status}
               bullets={agent.bullets}
-              toolCalls={agent.toolCalls}
-              toolsExpanded={i === 0}
-              borderAccent={agent.id === 'scholarship'}
+              streamLog={agent.streamLog}
+              summary={agent.summary}
+              items={agent.items}
               index={i}
             />
           ))}

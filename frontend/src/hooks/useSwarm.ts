@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { config } from '../lib/config';
-import { extractJsonArray, normalizeItems } from '../lib/agent';
+import { normalizeItems } from '../lib/agent';
 import type { DiscoverItem, AgentEvent, ToolCall } from '../lib/types';
 import type { PillVariant } from '../components/ui/Pill';
 import type { BulletStatus } from '../components/ui/AgentCard';
@@ -8,6 +8,11 @@ import type { BulletStatus } from '../components/ui/AgentCard';
 export type AgentId = 'study' | 'career' | 'university' | 'scholarship';
 
 type AgentCategory = 'course' | 'event' | 'person' | 'scholarship';
+
+export type StreamEntry =
+  | { kind: 'text'; content: string }
+  | { kind: 'tool_start'; id: string; name: string }
+  | { kind: 'tool_done'; id: string; name: string; error?: boolean };
 
 export type SwarmAgent = {
   id: AgentId;
@@ -18,9 +23,11 @@ export type SwarmAgent = {
   bullets: { text: string; status: BulletStatus }[];
   toolCalls: ToolCall[];
   items: DiscoverItem[];
+  streamLog: StreamEntry[];
+  summary: string;
 };
 
-const AGENT_CONFIGS: Omit<SwarmAgent, 'status' | 'bullets' | 'toolCalls' | 'items'>[] = [
+const AGENT_CONFIGS: Omit<SwarmAgent, 'status' | 'bullets' | 'toolCalls' | 'items' | 'streamLog' | 'summary'>[] = [
   { id: 'study', name: 'Study Buddy', emoji: '🛰️', category: 'course' },
   { id: 'career', name: 'Career Agent', emoji: '💼', category: 'person' },
   { id: 'university', name: 'University Nav', emoji: '🏛️', category: 'event' },
@@ -34,6 +41,8 @@ function freshAgents(): SwarmAgent[] {
     bullets: [{ text: 'Starting up…', status: 'queued' as BulletStatus }],
     toolCalls: [],
     items: [],
+    streamLog: [],
+    summary: '',
   }));
 }
 
@@ -92,7 +101,6 @@ export function useSwarm() {
 
         const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
         let buf = '';
-        let fullText = '';
 
         while (true) {
           const { done: rdone, value } = await reader.read();
@@ -107,7 +115,15 @@ export function useSwarm() {
                 const ev = JSON.parse(line) as AgentEvent;
                 switch (ev.type) {
                   case 'text':
-                    fullText += ev.delta;
+                    updateAgent(agentId, (a) => {
+                      const last = a.streamLog[a.streamLog.length - 1];
+                      if (last && last.kind === 'text') {
+                        const updated = [...a.streamLog];
+                        updated[updated.length - 1] = { kind: 'text', content: last.content + ev.delta };
+                        return { ...a, streamLog: updated };
+                      }
+                      return { ...a, streamLog: [...a.streamLog, { kind: 'text', content: ev.delta }] };
+                    });
                     break;
                   case 'tool_start':
                     updateAgent(agentId, (a) => ({
@@ -120,6 +136,7 @@ export function useSwarm() {
                         ...a.toolCalls,
                         { id: ev.id, toolName: ev.name, input: ev.input, status: 'running' },
                       ],
+                      streamLog: [...a.streamLog, { kind: 'tool_start', id: ev.id, name: ev.name }],
                     }));
                     break;
                   case 'tool_result':
@@ -133,6 +150,11 @@ export function useSwarm() {
                           ? { ...tc, status: ev.isError ? 'error' : 'done', result: ev.content }
                           : tc,
                       ),
+                      streamLog: a.streamLog.map((e) =>
+                        e.kind === 'tool_start' && e.id === ev.id
+                          ? { kind: 'tool_done' as const, id: ev.id, name: e.name, error: ev.isError }
+                          : e,
+                      ),
                     }));
                     break;
                   case 'error':
@@ -142,8 +164,16 @@ export function useSwarm() {
                       bullets: [...a.bullets, { text: ev.message, status: 'alert' }],
                     }));
                     break;
-                  case 'done':
+                  case 'done': {
+                    const parsed = ev.items && Array.isArray(ev.items) ? normalizeItems(ev.items) : [];
+                    updateAgent(agentId, (a) => ({
+                      ...a,
+                      status: 'ready',
+                      items: parsed,
+                      summary: ev.summary ?? '',
+                    }));
                     break;
+                  }
                 }
               } catch {
                 // malformed line
@@ -155,20 +185,11 @@ export function useSwarm() {
 
         if (controller.signal.aborted) return;
 
-        // Parse final items
-        const parsed = normalizeItems(extractJsonArray(fullText));
-        updateAgent(agentId, (a) => ({
-          ...a,
-          status: 'ready',
-          items: parsed,
-          bullets:
-            parsed.length > 0
-              ? parsed.slice(0, 3).map((item) => ({
-                  text: item.title,
-                  status: 'done' as BulletStatus,
-                }))
-              : [{ text: 'No opportunities found', status: 'queued' as BulletStatus }],
-        }));
+        // Mark as ready if the done event didn't already do it
+        updateAgent(agentId, (a) => {
+          if (a.status === 'ready') return a;
+          return { ...a, status: 'ready' };
+        });
       } catch (err: unknown) {
         if (controller.signal.aborted) return;
         updateAgent(agentId, (a) => ({
