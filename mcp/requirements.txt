@@ -1,0 +1,8 @@
+mcp[cli]
+httpx
+playwright
+pydantic
+cryptography
+python-dotenv
+uvicorn
+mvg
