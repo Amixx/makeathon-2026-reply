@@ -2,6 +2,7 @@ app = "makeathon-2026-reply"
 primary_region = "ams"
 
 [build]
+  dockerfile = "backend/Dockerfile"
 
 [env]
   SESSION_STORE_PATH = "/data/sessions"

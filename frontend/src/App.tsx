@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 export default function App() {
   return (
     <Provider theme={defaultTheme} colorScheme="dark">
-      <BrowserRouter basename="/makeathon-2026-reply">
+      <BrowserRouter basename="/app">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
