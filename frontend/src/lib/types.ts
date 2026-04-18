@@ -92,4 +92,5 @@ export type Profile = {
   tumSsoId?: string;
   tumSsoConnected?: boolean;
   commitment?: "whisper" | "steady" | "push";
+  isDemo?: boolean;
 };

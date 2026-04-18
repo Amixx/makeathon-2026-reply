@@ -17,6 +17,7 @@ export type OnboardingState = {
   tumSsoConnected: boolean;
   // commitment level
   commitment: 'whisper' | 'steady' | 'push';
+  isDemo: boolean;
   setField: <K extends keyof Omit<OnboardingState, 'setField' | 'reset'>>(
     key: K,
     value: OnboardingState[K],
@@ -39,6 +40,7 @@ const defaults = {
   tumPassword: '',
   tumSsoConnected: false,
   commitment: 'steady' as const,
+  isDemo: false,
 };
 
 export const useOnboarding = create<OnboardingState>()(
@@ -66,6 +68,7 @@ export const useOnboarding = create<OnboardingState>()(
             profile.commitment === 'push'
               ? profile.commitment
               : state.commitment,
+          isDemo: profile.isDemo ?? state.isDemo,
         })),
       reset: () => set(defaults),
     }),

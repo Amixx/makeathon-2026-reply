@@ -25,14 +25,16 @@ _PROFILE_PATH = _DATA_DIR / "user_profile.yaml"
 # ── Local tools ──────────────────────────────────────────────────────────────
 
 def load_courses() -> str:
-    """Student's enrolled courses (from the local demo profile)."""
-    profile = yaml.safe_load(_PROFILE_PATH.read_text())
-    return render_prompt(
-        "courses.j2",
-        semester=profile.get("semester", ""),
-        enrolled=profile.get("enrolled", []),
-        available=profile.get("available", []),
-    )
+    """Student's enrolled/available courses — from demo YAML when is_demo, otherwise empty placeholder."""
+    profile = yaml.safe_load(_PROFILE_PATH.read_text()) if _PROFILE_PATH.exists() else {}
+    if profile.get("is_demo"):
+        return render_prompt(
+            "courses.j2",
+            semester=profile.get("semester", ""),
+            enrolled=profile.get("enrolled", []),
+            available=profile.get("available", []),
+        )
+    return "No pre-loaded course data. Use tumonline_my_exams or other MCP tools to fetch the student's real course/exam data from TUM systems."
 
 
 # ── MCP tool bridge ─────────────────────────────────────────────────────────

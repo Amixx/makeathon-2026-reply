@@ -60,3 +60,4 @@ cv_uploaded: true
 tum_sso_id: ge47lbg
 tum_sso_connected: true
 commitment: steady
+is_demo: true

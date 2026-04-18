@@ -31,7 +31,7 @@ from config import (
     MAX_TOOL_ROUNDS,
 )
 from render import render_prompt
-from tools import PLAN_TOOL_DECLS, PLAN_TOOLS, TOOL_DECLS, TOOLS
+from tools import PLAN_TOOL_DECLS, PLAN_TOOLS, TOOL_DECLS, TOOLS, _call_mcp_tool
 
 app = FastAPI(title="WayTum Agent")
 
@@ -228,6 +228,7 @@ class ProfileRequest(BaseModel):
     tumSsoId: Optional[str] = None
     tumSsoConnected: Optional[bool] = None
     commitment: Optional[Literal["whisper", "steady", "push"]] = None
+    isDemo: Optional[bool] = None
 
 
 class TumConnectRequest(BaseModel):
@@ -251,6 +252,7 @@ _PROFILE_FIELD_MAP = {
     "tumSsoId": "tum_sso_id",
     "tumSsoConnected": "tum_sso_connected",
     "commitment": "commitment",
+    "isDemo": "is_demo",
 }
 
 
@@ -271,6 +273,7 @@ def _profile_to_api(data: Mapping[str, Any]) -> dict:
         "tumSsoId": data.get("tum_sso_id"),
         "tumSsoConnected": bool(data.get("tum_sso_connected")),
         "commitment": data.get("commitment"),
+        "isDemo": bool(data.get("is_demo")),
     }
 
 
@@ -357,6 +360,7 @@ def post_profile(req: ProfileRequest) -> dict:
 @app.post("/agent/profile/demo-reset")
 def reset_demo_profile() -> dict:
     demo = _load_demo_profile()
+    demo["is_demo"] = True
     _save_profile(demo)
     return {
         "profile": _profile_to_api(demo),
@@ -373,13 +377,38 @@ def connect_tum_account(req: TumConnectRequest) -> dict:
         raise HTTPException(status_code=400, detail="TUM ID and password are required.")
 
     current = _load_profile()
-    demo = _load_demo_profile()
+
+    # Try real login via MCP
+    try:
+        result = _call_mcp_tool("tum_login", {"username": tum_id, "password": password})
+        import json as _json
+        login_result = _json.loads(result) if isinstance(result, str) else result
+        if not login_result.get("success", False):
+            raise HTTPException(
+                status_code=401,
+                detail=login_result.get("message", "TUM login failed."),
+            )
+        is_demo = login_result.get("demo_mode", False)
+    except HTTPException:
+        raise
+    except Exception as exc:
+        # MCP unavailable — fall back to old stub behaviour
+        import logging
+        logging.getLogger(__name__).warning("MCP tum_login unavailable: %s", exc)
+        is_demo = False
+
     current["tum_sso_id"] = tum_id
     current["tum_sso_connected"] = True
     current["user_id"] = current.get("user_id") or tum_id
-    for key in ("name", "program", "interest", "semester", "interests"):
-        if not current.get(key) and demo.get(key):
-            current[key] = demo[key]
+    current["is_demo"] = is_demo
+
+    # Only backfill from demo profile when in demo mode
+    if is_demo:
+        demo = _load_demo_profile()
+        for key in ("name", "program", "interest", "semester", "interests", "enrolled", "available"):
+            if not current.get(key) and demo.get(key):
+                current[key] = demo[key]
+
     _save_profile(current)
     return _profile_to_api(current)
 
