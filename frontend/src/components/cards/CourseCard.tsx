@@ -23,7 +23,7 @@ export function CourseCard({ item, onSkip, onAccept }: Props) {
       <h3 className={styles.title}>{item.title}</h3>
       <div>
         <div className={styles.blockLabel}>WHAT IT IS</div>
-        <div className={styles.blockWhat}>{desc}</div>
+        <div className={styles.blockWhat}>{item.what || desc}</div>
       </div>
       <div>
         <div className={styles.blockLabel}>WHY IT MATTERS</div>
@@ -32,7 +32,7 @@ export function CourseCard({ item, onSkip, onAccept }: Props) {
       <div>
         <div className={styles.blockLabelInverted}>IF THIS LANDS</div>
         <div className={styles.blockLand}>
-          You'll graduate with this sought-after skill — and it goes straight on your thesis foundation.
+          {item.land || "You'll graduate with this sought-after skill — and it goes straight on your thesis foundation."}
         </div>
       </div>
       <div className={styles.btnRow}>

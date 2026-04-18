@@ -62,6 +62,7 @@ class ChatRequest(BaseModel):
 class DiscoverRequest(BaseModel):
     program: Optional[str] = None
     interest: Optional[str] = None
+    category: Optional[Literal["course", "event", "person", "scholarship"]] = None
 
 
 class PlanItem(BaseModel):
@@ -325,6 +326,7 @@ def _discover_prompt_context(profile: Mapping[str, Any], req: DiscoverRequest) -
         "github_url": (profile.get("github_url") or "").strip(),
         "linkedin_url": (profile.get("linkedin_url") or "").strip(),
         "cv_uploaded": bool(profile.get("cv_uploaded")),
+        "category": (req.category or "").strip(),
     }
 
 
@@ -414,13 +416,17 @@ def discover(req: DiscoverRequest) -> StreamingResponse:
     prompt_context = _discover_prompt_context(profile, req)
 
     user_prompt = render_prompt("discover.j2", **prompt_context)
-    system_prompt = render_prompt("system_discover.j2", date=date.today().isoformat())
+    system_prompt = render_prompt("system_discover.j2", date=date.today().isoformat(), category=prompt_context["category"])
     messages = [{"role": "user", "content": user_prompt}]
+
+    # Use tools when scoped to a category for richer results
+    use_tools = bool(req.category)
+    tool_decls = PLAN_TOOL_DECLS if use_tools else []
+    tools = PLAN_TOOLS if use_tools else {}
 
     def generate():
         try:
-            # No tools — pure brainstorm. Single-turn.
-            yield from _run_agent(messages, system_prompt, tool_decls=[], tools={})
+            yield from _run_agent(messages, system_prompt, tool_decls=tool_decls, tools=tools)
             yield _ndjson({"type": "done"})
         except Exception as exc:  # noqa: BLE001
             yield _ndjson({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
