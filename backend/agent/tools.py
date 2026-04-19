@@ -9,32 +9,29 @@ import asyncio
 import concurrent.futures
 import json
 import logging
-from pathlib import Path
-
-import yaml
 
 from config import MCP_URL
 from render import render_prompt
 
 logger = logging.getLogger(__name__)
 
-_DATA_DIR = Path(__file__).parent / "data"
-_PROFILE_PATH = _DATA_DIR / "user_profile.yaml"
+_MODEL_TOOL_BLOCKLIST = {"tum_login"}
 
 
 # ── Local tools ──────────────────────────────────────────────────────────────
 
 def load_courses() -> str:
-    """Student's enrolled/available courses — from demo YAML when is_demo, otherwise empty placeholder."""
-    profile = yaml.safe_load(_PROFILE_PATH.read_text()) if _PROFILE_PATH.exists() else {}
-    if profile.get("is_demo"):
+    """Student's enrolled courses from profile (populated by MCP after TUM login)."""
+    from server import _profile  # noqa: PLC0415 — lazy to avoid circular import
+    enrolled = _profile.get("enrolled", [])
+    if enrolled:
         return render_prompt(
             "courses.j2",
-            semester=profile.get("semester", ""),
-            enrolled=profile.get("enrolled", []),
-            available=profile.get("available", []),
+            semester=_profile.get("semester", ""),
+            enrolled=enrolled,
+            available=_profile.get("available", []),
         )
-    return "No pre-loaded course data. Use tumonline_my_exams or other MCP tools to fetch the student's real course/exam data from TUM systems."
+    return "No enrolled course data yet. Use tumonline_my_courses or tumonline_search_courses to fetch the student's course data from TUM systems."
 
 
 # ── MCP tool bridge ─────────────────────────────────────────────────────────
@@ -84,6 +81,9 @@ def _fetch_mcp_tools() -> tuple[dict, list]:
 
     for t in mcp_tools:
         name = t.name
+        if name in _MODEL_TOOL_BLOCKLIST:
+            logger.info("Skipping MCP tool %s from model-exposed toolset", name)
+            continue
 
         def make_wrapper(tool_name):
             def wrapper(**kwargs):

@@ -24,6 +24,17 @@ async function readErrorMessage(res: Response): Promise<string> {
   return (await res.text().catch(() => res.statusText)) || res.statusText;
 }
 
+export async function extractInterests(text: string): Promise<string[]> {
+  const res = await fetch(`${config.agentUrl.replace(/\/+$/, "")}/agent/extract-interests`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+  if (!res.ok) return [];
+  const data = (await res.json()) as { interests: string[] };
+  return data.interests ?? [];
+}
+
 export async function postProfile(patch: Partial<Profile>): Promise<Profile> {
   const res = await fetch(profileEndpoint(), {
     method: "POST",
@@ -40,9 +51,14 @@ export async function getProfile(): Promise<Profile> {
   return res.json() as Promise<Profile>;
 }
 
+export async function clearProfile(): Promise<void> {
+  await fetch(`${config.agentUrl.replace(/\/+$/, "")}/agent/profile/clear`, {
+    method: "POST",
+  });
+}
+
 export type DemoProfileBootstrap = {
   profile: Profile;
-  tumPassword?: string;
 };
 
 export async function resetDemoProfile(): Promise<DemoProfileBootstrap> {
@@ -74,6 +90,23 @@ export async function connectTumAccount(payload: {
     throw new Error(text || `tum connect failed: ${res.status}`);
   }
   return res.json() as Promise<Profile>;
+}
+
+function tumSessionStatusEndpoint(): string {
+  return `${config.agentUrl.replace(/\/+$/, "")}/agent/onboarding/tum-status`;
+}
+
+export async function getTumSessionStatus(tumSsoId: string): Promise<{ valid: boolean }> {
+  const res = await fetch(tumSessionStatusEndpoint(), {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ tumSsoId }),
+  });
+  if (!res.ok) {
+    const text = await readErrorMessage(res);
+    throw new Error(text || `tum session status failed: ${res.status}`);
+  }
+  return res.json() as Promise<{ valid: boolean }>;
 }
 
 export async function uploadCv(file: File): Promise<Profile> {

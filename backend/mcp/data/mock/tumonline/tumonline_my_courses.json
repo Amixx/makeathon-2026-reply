@@ -20,7 +20,8 @@
           "role": "Teaching assistant"
         }
       ],
-      "exam_method": "Written exam + problem sets"
+      "exam_method": "Written exam + problem sets",
+      "ects": 6
     },
     {
       "id": 960110145,
@@ -40,7 +41,8 @@
           "role": "Teaching assistant"
         }
       ],
-      "exam_method": "Project report + oral exam"
+      "exam_method": "Project report + oral exam",
+      "ects": 6
     },
     {
       "id": 960110188,
@@ -56,7 +58,8 @@
           "role": "Lecturer"
         }
       ],
-      "exam_method": "Written exam"
+      "exam_method": "Written exam",
+      "ects": 6
     },
     {
       "id": 960110233,
@@ -76,7 +79,8 @@
           "role": "Teaching assistant"
         }
       ],
-      "exam_method": "Lab assessment"
+      "exam_method": "Lab assessment",
+      "ects": 5
     },
     {
       "id": 960110277,
@@ -96,7 +100,8 @@
           "role": "Project mentor"
         }
       ],
-      "exam_method": "Project demo"
+      "exam_method": "Project demo",
+      "ects": 5
     }
   ]
 }

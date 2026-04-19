@@ -2,6 +2,17 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Profile } from '../lib/types';
 
+const LEGACY_STORAGE_KEY = 'onboarding-v1';
+const STORAGE_KEY = 'onboarding-v2';
+
+if (typeof window !== 'undefined') {
+  try {
+    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+  } catch {
+    // Ignore storage cleanup failures in restricted environments.
+  }
+}
+
 export type OnboardingState = {
   vision: string;
   blockers: string;
@@ -13,11 +24,9 @@ export type OnboardingState = {
   linkedinUrl: string;
   interests: string[];
   tumSsoId: string;
-  tumPassword: string;
   tumSsoConnected: boolean;
   // commitment level
   commitment: 'whisper' | 'steady' | 'push';
-  isDemo: boolean;
   setField: <K extends keyof Omit<OnboardingState, 'setField' | 'reset'>>(
     key: K,
     value: OnboardingState[K],
@@ -37,10 +46,8 @@ const defaults = {
   linkedinUrl: '',
   interests: [] as string[],
   tumSsoId: '',
-  tumPassword: '',
   tumSsoConnected: false,
   commitment: 'steady' as const,
-  isDemo: false,
 };
 
 export const useOnboarding = create<OnboardingState>()(
@@ -60,7 +67,9 @@ export const useOnboarding = create<OnboardingState>()(
           githubUrl: profile.githubUrl ?? state.githubUrl,
           linkedinUrl: profile.linkedinUrl ?? state.linkedinUrl,
           interests: profile.interests ?? state.interests,
-          tumSsoId: profile.tumSsoId ?? state.tumSsoId,
+          // Keep locally-entered tumSsoId over backend value (avoids demo
+          // username overwriting what the user typed on reload).
+          tumSsoId: state.tumSsoId || profile.tumSsoId || '',
           tumSsoConnected: profile.tumSsoConnected ?? state.tumSsoConnected,
           commitment:
             profile.commitment === 'whisper' ||
@@ -68,10 +77,10 @@ export const useOnboarding = create<OnboardingState>()(
             profile.commitment === 'push'
               ? profile.commitment
               : state.commitment,
-          isDemo: profile.isDemo ?? state.isDemo,
+
         })),
       reset: () => set(defaults),
     }),
-    { name: 'onboarding-v1' },
+    { name: STORAGE_KEY },
   ),
 );

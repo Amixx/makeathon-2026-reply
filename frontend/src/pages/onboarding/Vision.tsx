@@ -1,10 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ProgressDots, SectionLabel, VoiceOrb } from '../../components/ui';
-import { useVoiceRecorder } from '../../hooks/useVoiceRecorder';
-import { postProfile } from '../../lib/agent';
-import { transcribeAudio } from '../../lib/voice';
+import { extractInterests, postProfile } from '../../lib/agent';
 import { useOnboarding } from '../../store/onboarding';
 import s from './onboarding.module.css';
 
@@ -15,40 +13,31 @@ export default function Vision() {
   const interests = useOnboarding((st) => st.interests);
   const interest = useOnboarding((st) => st.interest);
 
-  const { listening, start, stop } = useVoiceRecorder();
-  const [transcribing, setTranscribing] = useState(false);
-
   const [saving, setSaving] = useState(false);
 
-  async function handleOrbClick() {
-    if (listening) {
-      setTranscribing(true);
-      const blob = await stop();
-      if (blob) {
-        try {
-          const result = await transcribeAudio(blob);
-          if (result.text) setField('vision', result.text);
-          if (result.fields.interests?.length) setField('interests', result.fields.interests);
-          if (result.fields.vision) setField('vision', result.fields.vision);
-          if (!interest && result.fields.interests?.[0]) {
-            setField('interest', result.fields.interests[0]);
-          }
-        } catch {
-          // backend stub returns empty — that's fine, let user type
+  const extractTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (extractTimer.current !== null) clearTimeout(extractTimer.current);
+    if (vision.trim().length < 15) return;
+    extractTimer.current = setTimeout(async () => {
+      try {
+        const result = await extractInterests(vision);
+        if (result.length > 0) {
+          setField('interests', result);
+          if (!interest && result[0]) setField('interest', result[0]);
         }
+      } catch {
+        // ignore — chips stay as-is
       }
-      setTranscribing(false);
-    } else {
-      await start();
-    }
-  }
+    }, 800);
+    return () => {
+      if (extractTimer.current !== null) clearTimeout(extractTimer.current);
+    };
+  }, [vision]);
 
   const canContinue = vision.trim().length > 0;
 
   async function handleContinue() {
-    if (listening) {
-      await handleOrbClick();
-    }
     setSaving(true);
     try {
       await postProfile({
@@ -82,37 +71,36 @@ export default function Vision() {
 
         {/* Heading */}
         <div className={s.heading}>
-          <SectionLabel pulsing={listening}>
-            {listening ? 'LISTENING…' : 'YOUR FUTURE SELF · WISH'}
-          </SectionLabel>
+          <SectionLabel>YOUR FUTURE SELF · WISH</SectionLabel>
           <h2 className={s.qTitle}>What would Future You in 2029 be proud of?</h2>
+          <p className={s.qSub}>Voice mode is coming soon. For now, type your answer below and we&apos;ll still pull out the key themes.</p>
         </div>
 
         {/* Orb */}
         <div className={s.orbWrap}>
-          <VoiceOrb listening={listening} onClick={handleOrbClick} />
+          <VoiceOrb />
         </div>
 
-        {/* Pause pill */}
+        {/* Voice status */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div className={s.pausePill}>
-            {transcribing ? (
-              <span>Transcribing…</span>
-            ) : listening ? (
-              <>
-                <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
-                  <rect x="0" y="0" width="3" height="12" rx="1" />
-                  <rect x="7" y="0" width="3" height="12" rx="1" />
-                </svg>
-                <span>TAP ORB TO STOP</span>
-              </>
-            ) : (
-              <span>TAP ORB TO START</span>
-            )}
-          </div>
+          <div className={s.pausePill}>VOICE MODE COMING SOON · TYPE BELOW TO CONTINUE</div>
         </div>
 
-        {/* Live chips */}
+        <motion.div
+          className={s.textareaWrap}
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+        >
+          <SectionLabel muted>TYPE YOUR VISION</SectionLabel>
+          <textarea
+            className={s.textarea}
+            placeholder="I want to work on Mars robotics, ideally on the systems that actually move, navigate, and make decisions on the surface…"
+            value={vision}
+            onChange={(e) => setField('vision', e.target.value)}
+          />
+        </motion.div>
+
+        {/* Extracted interest chips */}
         <AnimatePresence>
           {interests.length > 0 && (
             <motion.div
@@ -142,29 +130,15 @@ export default function Vision() {
           )}
         </AnimatePresence>
 
-        <motion.div
-          className={s.textareaWrap}
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-        >
-          <SectionLabel muted>TYPE YOUR VISION</SectionLabel>
-          <textarea
-            className={s.textarea}
-            placeholder="I want to work on Mars robotics, ideally on the systems that actually move, navigate, and make decisions on the surface…"
-            value={vision}
-            onChange={(e) => setField('vision', e.target.value)}
-          />
-        </motion.div>
-
         <div className={s.spacer} />
 
         <button
           className={s.btnPrimary}
           style={{ width: '100%' }}
-          disabled={(!canContinue && !listening) || saving}
+          disabled={!canContinue || saving}
           onClick={handleContinue}
         >
-          {saving ? 'Saving…' : listening ? 'Stop & continue' : 'Continue'}
+          {saving ? 'Saving…' : 'Continue'}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>

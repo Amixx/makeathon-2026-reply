@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { ProgressDots, SectionLabel, VoiceOrb } from '../../components/ui';
-import { useVoiceRecorder } from '../../hooks/useVoiceRecorder';
 import { postProfile } from '../../lib/agent';
-import { transcribeAudio } from '../../lib/voice';
 import { useOnboarding } from '../../store/onboarding';
 import s from './onboarding.module.css';
 
@@ -24,8 +22,6 @@ export default function Blockers() {
 
   const [activePresets, setActivePresets] = useState<Set<string>>(new Set());
 
-  const { listening, start, stop } = useVoiceRecorder();
-  const [transcribing, setTranscribing] = useState(false);
   const [saving, setSaving] = useState(false);
 
   function togglePreset(key: string) {
@@ -45,27 +41,7 @@ export default function Blockers() {
     }
   }
 
-  async function handleOrbClick() {
-    if (listening) {
-      setTranscribing(true);
-      const blob = await stop();
-      if (blob) {
-        try {
-          const result = await transcribeAudio(blob);
-          if (result.text) setField('blockers', result.text);
-          if (result.fields.blockers) setField('blockers', result.fields.blockers);
-        } catch {
-          // stub — ignore
-        }
-      }
-      setTranscribing(false);
-    } else {
-      await start();
-    }
-  }
-
   async function handleContinue() {
-    if (listening) await handleOrbClick();
     setSaving(true);
     try {
       await postProfile({ blockers });
@@ -95,36 +71,34 @@ export default function Blockers() {
 
         {/* Heading */}
         <div className={s.heading}>
-          <SectionLabel pulsing={listening}>
-            {listening ? 'LISTENING…' : 'WOOP · OBSTACLE'}
-          </SectionLabel>
+          <SectionLabel>WOOP · OBSTACLE</SectionLabel>
           <h2 className={s.qTitle}>What's the part that feels heaviest?</h2>
-          <p className={s.qSub}>Speak what's there. We'll pick out the weight — no scoring.</p>
+          <p className={s.qSub}>Voice mode is coming soon. For now, type what&apos;s there and we&apos;ll still pick out the weight.</p>
         </div>
 
         {/* Orb */}
         <div className={s.orbWrap}>
-          <VoiceOrb listening={listening} onClick={handleOrbClick} />
+          <VoiceOrb />
         </div>
 
-        {/* Pause pill */}
+        {/* Voice status */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div className={s.pausePill}>
-            {transcribing ? (
-              <span>Transcribing…</span>
-            ) : listening ? (
-              <>
-                <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor">
-                  <rect x="0" y="0" width="3" height="12" rx="1" />
-                  <rect x="7" y="0" width="3" height="12" rx="1" />
-                </svg>
-                <span>TAP ORB TO STOP</span>
-              </>
-            ) : (
-              <span>TAP ORB TO START</span>
-            )}
-          </div>
+          <div className={s.pausePill}>VOICE MODE COMING SOON · TYPE BELOW TO CONTINUE</div>
         </div>
+
+        <motion.div
+          className={s.textareaWrap}
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+        >
+          <SectionLabel muted>TYPE WHAT'S HEAVY</SectionLabel>
+          <textarea
+            className={s.textarea}
+            placeholder="The heavy part is comparison. Everyone around me feels more polished and more obvious about where they are going…"
+            value={blockers}
+            onChange={(e) => setField('blockers', e.target.value)}
+          />
+        </motion.div>
 
         {/* Preset chips */}
         <div className={s.visionCard}>
@@ -142,20 +116,6 @@ export default function Blockers() {
           </div>
         </div>
 
-        <motion.div
-          className={s.textareaWrap}
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-        >
-          <SectionLabel muted>TYPE WHAT'S HEAVY</SectionLabel>
-          <textarea
-            className={s.textarea}
-            placeholder="The heavy part is comparison. Everyone around me feels more polished and more obvious about where they are going…"
-            value={blockers}
-            onChange={(e) => setField('blockers', e.target.value)}
-          />
-        </motion.div>
-
         <div className={s.spacer} />
 
         <button
@@ -164,7 +124,7 @@ export default function Blockers() {
           disabled={saving}
           onClick={handleContinue}
         >
-          {saving ? 'Saving…' : listening ? 'Stop & continue' : 'Continue'}
+          {saving ? 'Saving…' : 'Continue'}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>

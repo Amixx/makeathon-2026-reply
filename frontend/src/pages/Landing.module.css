@@ -110,6 +110,45 @@
   transform: scale(0.98);
 }
 
+.ctaBtnGhost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 24px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg-inverted-muted);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
+}
+
+.ctaBtnGhost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.ctaBtnGhost:active {
+  transform: scale(0.98);
+}
+
+.ctaBtnGhost:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ctaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
 .footerCaption {
   font-family: var(--font-mono);
   font-size: 10px;

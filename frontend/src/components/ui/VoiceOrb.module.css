@@ -25,6 +25,10 @@
   animation: orbPulse 2.4s ease-in-out infinite;
 }
 
+.staticOrb {
+  cursor: default;
+}
+
 .listening {
   animation: orbPulse 1s ease-in-out infinite;
   box-shadow:

@@ -26,3 +26,5 @@ BEDROCK_MODEL: str = os.getenv(
 BEDROCK_MAX_TOKENS: int = int(os.getenv("BEDROCK_MAX_TOKENS", "4096"))
 ANTHROPIC_VERSION: str = "bedrock-2023-05-31"
 MAX_TOOL_ROUNDS: int = int(os.getenv("AGENT_MAX_TOOL_ROUNDS", "8"))
+
+DEMO_TUM_USERNAME: str = os.getenv("DEMO_TUM_USERNAME", "ge47lbg").strip()

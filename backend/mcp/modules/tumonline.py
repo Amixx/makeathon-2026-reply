@@ -260,6 +260,66 @@ def register(mcp: FastMCP) -> None:
 
     # ── Authenticated REST API tools ────────────────────────────────────────
     @mcp.tool()
+    async def tumonline_my_studies(username: str) -> dict:
+        """Get the student's enrolled degree programs, name, and current semester.
+
+        Returns program name, degree type, semester number, enrollment status.
+        Requires prior tum_login.
+        """
+        if mock.is_demo_mode():
+            m = await mock.get_mock("tumonline", "tumonline_my_studies", username=username)
+            if m is not None:
+                return m
+        ctx = await auth.get_context(username)
+        if ctx is None:
+            return {"error": "No active session. Call tum_login first."}
+        try:
+            page = await ctx.new_page()
+            await page.goto(
+                _desktop_url("slc.tm.cp/student/studies"),
+                wait_until="networkidle",
+                timeout=30_000,
+            )
+            await page.wait_for_timeout(2_500)
+
+            ls_key = f"{TUM_ONLINE_PATH.lstrip('/')}_co.login.accessToken"
+            token = await page.evaluate(f'() => localStorage.getItem("{ls_key}")')
+
+            if token:
+                rest_url = f"{REST_BASE}/slc.tm.cp/student/myStudies?$top=50"
+                data = await _spa_xhr(page, rest_url, token)
+                if data is not None:
+                    studies = []
+                    for entry in data.get("resource", []):
+                        c = entry.get("content", {})
+                        dto = next((v for v in c.values() if isinstance(v, dict)), {})
+                        studies.append({
+                            "program": _extract_lang(dto.get("studyName") or dto.get("name")),
+                            "degree": _extract_lang(dto.get("degreeName")),
+                            "semester": dto.get("currentSemester") or dto.get("semester"),
+                            "status": _extract_lang(dto.get("studyStatusName") or dto.get("status")),
+                        })
+                    # Try to get student name
+                    name_url = f"{REST_BASE}/slc.tm.cp/student/myProfile"
+                    name_data = await _spa_xhr(page, name_url, token)
+                    name = ""
+                    if name_data:
+                        res = name_data.get("resource", [{}])
+                        if res:
+                            profile = next((v for v in res[0].get("content", {}).values() if isinstance(v, dict)), {})
+                            first = profile.get("firstName", "")
+                            last = profile.get("lastName", "")
+                            name = f"{first} {last}".strip()
+                    return {"studies": studies, "name": name}
+
+            return {"error": "Could not fetch studies. Session may have expired."}
+        except Exception as e:
+            logger.exception("tumonline_my_studies failed")
+            return {"error": str(e)}
+        finally:
+            await ctx.close()
+
+    @mcp.tool()
     async def tumonline_my_courses(username: str, semester_id: int = 206) -> dict:
         """List the user's registered courses for a semester with full details.
 

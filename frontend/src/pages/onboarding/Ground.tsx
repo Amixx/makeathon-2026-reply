@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { ProgressDots, SectionLabel, MiniInput, UploadDrop } from '../../components/ui';
@@ -20,16 +20,23 @@ export default function Ground() {
   const setField = useOnboarding((st) => st.setField);
 
   const tumSsoId = useOnboarding((st) => st.tumSsoId);
-  const tumPassword = useOnboarding((st) => st.tumPassword);
   const tumSsoConnected = useOnboarding((st) => st.tumSsoConnected);
   const cvFileName = useOnboarding((st) => st.cvFileName);
   const githubUrl = useOnboarding((st) => st.githubUrl);
   const linkedinUrl = useOnboarding((st) => st.linkedinUrl);
 
+  const [tumPassword, setTumPassword] = useState('');
   const [uploadingCv, setUploadingCv] = useState(false);
   const [saving, setSaving] = useState(false);
   const [tumError, setTumError] = useState<string | null>(null);
   const [cvError, setCvError] = useState<string | null>(null);
+  const [loginStatus, setLoginStatus] = useState<'idle' | 'logging-in' | 'success' | 'error'>('idle');
+
+  useEffect(() => {
+    if (tumSsoConnected) setLoginStatus('success');
+  }, [tumSsoConnected]);
+
+
 
   async function handleCvFile(file: File) {
     setCvError(null);
@@ -44,33 +51,38 @@ export default function Ground() {
     }
   }
 
-  async function handleContinue() {
-    if (!tumSsoId.trim() || !tumPassword.trim()) {
-      setTumError('Enter your TUM ID and password.');
+  async function handleLogin() {
+    if (!tumSsoId.trim()) {
+      setTumError('Enter your TUM ID.');
+      return;
+    }
+    if (!tumPassword.trim()) {
+      setTumError('Enter your password.');
       return;
     }
     setTumError(null);
-    setSaving(true);
-    let connected = tumSsoConnected;
+    setLoginStatus('logging-in');
     try {
-      if (!connected) {
-        const profile = await connectTumAccount({ tumSsoId, password: tumPassword });
-        setField('tumSsoId', profile.tumSsoId ?? tumSsoId);
-        connected = profile.tumSsoConnected ?? true;
-        setField('tumSsoConnected', connected);
-      }
+      const profile = await connectTumAccount({ tumSsoId, password: tumPassword });
+      setField('tumSsoId', profile.tumSsoId ?? tumSsoId);
+      setField('tumSsoConnected', profile.tumSsoConnected ?? true);
+      setTumPassword('');
+      setLoginStatus('success');
     } catch (error) {
       setTumError(error instanceof Error ? error.message : 'Could not connect right now.');
-      setSaving(false);
-      return;
+      setLoginStatus('error');
     }
+  }
+
+  async function handleContinue() {
+    setSaving(true);
     try {
       await postProfile({
         githubUrl,
         linkedinUrl,
         cvFileName,
         tumSsoId,
-        tumSsoConnected: connected,
+        tumSsoConnected,
       });
     } catch {
       // local state remains the source of truth when backend is unavailable
@@ -80,7 +92,19 @@ export default function Ground() {
     navigate('/onboarding/commitment');
   }
 
-  const canContinue = tumSsoId.trim().length > 0 && tumPassword.trim().length > 0;
+  function handleTumIdChange(value: string) {
+    const nextId = value.trim().toLowerCase();
+    const currentId = tumSsoId.trim().toLowerCase();
+    setField('tumSsoId', value);
+    setTumError(null);
+    if (nextId !== currentId) {
+      setField('tumSsoConnected', false);
+      setLoginStatus('idle');
+    }
+  }
+
+  const canLogin = tumSsoId.trim().length > 0 && tumPassword.trim().length > 0 && !tumSsoConnected;
+  const canContinue = tumSsoConnected;
 
   return (
     <div className={s.page}>
@@ -121,7 +145,7 @@ export default function Ground() {
               <span className={s.fieldLabel}>TUM ID · REQUIRED</span>
               <MiniInput
                 value={tumSsoId}
-                onChange={(v) => setField('tumSsoId', v)}
+                onChange={handleTumIdChange}
                 placeholder="ga12xyz"
                 autoComplete="username"
               />
@@ -130,13 +154,29 @@ export default function Ground() {
               <span className={s.fieldLabel}>PASSWORD · REQUIRED</span>
               <MiniInput
                 value={tumPassword}
-                onChange={(v) => setField('tumPassword', v)}
-                placeholder="••••••••"
+                onChange={setTumPassword}
+                placeholder=""
                 type="password"
                 autoComplete="current-password"
               />
             </div>
           </div>
+          {loginStatus === 'success' ? (
+            <span className={s.successBadge}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Connected
+            </span>
+          ) : (
+            <button
+              className={s.connectBtn}
+              disabled={!canLogin || loginStatus === 'logging-in'}
+              onClick={handleLogin}
+            >
+              {loginStatus === 'logging-in' ? 'Connecting…' : 'Log in'}
+            </button>
+          )}
           {tumError && <p className={s.inlineError}>{tumError}</p>}
         </motion.div>
 
@@ -213,7 +253,7 @@ export default function Ground() {
           disabled={!canContinue || saving}
           onClick={handleContinue}
         >
-          {saving ? 'Saving…' : 'Continue — work with what we have'}
+          {saving ? 'Saving…' : 'Continue'}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>

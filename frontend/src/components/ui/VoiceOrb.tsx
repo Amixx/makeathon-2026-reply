@@ -18,11 +18,11 @@ export function VoiceOrb({ listening = false, onClick, className = '', style }: 
       transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
     >
       <div
-        className={[styles.orb, listening ? styles.listening : '', className].filter(Boolean).join(' ')}
+        className={[styles.orb, listening ? styles.listening : '', !onClick ? styles.staticOrb : '', className].filter(Boolean).join(' ')}
         style={style}
         onClick={onClick}
         role={onClick ? 'button' : undefined}
-        aria-label={listening ? 'Listening…' : 'Tap to speak'}
+        aria-label={onClick ? (listening ? 'Listening…' : 'Tap to speak') : 'Voice mode coming soon'}
       />
     </motion.div>
   );

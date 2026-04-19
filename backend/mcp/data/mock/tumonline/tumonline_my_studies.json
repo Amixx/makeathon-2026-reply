@@ -1,0 +1,15 @@
+{
+  "studies": [
+    {
+      "program": "M.Sc. Aerospace Engineering",
+      "degree": "Master of Science",
+      "semester": 2,
+      "semester_label": "2nd semester",
+      "status": "enrolled",
+      "start_date": "2025-10-01",
+      "expected_end": "2027-09-30"
+    }
+  ],
+  "name": "Lukas Berger",
+  "matriculation_number": "03712345"
+}

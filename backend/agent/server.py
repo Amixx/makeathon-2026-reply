@@ -17,7 +17,6 @@ from typing import Any, Dict, Iterator, List, Literal, Optional
 import io
 
 import boto3
-import yaml
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -30,6 +29,7 @@ from config import (
     AWS_REGION,
     BEDROCK_MAX_TOKENS,
     BEDROCK_MODEL,
+    DEMO_TUM_USERNAME,
     MAX_TOOL_ROUNDS,
 )
 from render import render_prompt
@@ -47,9 +47,10 @@ app.add_middleware(
 
 _bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
 
-_PROFILE_PATH = Path(__file__).parent / "data" / "user_profile.yaml"
-_DEMO_PROFILE_PATH = Path(__file__).parent / "data" / "user_profile_demo.yaml"
 _UPLOADS_DIR = Path(__file__).parent / "data" / "uploads"
+
+# In-memory profile — no YAML persistence needed for a demo.
+_profile: dict = {"commitment": "steady"}
 
 
 class IncomingMessage(BaseModel):
@@ -233,9 +234,17 @@ class ProfileRequest(BaseModel):
     isDemo: Optional[bool] = None
 
 
+class ExtractInterestsRequest(BaseModel):
+    text: str
+
+
 class TumConnectRequest(BaseModel):
     tumSsoId: str
     password: str
+
+
+class TumSessionStatusRequest(BaseModel):
+    tumSsoId: str
 
 
 _PROFILE_FIELD_MAP = {
@@ -303,21 +312,12 @@ def _sanitize_filename(name: str) -> str:
 
 
 def _load_profile() -> dict:
-    if not _PROFILE_PATH.exists():
-        return {}
-    return yaml.safe_load(_PROFILE_PATH.read_text()) or {}
-
-
-def _load_demo_profile() -> dict:
-    if not _DEMO_PROFILE_PATH.exists():
-        return {}
-    return yaml.safe_load(_DEMO_PROFILE_PATH.read_text()) or {}
-
+    return _profile.copy()
 
 
 def _save_profile(data: dict) -> None:
-    _PROFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    _PROFILE_PATH.write_text(yaml.dump(data, allow_unicode=True, sort_keys=False))
+    global _profile
+    _profile = data
 
 
 def _discover_prompt_context(profile: Mapping[str, Any], req: DiscoverRequest) -> dict:
@@ -346,13 +346,13 @@ def _discover_prompt_context(profile: Mapping[str, Any], req: DiscoverRequest) -
 
 @app.get("/agent/profile")
 def get_profile() -> dict:
-    """Return the current user profile from user_profile.yaml."""
+    """Return the current user profile."""
     return _profile_to_api(_load_profile())
 
 
 @app.post("/agent/profile")
 def post_profile(req: ProfileRequest) -> dict:
-    """Merge supplied fields into user_profile.yaml. Unspecified fields are kept as-is."""
+    """Merge supplied fields into the profile. Unspecified fields are kept as-is."""
     current = _load_profile()
     updates = req.model_dump(exclude_none=True)
     current = _merge_profile_patch(current, updates)
@@ -360,14 +360,36 @@ def post_profile(req: ProfileRequest) -> dict:
     return _profile_to_api(current)
 
 
+@app.post("/agent/profile/clear")
+def clear_profile() -> dict:
+    """Reset the server-side profile to a blank slate."""
+    _save_profile({"commitment": "steady"})
+    return _profile_to_api(_load_profile())
+
+
 @app.post("/agent/profile/demo-reset")
 def reset_demo_profile() -> dict:
-    demo = _load_demo_profile()
-    demo["is_demo"] = True
+    demo = {
+        "user_id": DEMO_TUM_USERNAME,
+        "tum_sso_id": DEMO_TUM_USERNAME,
+        "tum_sso_connected": False,
+        "commitment": "steady",
+        "is_demo": True,
+        "vision": (
+            "I want to work on Mars robotics, ideally on the systems that "
+            "actually move, navigate, and make decisions on the surface. "
+            "By 2029 I'd love to be part of a team at ESA or a deep-tech "
+            "startup building autonomous rovers."
+        ),
+        "blockers": "TIME, CONFIDENCE, INFO OVERLOAD",
+        "interests": ["Robotics", "Autonomous Systems", "Space Tech", "Embedded ML"],
+        "interest": "Robotics",
+        "github_url": "https://github.com/mars-rover-dev",
+        "linkedin_url": "https://linkedin.com/in/anna-schmidt-tum",
+    }
     _save_profile(demo)
     return {
         "profile": _profile_to_api(demo),
-        "tumPassword": "demo-password",
     }
 
 
@@ -395,25 +417,88 @@ def connect_tum_account(req: TumConnectRequest) -> dict:
     except HTTPException:
         raise
     except Exception as exc:
-        # MCP unavailable — fall back to old stub behaviour
         import logging
         logging.getLogger(__name__).warning("MCP tum_login unavailable: %s", exc)
-        is_demo = False
+        raise HTTPException(
+            status_code=502,
+            detail="TUM login service is currently unavailable. Please try again.",
+        )
 
     current["tum_sso_id"] = tum_id
     current["tum_sso_connected"] = True
-    current["user_id"] = current.get("user_id") or tum_id
+    current["user_id"] = tum_id
     current["is_demo"] = is_demo
 
-    # Only backfill from demo profile when in demo mode
-    if is_demo:
-        demo = _load_demo_profile()
-        for key in ("name", "program", "interest", "semester", "interests", "enrolled", "available"):
-            if not current.get(key) and demo.get(key):
-                current[key] = demo[key]
+    # Enrich profile with data from TUM systems
+    try:
+        # Fetch student info (name, program, semester)
+        studies_raw = _call_mcp_tool("tumonline_my_studies", {"username": tum_id})
+        studies_data = json.loads(studies_raw) if isinstance(studies_raw, str) else studies_raw
+        if isinstance(studies_data, dict) and not studies_data.get("error"):
+            if studies_data.get("name"):
+                current["name"] = studies_data["name"]
+            studies = studies_data.get("studies", [])
+            if studies:
+                primary = studies[0]
+                if primary.get("program"):
+                    current["program"] = primary["program"]
+                sem = primary.get("semester")
+                if sem is not None:
+                    label = primary.get("semester_label") or f"Semester {sem}"
+                    current["semester"] = label
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("Could not fetch studies after login: %s", exc)
+
+    try:
+        # Fetch enrolled courses
+        courses_raw = _call_mcp_tool("tumonline_my_courses", {"username": tum_id})
+        courses_data = json.loads(courses_raw) if isinstance(courses_raw, str) else courses_raw
+        if isinstance(courses_data, dict) and not courses_data.get("error"):
+            enrolled = []
+            for c in courses_data.get("courses", []):
+                enrolled.append({
+                    "id": c.get("course_number", ""),
+                    "name": c.get("title", ""),
+                    "ects": c.get("ects", 0),
+                })
+            if enrolled:
+                current["enrolled"] = enrolled
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("Could not fetch courses after login: %s", exc)
 
     _save_profile(current)
     return _profile_to_api(current)
+
+
+@app.post("/agent/onboarding/tum-status")
+def get_tum_session_status(req: TumSessionStatusRequest) -> dict:
+    tum_id = req.tumSsoId.strip().lower()
+    if not tum_id:
+        raise HTTPException(status_code=400, detail="TUM ID is required.")
+
+    current = _load_profile()
+
+    if current.get("is_demo") and current.get("tum_sso_id") == tum_id:
+        valid = bool(current.get("tum_sso_connected"))
+        return {"valid": valid}
+
+    try:
+        result = _call_mcp_tool("tum_session_status", {"username": tum_id})
+        import json as _json
+        status_result = _json.loads(result) if isinstance(result, str) else result
+        valid = bool(status_result.get("valid"))
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("MCP tum_session_status unavailable: %s", exc)
+        valid = bool(current.get("tum_sso_connected") and current.get("tum_sso_id") == tum_id)
+
+    current["tum_sso_id"] = tum_id
+    current["tum_sso_connected"] = valid
+    current["user_id"] = current.get("user_id") or tum_id
+    _save_profile(current)
+    return {"valid": valid}
 
 
 @app.post("/agent/onboarding/cv")
@@ -474,6 +559,41 @@ async def voice_transcribe(audio: UploadFile = File(...)) -> dict:
     # STUB: returns empty result so the frontend can fall back to manual input.
     """
     return {"text": "", "fields": {}}
+
+
+@app.post("/agent/extract-interests")
+def extract_interests(req: ExtractInterestsRequest) -> dict:
+    text = req.text.strip()
+    if len(text) < 15:
+        return {"interests": []}
+    try:
+        body = {
+            "anthropic_version": ANTHROPIC_VERSION,
+            "max_tokens": 100,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": f"Extract 3-6 short keyword tags (1-3 words each) that capture the main career interests and themes from this text. Return ONLY a JSON array of strings, nothing else.\n\nText: {text}",
+                }
+            ],
+        }
+        response = _bedrock.invoke_model(
+            modelId=BEDROCK_MODEL,
+            body=json.dumps(body),
+        )
+        result = json.loads(response["body"].read())
+        raw = result.get("content", [{}])[0].get("text", "[]")
+        start = raw.find("[")
+        end = raw.rfind("]")
+        if start >= 0 and end > start:
+            interests = json.loads(raw[start : end + 1])
+            if isinstance(interests, list):
+                return {"interests": [str(i).strip() for i in interests[:6] if str(i).strip()]}
+        return {"interests": []}
+    except Exception:
+        import logging
+        logging.getLogger(__name__).warning("extract-interests failed", exc_info=True)
+        return {"interests": []}
 
 
 def _extract_items(text: str) -> list:
