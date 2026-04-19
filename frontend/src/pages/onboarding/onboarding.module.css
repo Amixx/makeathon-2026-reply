@@ -199,8 +199,10 @@
 }
 
 .btnPrimary {
-  flex: 2;
-  padding: 14px;
+  flex: 0 0 auto;
+  min-height: var(--onboarding-cta-height, 90px);
+  height: var(--onboarding-cta-height, 90px);
+  padding: 0 14px;
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 700;
@@ -226,8 +228,10 @@
 }
 
 .btnAccent {
-  flex: 2;
-  padding: 14px;
+  flex: 0 0 auto;
+  min-height: var(--onboarding-cta-height, 90px);
+  height: var(--onboarding-cta-height, 90px);
+  padding: 0 14px;
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 700;

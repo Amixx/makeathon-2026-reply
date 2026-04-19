@@ -174,7 +174,7 @@ export default function Ground() {
               disabled={!canLogin || loginStatus === 'logging-in'}
               onClick={handleLogin}
             >
-              {loginStatus === 'logging-in' ? 'Connecting…' : 'Log in'}
+              {loginStatus === 'logging-in' ? 'Connecting… (may take a few seconds)' : 'Log in'}
             </button>
           )}
           {tumError && <p className={s.inlineError}>{tumError}</p>}
