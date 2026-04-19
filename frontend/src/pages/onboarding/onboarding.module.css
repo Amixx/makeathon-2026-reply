@@ -206,6 +206,8 @@
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
   color: var(--fg-inverted);
   background: var(--primary-600);
   border: none;
@@ -216,6 +218,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .btnPrimary:hover {
@@ -235,6 +238,8 @@
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
   color: var(--fg-inverted);
   background: var(--accent-500);
   border: none;
@@ -245,6 +250,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .btnAccent:hover {
