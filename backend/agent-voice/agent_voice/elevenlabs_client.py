@@ -34,8 +34,13 @@ class ElevenLabsClient:
             "optimize_streaming_latency": self.settings.elevenlabs_tts_latency,
         }
 
-    async def transcribe(self, wav_bytes: bytes, filename: str = "turn.wav") -> TranscriptResult:
-        files = {"file": (filename, wav_bytes, "audio/wav")}
+    async def transcribe(
+        self,
+        audio_bytes: bytes,
+        filename: str = "turn.wav",
+        content_type: str = "audio/wav",
+    ) -> TranscriptResult:
+        files = {"file": (filename, audio_bytes, content_type or "application/octet-stream")}
         data = {
             "model_id": self.settings.elevenlabs_stt_model,
             "language_code": self.settings.language,
