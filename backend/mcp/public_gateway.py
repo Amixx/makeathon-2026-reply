@@ -47,6 +47,11 @@ def _target_url(request: Request, target_base: str) -> str:
     return f"{target_base}{request.url.path}{query}"
 
 
+def _wants_html(request: Request) -> bool:
+    accept = request.headers.get("accept", "").lower()
+    return "text/html" in accept or "application/xhtml+xml" in accept
+
+
 async def _serve_mcp_docs(request: Request) -> Response:
     html_text = MCP_DOCS_TEMPLATE.read_text()
     mcp_url = html.escape(f"{_public_base_url(request)}/mcp")
@@ -54,6 +59,117 @@ async def _serve_mcp_docs(request: Request) -> Response:
     html_text = html_text.replace("__MCP_URL__", mcp_url)
     html_text = html_text.replace("__DEMO_USERNAME__", demo_username)
     return HTMLResponse(html_text)
+
+
+async def _serve_mcp_entry(request: Request) -> Response:
+    mcp_url = html.escape(f"{_public_base_url(request)}/mcp")
+    docs_url = html.escape(f"{_public_base_url(request)}/mcp/docs")
+    return HTMLResponse(
+        f"""<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WayTum MCP</title>
+    <style>
+      :root {{
+        --bg: #fbfaf7;
+        --card: #ffffff;
+        --ink: #141925;
+        --muted: #5c6171;
+        --line: #e6e4dd;
+        --accent: #3d78b5;
+        --accent-soft: #e9f2fb;
+        --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+        --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      }}
+      * {{ box-sizing: border-box; }}
+      body {{
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: linear-gradient(180deg, #f4f3ee 0%, var(--bg) 220px);
+        color: var(--ink);
+        font-family: var(--sans);
+      }}
+      .card {{
+        width: min(680px, 100%);
+        padding: 28px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        box-shadow: 0 16px 50px rgba(20, 25, 37, 0.05);
+      }}
+      .eyebrow {{
+        font: 700 11px/1 var(--mono);
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+      }}
+      h1 {{
+        margin: 0 0 10px;
+        font-size: clamp(30px, 6vw, 42px);
+        line-height: 1.05;
+        letter-spacing: -0.8px;
+      }}
+      p {{
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }}
+      .actions {{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }}
+      a {{
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 13px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--ink);
+        text-decoration: none;
+        font: 700 12px/1 var(--mono);
+      }}
+      a:hover {{
+        border-color: var(--accent);
+        color: var(--accent);
+      }}
+      code {{
+        display: block;
+        margin-top: 16px;
+        padding: 12px 14px;
+        background: #f7f8fb;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        font: 12px/1.5 var(--mono);
+        overflow-wrap: anywhere;
+        color: var(--ink);
+      }}
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="eyebrow">WayTum MCP</div>
+      <h1>This endpoint is for MCP clients.</h1>
+      <p>
+        If you opened <code style="display:inline;padding:0;background:none;border:none;margin:0;">/mcp</code> in a browser, you probably want the docs instead.
+        MCP tools should connect to the raw endpoint below over Streamable HTTP.
+      </p>
+      <div class="actions">
+        <a href="{docs_url}">Open docs</a>
+      </div>
+      <code>{mcp_url}</code>
+    </main>
+  </body>
+</html>"""
+    )
 
 
 async def _proxy_request(request: Request, target_base: str) -> Response:
@@ -103,6 +219,8 @@ async def catch_all(request: Request) -> Response:
     path = request.url.path
     if path == "/" and "transport" not in request.query_params:
         return await root_redirect(request)
+    if path in {"/mcp", "/mcp/"} and request.method in {"GET", "HEAD"} and _wants_html(request):
+        return await _serve_mcp_entry(request)
     if path in {"/mcp/docs", "/mcp/docs/"}:
         return await _serve_mcp_docs(request)
     if path.startswith("/mcp"):
