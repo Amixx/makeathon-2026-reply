@@ -90,6 +90,9 @@ export default function Landing() {
           >
             {loadingDemo ? "Loading…" : "✨ Use sample demo data"}
           </button>
+          <a className={styles.docsLink} href="/mcp/docs">
+            Read the MCP docs
+          </a>
         </motion.div>
 
         <motion.p {...fadeUp(0.6)} className={styles.footerCaption}>

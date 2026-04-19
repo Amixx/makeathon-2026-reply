@@ -1,0 +1,21 @@
+{
+  "__key__": "confirm",
+  "False": {
+    "status": "staged",
+    "message": "Reached booking confirmation page. Re-run with confirm=True to finalize.",
+    "url": "https://buchung.zhs-muenchen.de/cgi/Interface.cgi?Kursnummer=26101",
+    "page_excerpt": "Bouldering — Tuesday 18:00, Halle Nord. Price: 3.50 €. Please review and confirm your booking."
+  },
+  "True": {
+    "status": "submitted",
+    "message": "Booking confirmed. A confirmation e-mail has been sent.",
+    "url": "https://buchung.zhs-muenchen.de/cgi/Interface.cgi?Kursnummer=26101&status=ok",
+    "page_excerpt": "Buchung erfolgreich. Ihr Platz wurde reserviert. Eine Bestätigung wurde an lina.meier@tum.de gesendet."
+  },
+  "__default__": {
+    "status": "staged",
+    "message": "Reached booking confirmation page. Re-run with confirm=True to finalize.",
+    "url": "https://buchung.zhs-muenchen.de/cgi/Interface.cgi?Kursnummer=26101",
+    "page_excerpt": "Bouldering — Tuesday 18:00, Halle Nord. Price: 3.50 €. Please review and confirm your booking."
+  }
+}

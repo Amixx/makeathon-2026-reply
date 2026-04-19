@@ -149,6 +149,23 @@
   width: 100%;
 }
 
+.docsLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--fg-inverted-muted);
+  text-decoration: none;
+}
+
+.docsLink:hover {
+  color: var(--accent-400);
+}
+
 .footerCaption {
   font-family: var(--font-mono);
   font-size: 10px;

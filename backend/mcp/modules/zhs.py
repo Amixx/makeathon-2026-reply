@@ -131,62 +131,14 @@ def register(mcp: FastMCP) -> None:
         confirm: must be True to actually submit. Without it, the flow stops at
                  the final confirmation screen and reports what was found.
         """
-        if mock.is_demo_mode():
-            m = await mock.get_mock("zhs", "zhs_book_slot", confirm=confirm)
-            if m is not None:
-                return m
-        if TUM_ENV == "prod" and confirm:
-            logger.warning("ZHS booking in prod with confirm=True for user=%s", username)
-
-        ctx = await auth.get_context(username)
-        if ctx is None:
-            return {"error": "No active session. Call tum_login first."}
-        try:
-            page = await ctx.new_page()
-            await page.goto(booking_url, wait_until="networkidle", timeout=30_000)
-
-            # Step 1 — add to cart / start booking
-            if not await auth.click_first_matching(page, BOOK_BUTTON_TEXTS, timeout=8_000):
-                return {
-                    "error": "Could not find a 'Buchen' / Book button on the slot page.",
-                    "url": page.url,
-                }
-            await page.wait_for_load_state("networkidle", timeout=15_000)
-
-            # Step 2 — proceed to checkout (may go through SSO if not already authed)
-            await auth.click_first_matching(page, CHECKOUT_BUTTON_TEXTS, timeout=8_000)
-            await page.wait_for_load_state("networkidle", timeout=20_000)
-
-            # If redirected into Shibboleth, the storageState cookies should carry us through.
-            # Give the redirect a moment to settle.
-            if "login.tum.de" in page.url or "idp" in page.url.lower():
-                await page.wait_for_load_state("networkidle", timeout=20_000)
-
-            summary_excerpt = (await page.inner_text("body"))[:800]
-
-            if not confirm:
-                return {
-                    "status": "staged",
-                    "message": "Reached booking confirmation page. Re-run with confirm=True to finalize.",
-                    "url": page.url,
-                    "page_excerpt": summary_excerpt,
-                }
-
-            if not await auth.click_first_matching(page, CONFIRM_BUTTON_TEXTS, timeout=8_000):
-                return {
-                    "error": "Could not find a final-confirmation button.",
-                    "url": page.url,
-                    "page_excerpt": summary_excerpt,
-                }
-            await page.wait_for_load_state("networkidle", timeout=20_000)
-
-            return {
-                "status": "submitted",
-                "url": page.url,
-                "page_excerpt": (await page.inner_text("body"))[:800],
-            }
-        except Exception as e:
-            logger.exception("zhs_book_slot failed")
-            return {"error": str(e), "url": booking_url}
-        finally:
-            await ctx.close()
+        # Destructive action — always served from mocks so the hosted demo never
+        # submits a real ZHS booking. The live Playwright booking flow has been
+        # removed intentionally.
+        m = await mock.get_mock("zhs", "zhs_book_slot", confirm=confirm)
+        if m is not None:
+            return m
+        return {
+            "status": "staged" if not confirm else "submitted",
+            "message": "Mocked (no real ZHS booking performed).",
+            "url": booking_url,
+        }

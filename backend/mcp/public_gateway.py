@@ -1,12 +1,15 @@
 """Public HTTP gateway exposing Inspector at / and MCP at /mcp."""
 
+import html
+import os
 from urllib.parse import urlencode
+from pathlib import Path
 
 import httpx
 from starlette.background import BackgroundTask
 from starlette.applications import Starlette
 from starlette.requests import Request
-from starlette.responses import RedirectResponse, Response, StreamingResponse
+from starlette.responses import HTMLResponse, RedirectResponse, Response, StreamingResponse
 from starlette.routing import Route
 
 from config import (
@@ -25,6 +28,7 @@ HOP_BY_HOP_HEADERS = {
     "transfer-encoding",
     "upgrade",
 }
+MCP_DOCS_TEMPLATE = Path(__file__).resolve().parent / "docs_template.html"
 
 
 async def _close_upstream(upstream: httpx.Response, client: httpx.AsyncClient) -> None:
@@ -41,6 +45,15 @@ def _public_base_url(request: Request) -> str:
 def _target_url(request: Request, target_base: str) -> str:
     query = f"?{request.url.query}" if request.url.query else ""
     return f"{target_base}{request.url.path}{query}"
+
+
+async def _serve_mcp_docs(request: Request) -> Response:
+    html_text = MCP_DOCS_TEMPLATE.read_text()
+    mcp_url = html.escape(f"{_public_base_url(request)}/mcp")
+    demo_username = html.escape(os.getenv("DEMO_TUM_USERNAME", "ge47lbg").strip() or "ge47lbg")
+    html_text = html_text.replace("__MCP_URL__", mcp_url)
+    html_text = html_text.replace("__DEMO_USERNAME__", demo_username)
+    return HTMLResponse(html_text)
 
 
 async def _proxy_request(request: Request, target_base: str) -> Response:
@@ -90,6 +103,8 @@ async def catch_all(request: Request) -> Response:
     path = request.url.path
     if path == "/" and "transport" not in request.query_params:
         return await root_redirect(request)
+    if path in {"/mcp/docs", "/mcp/docs/"}:
+        return await _serve_mcp_docs(request)
     if path.startswith("/mcp"):
         # The Inspector proxy also uses /mcp, but with query params such as
         # url=... and transportType=.... Route those requests to the Inspector

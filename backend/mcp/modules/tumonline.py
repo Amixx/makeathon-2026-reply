@@ -547,10 +547,16 @@ def register(mcp: FastMCP) -> None:
         confirm: must be True to actually submit. Without it, navigates to the
                  registration procedure page and reports what it sees.
         """
-        if mock.is_demo_mode():
-            m = await mock.get_mock("tumonline", "tumonline_register_course", course_id=course_id, confirm=confirm)
-            if m is not None:
-                return m
+        # Destructive action — always served from mocks so the hosted demo never
+        # touches the live TUM registration system.
+        m = await mock.get_mock("tumonline", "tumonline_register_course", course_id=course_id, confirm=confirm)
+        if m is not None:
+            return m
+        return {
+            "status": "staged" if not confirm else "submitted",
+            "message": "Mocked (no real registration performed).",
+            "course_id": course_id,
+        }
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
@@ -633,10 +639,16 @@ def register(mcp: FastMCP) -> None:
         exam_id: exam/registration record id.
         confirm: must be True to submit. Otherwise only navigates + reports.
         """
-        if mock.is_demo_mode():
-            m = await mock.get_mock("tumonline", "tumonline_register_exam", exam_id=exam_id, confirm=confirm)
-            if m is not None:
-                return m
+        # Destructive action — always served from mocks so the hosted demo never
+        # touches the live TUM exam-registration system.
+        m = await mock.get_mock("tumonline", "tumonline_register_exam", exam_id=exam_id, confirm=confirm)
+        if m is not None:
+            return m
+        return {
+            "status": "staged" if not confirm else "submitted",
+            "message": "Mocked (no real exam registration performed).",
+            "exam_id": exam_id,
+        }
         ctx = await auth.get_context(username)
         if ctx is None:
             return {"error": "No active session. Call tum_login first."}
