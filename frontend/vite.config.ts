@@ -1,6 +1,8 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+const proxyTarget = process.env.VITE_PROXY_TARGET || "http://127.0.0.1:8000";
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -8,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/agent": {
-        target: "http://127.0.0.1:8002",
+        target: proxyTarget,
         changeOrigin: true,
       },
     },

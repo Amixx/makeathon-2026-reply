@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from collections.abc import Mapping
 from datetime import date
 from pathlib import Path
@@ -48,6 +49,7 @@ app.add_middleware(
 _bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
 
 _UPLOADS_DIR = Path(__file__).parent / "data" / "uploads"
+_VOICE_AGENT_ROOT = Path(__file__).resolve().parent.parent / "agent-voice"
 
 # In-memory profile — no YAML persistence needed for a demo.
 _profile: dict = {"commitment": "steady"}
@@ -320,6 +322,52 @@ def _save_profile(data: dict) -> None:
     _profile = data
 
 
+def _coerce_string_list(*values: Any) -> list[str]:
+    result: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        if isinstance(value, list):
+            items = value
+        elif value in (None, ""):
+            items = []
+        else:
+            items = [value]
+        for item in items:
+            text = str(item).strip()
+            if not text:
+                continue
+            key = text.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            result.append(text)
+    return result
+
+
+def _voice_fields_from_profile(extracted: Mapping[str, Any], transcript_text: str) -> dict[str, Any]:
+    interests = _coerce_string_list(
+        extracted.get("career_interests"),
+        extracted.get("target_industries"),
+        extracted.get("target_roles"),
+    )
+    blockers = _coerce_string_list(extracted.get("blockers"), extracted.get("constraints"))
+    vision = (
+        str(extracted.get("future_goal") or "").strip()
+        or str(extracted.get("summary") or "").strip()
+        or str(extracted.get("motivation") or "").strip()
+        or transcript_text.strip()
+    )
+    return {
+        "vision": vision,
+        "interests": interests,
+        "interest": interests[0] if interests else None,
+        "blockers": ", ".join(blockers),
+        "program": str(extracted.get("program") or "").strip() or None,
+        "semester": str(extracted.get("semester") or "").strip() or None,
+        "summary": str(extracted.get("summary") or "").strip() or None,
+    }
+
+
 def _discover_prompt_context(profile: Mapping[str, Any], req: DiscoverRequest) -> dict:
     interests = profile.get("interests") or []
     program = (req.program or profile.get("program") or "").strip()
@@ -545,20 +593,209 @@ async def upload_cv(file: UploadFile = File(...)) -> dict:
     return _profile_to_api(current)
 
 
+_ALLOWED_AUDIO_SUFFIXES = {".webm", ".wav", ".mp4", ".m4a", ".ogg", ".mp3", ".mpeg"}
+
+
+async def _read_audio_upload(audio: UploadFile) -> tuple[bytes, str, str]:
+    if not audio.filename:
+        raise HTTPException(status_code=400, detail="Missing audio file name.")
+    suffix = Path(audio.filename).suffix.lower()
+    content_type = (audio.content_type or "").strip().lower()
+    if suffix not in _ALLOWED_AUDIO_SUFFIXES and not content_type.startswith("audio/"):
+        raise HTTPException(status_code=400, detail="Unsupported audio format.")
+    raw = await audio.read()
+    if not raw:
+        raise HTTPException(status_code=400, detail="Uploaded audio is empty.")
+    if len(raw) > 20 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Audio exceeds the 20 MB demo limit.")
+    return raw, audio.filename, content_type
+
+
+def _ensure_voice_agent_on_path() -> None:
+    if str(_VOICE_AGENT_ROOT) not in sys.path:
+        sys.path.insert(0, str(_VOICE_AGENT_ROOT))
+
+
+async def _transcribe_audio_bytes(raw: bytes, filename: str, content_type: str) -> str:
+    _ensure_voice_agent_on_path()
+    try:
+        from agent_voice.config import load_settings  # noqa: PLC0415
+        from agent_voice.elevenlabs_client import ElevenLabsClient  # noqa: PLC0415
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=500, detail=f"Voice agent import failed: {exc}") from exc
+    client = ElevenLabsClient(load_settings())
+    try:
+        transcript = await client.transcribe(
+            raw,
+            filename=filename,
+            content_type=content_type or "application/octet-stream",
+        )
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=502, detail=f"Voice transcription failed: {exc}") from exc
+    return transcript.text.strip()
+
+
+_BLOCKERS_SYSTEM_PROMPT = (
+    "You analyze a short voice memo from a TUM student describing what's "
+    "weighing on them right now as they think about their career.\n"
+    "Surface the emotional and practical obstacles they mentioned — NOT "
+    "their career goals, job titles, or industries.\n"
+    "Stay close to their own words. Do not invent new blockers.\n"
+    "If nothing blocker-like is in the transcript, return empty values.\n"
+    "Return valid JSON only."
+)
+
+
+def _extract_blockers_with_bedrock(transcript: str) -> dict[str, Any]:
+    user_prompt = (
+        "Voice memo transcript:\n"
+        f"{transcript}\n\n"
+        "Return JSON with exactly these fields:\n"
+        "  blockers_text: 1-3 short sentences naming what actually feels heavy, "
+        "in the speaker's voice. No job titles, industries, or career goals.\n"
+        "  tags: up to 6 short uppercase tags. Prefer from this set when they "
+        "apply: TIME, MONEY, CONFIDENCE, INFO OVERLOAD, AVOIDANCE, BURNOUT, "
+        "COMPARISON, FAMILY, HEALTH, LANGUAGE, VISA, ISOLATION, UNCERTAINTY, "
+        "IMPOSTER. You may add up to 2 short custom tags if nothing fits.\n"
+        "  summary: one-line neutral paraphrase of the heaviest thing.\n"
+    )
+    body = {
+        "anthropic_version": ANTHROPIC_VERSION,
+        "max_tokens": 400,
+        "system": _BLOCKERS_SYSTEM_PROMPT,
+        "messages": [{"role": "user", "content": user_prompt}],
+    }
+    response = _bedrock.invoke_model(modelId=BEDROCK_MODEL, body=json.dumps(body))
+    payload = json.loads(response["body"].read())
+    text = "\n".join(
+        block.get("text", "").strip()
+        for block in payload.get("content", [])
+        if block.get("type") == "text" and block.get("text")
+    ).strip()
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end <= start:
+        return {"blockers_text": "", "tags": [], "summary": ""}
+    try:
+        parsed = json.loads(text[start : end + 1])
+    except json.JSONDecodeError:
+        return {"blockers_text": "", "tags": [], "summary": ""}
+    if not isinstance(parsed, dict):
+        return {"blockers_text": "", "tags": [], "summary": ""}
+    return {
+        "blockers_text": str(parsed.get("blockers_text") or "").strip(),
+        "tags": _coerce_string_list(parsed.get("tags")),
+        "summary": str(parsed.get("summary") or "").strip(),
+    }
+
+
 @app.post("/agent/voice/transcribe")
 async def voice_transcribe(audio: UploadFile = File(...)) -> dict:
-    """
-    # TODO: Real implementation needed — two jobs:
-    #   (a) Transcribe the audio blob via Bedrock Transcription or ElevenLabs STT.
-    #       audio.content_type will be audio/webm, audio/wav, or audio/mp4.
-    #       Read bytes: raw = await audio.read()
-    #   (b) Extract structured fields from the transcript via a small Bedrock
-    #       structured-output call:
-    #         prompt = f"Extract JSON {{vision, interests: [], blockers}} from:\n{text}"
-    #       Return {"text": transcript, "fields": {"vision": ..., "interests": [...], "blockers": ...}}
-    # STUB: returns empty result so the frontend can fall back to manual input.
-    """
-    return {"text": "", "fields": {}}
+    raw, filename, content_type = await _read_audio_upload(audio)
+
+    _ensure_voice_agent_on_path()
+    try:
+        from agent_voice.summarizer import summarize_voice_memo  # noqa: PLC0415
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=500, detail=f"Voice agent import failed: {exc}") from exc
+
+    current = _load_profile()
+    initial_context = {
+        "name": current.get("name"),
+        "program": current.get("program"),
+        "semester": current.get("semester"),
+        "future_goal": current.get("vision"),
+        "career_interests": current.get("interests") or [],
+        "blockers": _coerce_string_list(current.get("blockers")),
+    }
+
+    try:
+        memo = await summarize_voice_memo(
+            raw,
+            filename=filename,
+            content_type=content_type or "application/octet-stream",
+            initial_context=initial_context,
+            aws_region=AWS_REGION,
+            model_id=BEDROCK_MODEL,
+        )
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=502, detail=f"Voice memo processing failed: {exc}") from exc
+
+    transcript_text = memo.transcript.text.strip()
+    if not transcript_text:
+        raise HTTPException(status_code=422, detail="Could not transcribe any speech from the recording.")
+
+    extracted_profile = memo.decision.extracted_profile or {}
+    voice_fields = _voice_fields_from_profile(extracted_profile, transcript_text)
+
+    current = _merge_profile_patch(
+        current,
+        {
+            key: value
+            for key, value in {
+                "vision": voice_fields["vision"],
+                "blockers": voice_fields["blockers"],
+                "interests": voice_fields["interests"],
+                "interest": voice_fields["interest"],
+                "program": voice_fields["program"],
+                "semester": voice_fields["semester"],
+            }.items()
+            if value not in (None, "", [])
+        },
+    )
+    current["voice_memo_transcript"] = transcript_text
+    current["voice_memo_session_id"] = memo.session_id
+    current["voice_memo_log_path"] = str(memo.log_path)
+    if voice_fields["summary"]:
+        current["voice_memo_summary"] = voice_fields["summary"]
+    _save_profile(current)
+
+    return {
+        "text": transcript_text,
+        "fields": {
+            "vision": voice_fields["vision"],
+            "interests": voice_fields["interests"],
+            "interest": voice_fields["interest"],
+            "blockers": voice_fields["blockers"],
+            "program": voice_fields["program"],
+            "semester": voice_fields["semester"],
+        },
+        "summary": voice_fields["summary"],
+        "profile": _profile_to_api(current),
+        "sessionId": memo.session_id,
+        "logPath": str(memo.log_path),
+    }
+
+
+@app.post("/agent/voice/transcribe-blockers")
+async def voice_transcribe_blockers(audio: UploadFile = File(...)) -> dict:
+    raw, filename, content_type = await _read_audio_upload(audio)
+    transcript_text = await _transcribe_audio_bytes(raw, filename, content_type)
+    if not transcript_text:
+        raise HTTPException(status_code=422, detail="Could not transcribe any speech from the recording.")
+
+    try:
+        extracted = _extract_blockers_with_bedrock(transcript_text)
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=502, detail=f"Blocker extraction failed: {exc}") from exc
+
+    blockers_text = extracted["blockers_text"] or transcript_text
+    tags = extracted["tags"]
+    summary = extracted["summary"] or None
+
+    current = _load_profile()
+    current = _merge_profile_patch(current, {"blockers": blockers_text})
+    current["voice_memo_transcript"] = transcript_text
+    if summary:
+        current["voice_memo_summary"] = summary
+    _save_profile(current)
+
+    return {
+        "text": transcript_text,
+        "fields": {"blockers": blockers_text, "tags": tags},
+        "summary": summary,
+        "profile": _profile_to_api(current),
+    }
 
 
 @app.post("/agent/extract-interests")
