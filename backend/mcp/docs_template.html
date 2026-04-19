@@ -12,12 +12,17 @@
         --muted: #5c6171;
         --line: #e6e4dd;
         --accent: #ff6b52;
-        --accent-soft: #fff4f1;
         --accent-deep: #c33e24;
         --navy: #2b3349;
         --navy-soft: #eef1f6;
         --success: #3d9970;
         --success-soft: #eaf6ef;
+        --sky: #3d78b5;
+        --sky-soft: #e9f2fb;
+        --slate: #5f6885;
+        --slate-soft: #eef1f6;
+        --plum: #6f5f99;
+        --plum-soft: #f1eef8;
         --warning: #e8a53a;
         --warning-soft: #fff5df;
         --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
@@ -175,6 +180,22 @@
         margin-top: 10px;
       }
 
+      .legendGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .legendCard {
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fbfbf8;
+        display: grid;
+        gap: 8px;
+      }
+
       .badge {
         display: inline-flex;
         align-items: center;
@@ -187,13 +208,8 @@
       }
 
       .control {
-        background: var(--navy-soft);
-        color: var(--navy);
-      }
-
-      .mixed {
-        background: var(--accent-soft);
-        color: var(--accent-deep);
+        background: var(--sky-soft);
+        color: var(--sky);
       }
 
       .real {
@@ -202,8 +218,13 @@
       }
 
       .mock {
-        background: #f7efff;
-        color: #6f42c1;
+        background: var(--plum-soft);
+        color: var(--plum);
+      }
+
+      .hybrid {
+        background: var(--slate-soft);
+        color: var(--slate);
       }
 
       .stub {
@@ -232,8 +253,44 @@
         gap: 10px;
       }
 
+      .setupHead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
       .setupCard h3 {
         font-size: 16px;
+      }
+
+      .setupActions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .button {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 7px 11px;
+        font: 700 11px/1 var(--mono);
+        letter-spacing: 0.4px;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        border-color: var(--accent);
+        color: var(--accent-deep);
+      }
+
+      .button[data-copied="true"] {
+        border-color: #b7d9c7;
+        color: #246748;
+        background: var(--success-soft);
       }
 
       pre {
@@ -283,6 +340,12 @@
       .toolDesc {
         color: var(--muted);
         font-size: 14px;
+      }
+
+      .statusCell {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
       }
 
       .footer {
@@ -362,16 +425,31 @@
           </div>
           <div class="setupGrid">
             <article class="setupCard">
-              <h3>Claude Code</h3>
-              <pre>claude mcp add --transport http waytum __MCP_URL__</pre>
+              <div class="setupHead">
+                <h3>Claude Code</h3>
+                <div class="setupActions">
+                  <button class="button" onclick="copyBlock('setup-claude', this)">Copy</button>
+                </div>
+              </div>
+              <pre id="setup-claude">claude mcp add --transport http waytum __MCP_URL__</pre>
             </article>
             <article class="setupCard">
-              <h3>Codex CLI</h3>
-              <pre>codex mcp add waytum --url __MCP_URL__</pre>
+              <div class="setupHead">
+                <h3>Codex CLI</h3>
+                <div class="setupActions">
+                  <button class="button" onclick="copyBlock('setup-codex', this)">Copy</button>
+                </div>
+              </div>
+              <pre id="setup-codex">codex mcp add waytum --url __MCP_URL__</pre>
             </article>
             <article class="setupCard">
-              <h3>Cursor</h3>
-              <pre>{
+              <div class="setupHead">
+                <h3>Cursor</h3>
+                <div class="setupActions">
+                  <button class="button" onclick="copyBlock('setup-cursor', this)">Copy</button>
+                </div>
+              </div>
+              <pre id="setup-cursor">{
   "mcpServers": {
     "waytum": {
       "url": "__MCP_URL__"
@@ -380,25 +458,36 @@
 }</pre>
             </article>
             <article class="setupCard">
-              <h3>VS Code / Copilot</h3>
-              <p class="toolDesc">
-                Add an MCP server, choose HTTP, then use
-                <code>__MCP_URL__</code> as the server URL.
-              </p>
+              <div class="setupHead">
+                <h3>VS Code / Copilot</h3>
+                <div class="setupActions">
+                  <button class="button" onclick="copyBlock('setup-vscode', this)">Copy</button>
+                </div>
+              </div>
+              <pre id="setup-vscode">1. Add MCP server
+2. Choose HTTP transport
+3. Name: WayTum
+4. URL: __MCP_URL__</pre>
             </article>
             <article class="setupCard">
-              <h3>Claude Desktop / Claude Web</h3>
-              <p class="toolDesc">
-                Add a custom connector named <code>WayTum</code> and use
-                <code>__MCP_URL__</code> as the URL.
-              </p>
+              <div class="setupHead">
+                <h3>Claude Desktop / Claude Web</h3>
+                <div class="setupActions">
+                  <button class="button" onclick="copyBlock('setup-claude-web', this)">Copy</button>
+                </div>
+              </div>
+              <pre id="setup-claude-web">Connector name: WayTum
+Connector URL: __MCP_URL__</pre>
             </article>
             <article class="setupCard">
-              <h3>ChatGPT</h3>
-              <p class="toolDesc">
-                In developer connectors, create a connector named
-                <code>WayTum</code> with MCP URL <code>__MCP_URL__</code>.
-              </p>
+              <div class="setupHead">
+                <h3>ChatGPT</h3>
+                <div class="setupActions">
+                  <button class="button" onclick="copyBlock('setup-chatgpt', this)">Copy</button>
+                </div>
+              </div>
+              <pre id="setup-chatgpt">Connector name: WayTum
+MCP URL: __MCP_URL__</pre>
             </article>
           </div>
           <div class="note">
@@ -418,10 +507,36 @@
           </div>
           <div class="legend">
             <span class="badge control">control</span>
-            <span class="badge mixed">real + mock</span>
+            <span class="badge hybrid">real + mock</span>
             <span class="badge real">real</span>
+            <span class="badge mock">mock</span>
             <span class="badge mock">mock-only</span>
             <span class="badge stub">stub</span>
+          </div>
+          <div class="legendGrid">
+            <div class="legendCard">
+              <span class="badge control">control</span>
+              <p class="toolDesc">Tooling around demo state or session state. It does not represent a campus data source.</p>
+            </div>
+            <div class="legendCard">
+              <div class="statusCell">
+                <span class="badge real">real</span>
+                <span class="badge mock">mock</span>
+              </div>
+              <p class="toolDesc">This tool has both implementations: a live path and a curated mock path.</p>
+            </div>
+            <div class="legendCard">
+              <span class="badge real">real</span>
+              <p class="toolDesc">Live integration is implemented and the tool can hit the real upstream system.</p>
+            </div>
+            <div class="legendCard">
+              <span class="badge mock">mock-only</span>
+              <p class="toolDesc">Only curated demo data exists right now. There is no live implementation behind it.</p>
+            </div>
+            <div class="legendCard">
+              <span class="badge stub">stub</span>
+              <p class="toolDesc">Placeholder only. The tool exists, but it currently returns not-implemented behavior.</p>
+            </div>
           </div>
           <div class="note">
             Important nuance: demo mode only returns mock data for tools that
@@ -443,7 +558,7 @@
             <h2>Tool Inventory</h2>
             <p class="sectionCopy">
               Concise status per tool, with emphasis on whether the current
-              behavior is live, mocked, mixed, or still a stub.
+              behavior is live, mocked, both, or still a stub.
             </p>
           </div>
 
@@ -453,83 +568,83 @@
               <tr>
                 <td class="toolName">set_demo_mode</td>
                 <td class="toolDesc">Toggle global demo mode manually.</td>
-                <td><span class="badge control">control</span></td>
+                <td><div class="statusCell"><span class="badge control">control</span></div></td>
               </tr>
               <tr>
                 <td class="toolName">get_demo_mode</td>
                 <td class="toolDesc">Read current demo-mode state.</td>
-                <td><span class="badge control">control</span></td>
+                <td><div class="statusCell"><span class="badge control">control</span></div></td>
               </tr>
               <tr>
                 <td class="toolName">tum_login</td>
                 <td class="toolDesc">Live TUM SSO login. Demo user switches to curated mocks instead.</td>
-                <td><span class="badge control">control</span></td>
+                <td><div class="statusCell"><span class="badge control">control</span></div></td>
               </tr>
               <tr>
                 <td class="toolName">tum_session_status</td>
                 <td class="toolDesc">Check whether a stored TUM session is still valid.</td>
-                <td><span class="badge control">control</span></td>
+                <td><div class="statusCell"><span class="badge control">control</span></div></td>
               </tr>
               <tr>
                 <td class="toolName">tum_logout</td>
                 <td class="toolDesc">Delete stored session state for a user.</td>
-                <td><span class="badge control">control</span></td>
+                <td><div class="statusCell"><span class="badge control">control</span></div></td>
               </tr>
 
               <tr><th colspan="3">TUMonline</th></tr>
-              <tr><td class="toolName">tumonline_search_courses</td><td class="toolDesc">Search the course catalog.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_search_rooms</td><td class="toolDesc">Search rooms and room codes.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_get_semester_info</td><td class="toolDesc">Current semester and registration windows.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_get_course</td><td class="toolDesc">Full course detail by course ID.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_get_module</td><td class="toolDesc">Module handbook entry by module code.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_search_programs</td><td class="toolDesc">Search degree programs.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_list_program_modules</td><td class="toolDesc">List modules inside a catalog tag.</td><td><span class="badge real">real</span></td></tr>
-              <tr><td class="toolName">tumonline_list_module_catalogs</td><td class="toolDesc">Find catalog tags for module groups.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_search_orgs</td><td class="toolDesc">Search chairs, orgs, and departments.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_get_course_schedule</td><td class="toolDesc">Weekly timetable for one course.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_my_studies</td><td class="toolDesc">Student programs and semester status. Requires session.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_my_courses</td><td class="toolDesc">Registered courses with richer metadata. Requires session.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_get_room_schedule</td><td class="toolDesc">Room bookings and free-time view.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_my_exams</td><td class="toolDesc">Registered exams for a semester. Requires session.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">tumonline_register_course</td><td class="toolDesc">Mocked registration response for demos. No live course registration is performed.</td><td><span class="badge mock">mock-only</span></td></tr>
-              <tr><td class="toolName">tumonline_register_exam</td><td class="toolDesc">Mocked exam-registration response for demos. No live exam registration is performed.</td><td><span class="badge mock">mock-only</span></td></tr>
+              <tr><td class="toolName">tumonline_search_courses</td><td class="toolDesc">Search the course catalog.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_search_rooms</td><td class="toolDesc">Search rooms and room codes.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_get_semester_info</td><td class="toolDesc">Current semester and registration windows.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_get_course</td><td class="toolDesc">Full course detail by course ID.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_get_module</td><td class="toolDesc">Module handbook entry by module code.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_search_programs</td><td class="toolDesc">Search degree programs.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_list_program_modules</td><td class="toolDesc">List modules inside a catalog tag.</td><td><div class="statusCell"><span class="badge real">real</span></div></td></tr>
+              <tr><td class="toolName">tumonline_list_module_catalogs</td><td class="toolDesc">Find catalog tags for module groups.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_search_orgs</td><td class="toolDesc">Search chairs, orgs, and departments.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_get_course_schedule</td><td class="toolDesc">Weekly timetable for one course.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_my_studies</td><td class="toolDesc">Student programs and semester status. Requires session.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_my_courses</td><td class="toolDesc">Registered courses with richer metadata. Requires session.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_get_room_schedule</td><td class="toolDesc">Room bookings and free-time view.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_my_exams</td><td class="toolDesc">Registered exams for a semester. Requires session.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">tumonline_register_course</td><td class="toolDesc">Mocked registration response for demos. No live course registration is performed.</td><td><div class="statusCell"><span class="badge mock">mock-only</span></div></td></tr>
+              <tr><td class="toolName">tumonline_register_exam</td><td class="toolDesc">Mocked exam-registration response for demos. No live exam registration is performed.</td><td><div class="statusCell"><span class="badge mock">mock-only</span></div></td></tr>
 
               <tr><th colspan="3">Moodle</th></tr>
-              <tr><td class="toolName">moodle_list_courses</td><td class="toolDesc">List enrolled Moodle courses.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">moodle_list_assignments</td><td class="toolDesc">Upcoming assignments and deadlines.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">moodle_get_course_content</td><td class="toolDesc">Course sections, files, and activities. Requires live session.</td><td><span class="badge real">real</span></td></tr>
-              <tr><td class="toolName">moodle_fetch_resource_text</td><td class="toolDesc">Extract text from Moodle pages or PDFs. Requires live session.</td><td><span class="badge real">real</span></td></tr>
-              <tr><td class="toolName">moodle_list_grades</td><td class="toolDesc">Grades overview across courses.</td><td><span class="badge mixed">real + mock</span></td></tr>
+              <tr><td class="toolName">moodle_list_courses</td><td class="toolDesc">List enrolled Moodle courses.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">moodle_list_assignments</td><td class="toolDesc">Upcoming assignments and deadlines.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">moodle_get_course_content</td><td class="toolDesc">Course sections, files, and activities. Requires live session.</td><td><div class="statusCell"><span class="badge real">real</span></div></td></tr>
+              <tr><td class="toolName">moodle_fetch_resource_text</td><td class="toolDesc">Extract text from Moodle pages or PDFs. Requires live session.</td><td><div class="statusCell"><span class="badge real">real</span></div></td></tr>
+              <tr><td class="toolName">moodle_list_grades</td><td class="toolDesc">Grades overview across courses.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
 
               <tr><th colspan="3">Career</th></tr>
-              <tr><td class="toolName">career_list_jobs</td><td class="toolDesc">TUM Career Center job board.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">career_list_events</td><td class="toolDesc">Career fairs, talks, and workshops.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">career_audit_cv</td><td class="toolDesc">Rule-based CV audit with score and findings.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">career_github_audit</td><td class="toolDesc">GitHub profile audit via public API.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">career_skills_from_courses</td><td class="toolDesc">Infer canonical skills from course lists.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">career_get_job</td><td class="toolDesc">Fetch full content for one job posting.</td><td><span class="badge mixed">real + mock</span></td></tr>
+              <tr><td class="toolName">career_list_jobs</td><td class="toolDesc">TUM Career Center job board.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">career_list_events</td><td class="toolDesc">Career fairs, talks, and workshops.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">career_audit_cv</td><td class="toolDesc">Rule-based CV audit with score and findings.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">career_github_audit</td><td class="toolDesc">GitHub profile audit via public API.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">career_skills_from_courses</td><td class="toolDesc">Infer canonical skills from course lists.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">career_get_job</td><td class="toolDesc">Fetch full content for one job posting.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
 
               <tr><th colspan="3">Campus Utilities</th></tr>
-              <tr><td class="toolName">mensa_list_canteens</td><td class="toolDesc">List canteens and IDs.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">mensa_get_menu</td><td class="toolDesc">Weekly canteen menu.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">navigatum_search</td><td class="toolDesc">Search buildings, rooms, and places.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">navigatum_get_room</td><td class="toolDesc">Room detail by Navigatum ID.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">mvv_search_station</td><td class="toolDesc">Find a station by name.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">mvv_get_departures</td><td class="toolDesc">Upcoming departures from a station.</td><td><span class="badge mixed">real + mock</span></td></tr>
+              <tr><td class="toolName">mensa_list_canteens</td><td class="toolDesc">List canteens and IDs.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">mensa_get_menu</td><td class="toolDesc">Weekly canteen menu.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">navigatum_search</td><td class="toolDesc">Search buildings, rooms, and places.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">navigatum_get_room</td><td class="toolDesc">Room detail by Navigatum ID.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">mvv_search_station</td><td class="toolDesc">Find a station by name.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">mvv_get_departures</td><td class="toolDesc">Upcoming departures from a station.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
 
               <tr><th colspan="3">ZHS Sports</th></tr>
-              <tr><td class="toolName">zhs_list_sports</td><td class="toolDesc">Public ZHS sports catalog.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">zhs_list_slots</td><td class="toolDesc">Bookable slots for a sport URL.</td><td><span class="badge real">real</span></td></tr>
-              <tr><td class="toolName">zhs_book_slot</td><td class="toolDesc">Mocked booking flow only. No live ZHS booking is performed.</td><td><span class="badge mock">mock-only</span></td></tr>
+              <tr><td class="toolName">zhs_list_sports</td><td class="toolDesc">Public ZHS sports catalog.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">zhs_list_slots</td><td class="toolDesc">Bookable slots for a sport URL.</td><td><div class="statusCell"><span class="badge real">real</span></div></td></tr>
+              <tr><td class="toolName">zhs_book_slot</td><td class="toolDesc">Mocked booking flow only. No live ZHS booking is performed.</td><td><div class="statusCell"><span class="badge mock">mock-only</span></div></td></tr>
 
               <tr><th colspan="3">Collab, LinkedIn, Professors, Matrix</th></tr>
-              <tr><td class="toolName">collab_search</td><td class="toolDesc">Search TUM Collab via PAT-authenticated API.</td><td><span class="badge mixed">real + mock</span></td></tr>
-              <tr><td class="toolName">collab_get_page</td><td class="toolDesc">Fetch rendered Collab page content.</td><td><span class="badge real">real</span></td></tr>
-              <tr><td class="toolName">linkedin_search_people</td><td class="toolDesc">Curated outreach contacts for the demo story.</td><td><span class="badge mock">mock-only</span></td></tr>
-              <tr><td class="toolName">professors_list_fachbereiche</td><td class="toolDesc">List TUM subject areas from curated data.</td><td><span class="badge mock">mock-only</span></td></tr>
-              <tr><td class="toolName">professors_search</td><td class="toolDesc">Search curated professor data.</td><td><span class="badge mock">mock-only</span></td></tr>
-              <tr><td class="toolName">matrix_list_rooms</td><td class="toolDesc">Matrix room listing is not implemented yet.</td><td><span class="badge stub">stub</span></td></tr>
-              <tr><td class="toolName">matrix_send_message</td><td class="toolDesc">Matrix send is not implemented yet.</td><td><span class="badge stub">stub</span></td></tr>
+              <tr><td class="toolName">collab_search</td><td class="toolDesc">Search TUM Collab via PAT-authenticated API.</td><td><div class="statusCell"><span class="badge real">real</span><span class="badge mock">mock</span></div></td></tr>
+              <tr><td class="toolName">collab_get_page</td><td class="toolDesc">Fetch rendered Collab page content.</td><td><div class="statusCell"><span class="badge real">real</span></div></td></tr>
+              <tr><td class="toolName">linkedin_search_people</td><td class="toolDesc">Curated outreach contacts for the demo story.</td><td><div class="statusCell"><span class="badge mock">mock-only</span></div></td></tr>
+              <tr><td class="toolName">professors_list_fachbereiche</td><td class="toolDesc">List TUM subject areas from curated data.</td><td><div class="statusCell"><span class="badge mock">mock-only</span></div></td></tr>
+              <tr><td class="toolName">professors_search</td><td class="toolDesc">Search curated professor data.</td><td><div class="statusCell"><span class="badge mock">mock-only</span></div></td></tr>
+              <tr><td class="toolName">matrix_list_rooms</td><td class="toolDesc">Matrix room listing is not implemented yet.</td><td><div class="statusCell"><span class="badge stub">stub</span></div></td></tr>
+              <tr><td class="toolName">matrix_send_message</td><td class="toolDesc">Matrix send is not implemented yet.</td><td><div class="statusCell"><span class="badge stub">stub</span></div></td></tr>
             </tbody>
           </table>
 
@@ -541,5 +656,24 @@
         </section>
       </div>
     </main>
+    <script>
+      async function copyBlock(id, button) {
+        const node = document.getElementById(id);
+        if (!node) return;
+        const text = node.innerText.trim();
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = button.textContent;
+          button.textContent = "Copied";
+          button.dataset.copied = "true";
+          window.setTimeout(() => {
+            button.textContent = original;
+            button.dataset.copied = "false";
+          }, 1400);
+        } catch (_err) {
+          button.textContent = "Copy failed";
+        }
+      }
+    </script>
   </body>
 </html>
