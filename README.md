@@ -8,6 +8,9 @@ against real job/workshop requirements, and scouts opportunities from the TUM
 ecosystem plus external sources. It bridges disconnected systems and takes concrete
 actions on the student's behalf.
 
+## Youtube Demo Link
+https://www.youtube.com/shorts/SVUTQM6V4ic
+
 ## Architecture
 
 ```
