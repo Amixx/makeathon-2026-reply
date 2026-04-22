@@ -9,7 +9,21 @@ ecosystem plus external sources. It bridges disconnected systems and takes concr
 actions on the student's behalf.
 
 ## Youtube Demo Link
-https://www.youtube.com/shorts/SVUTQM6V4ic
+
+<https://www.youtube.com/shorts/SVUTQM6V4ic>
+
+## Achievements
+
+🏆 **2nd Place** in the **Reply Challenge** at the [TUM.ai Makeathon 2026](https://makeathon.tum-ai.com/), out of approximately 30 teams.
+
+🎙️ **ElevenLabs Main Prize** for the best implementation of [ElevenLabs](https://elevenlabs.io/) products during the Makeathon.
+
+## Team
+
+- **[@Amixx](https://github.com/Amixx)** — [LinkedIn](https://www.linkedin.com/in/imants-liepi%C5%86%C5%A1-358767190/)
+- **[@Grazvy](https://github.com/Grazvy)** — [LinkedIn](https://www.linkedin.com/in/grazvydas-kuras/)
+- **[@johan-github](https://github.com/johan-github)** — [LinkedIn](https://www.linkedin.com/in/johan-idler/)
+- **[@bytestrom](https://github.com/bytestrom)** — [LinkedIn](https://www.linkedin.com/in/lukasfailer/)
 
 ## Architecture
 
@@ -53,19 +67,23 @@ orchestrator calls tools over Streamable HTTP — no LLM logic lives in the MCP.
   - Run `fly auth login` to authenticate (only needed for deploys)
 
 ## Run everything locally
+
 (make sure the api key is setup in .env)
 
 New terminal + start MCP server:
+
 ```bash
 cd backend && source .venv/bin/activate && cd mcp && python server.py
 ```
 
 New terminal + start agent backend:
+
 ```bash
 cd backend && source .venv/bin/activate && cd agent && python server.py
 ```
 
 New terminal + start Vite frontend and connect via the link in the terminal:
+
 ```bash
 cd frontend && npm install && npm run dev
 ```
@@ -166,22 +184,27 @@ make inspect   # or: npx -y @modelcontextprotocol/inspector
 ### Test flows you can try now
 
 **Flow 1 — Mensa menu (no auth, instant):**
+
 - `mensa_list_canteens` → copy a canteen ID
 - `mensa_get_menu` with `canteen_id=mensa-garching` → live menu data
 
 **Flow 2 — Campus search (no auth):**
+
 - `navigatum_search` with `query=MW` → find Mechanical Engineering building
 - `navigatum_get_room` with the ID from the result
 
 **Flow 3 — Course search (no auth):**
+
 - `tumonline_search_courses` with `query=Machine Learning`
 - `tumonline_get_semester_info` → current semester dates
 
 **Flow 4 — Public transport (no auth):**
+
 - `mvv_search_station` with `query=Garching Forschungszentrum`
 - `mvv_get_departures` with the station ID from the result
 
 **Flow 5 — Full auth flow (needs TUM credentials):**
+
 1. `tum_login` — `username=YOUR_TUM_ID`, `password=YOUR_PASSWORD`
 2. `tum_session_status` — `username=YOUR_TUM_ID` → should return `{"valid": true}`
 3. `moodle_list_courses` — `username=YOUR_TUM_ID` → your enrolled courses
