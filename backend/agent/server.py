@@ -420,7 +420,7 @@ def reset_demo_profile() -> dict:
     demo = {
         "user_id": DEMO_TUM_USERNAME,
         "tum_sso_id": DEMO_TUM_USERNAME,
-        "tum_sso_connected": False,
+        "tum_sso_connected": True,
         "commitment": "steady",
         "is_demo": True,
         "vision": (
@@ -429,7 +429,12 @@ def reset_demo_profile() -> dict:
             "By 2029 I'd love to be part of a team at ESA or a deep-tech "
             "startup building autonomous rovers."
         ),
-        "blockers": "TIME, CONFIDENCE, INFO OVERLOAD",
+        "blockers": (
+            "Between coursework and everything else I never seem to have "
+            "enough time, I second-guess whether I'm actually good enough "
+            "for the labs I want, and the sheer amount of programs, "
+            "scholarships, and internships out there leaves me frozen."
+        ),
         "interests": ["Robotics", "Autonomous Systems", "Space Tech", "Embedded ML"],
         "interest": "Robotics",
         "github_url": "https://github.com/mars-rover-dev",

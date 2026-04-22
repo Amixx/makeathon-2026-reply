@@ -5,7 +5,14 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+ROOT = Path(__file__).resolve().parent
+BACKEND = ROOT.parent
+REPO = BACKEND.parent
+
+# Load env files in priority order — last loaded wins on conflict.
+load_dotenv(REPO / ".env")
+load_dotenv(BACKEND / ".env")
+load_dotenv(ROOT / ".env")
 
 # ── TUM environment ──────────────────────────────────────────────────────────
 TUM_ENV: str = os.getenv("TUM_ENV", "demo")
@@ -25,7 +32,7 @@ SESSION_STORE_PATH: Path = Path(
 
 # ── Server ───────────────────────────────────────────────────────────────────
 MCP_HOST: str = os.getenv("MCP_HOST", "0.0.0.0")
-MCP_PORT: int = int(os.getenv("MCP_PORT", "8000"))
+MCP_PORT: int = int(os.getenv("MCP_PORT", "8001"))
 INTERNAL_MCP_PORT: int = int(os.getenv("INTERNAL_MCP_PORT", "8001"))
 INSPECTOR_CLIENT_PORT: int = int(os.getenv("INSPECTOR_CLIENT_PORT", "6274"))
 INSPECTOR_PROXY_PORT: int = int(os.getenv("INSPECTOR_PROXY_PORT", "6277"))

@@ -57,12 +57,12 @@ orchestrator calls tools over Streamable HTTP — no LLM logic lives in the MCP.
 
 New terminal + start MCP server:
 ```bash
-cd backend && python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && playwright install chromium && cd mcp && MCP_HOST=127.0.0.1 MCP_PORT=8001 python server.py
+cd backend && source .venv/bin/activate && cd mcp && python server.py
 ```
 
 New terminal + start agent backend:
 ```bash
-cd backend && source .venv/bin/activate && cd agent && AGENT_PORT=8002 MCP_URL=http://127.0.0.1:8001/mcp python server.py
+cd backend && source .venv/bin/activate && cd agent && python server.py
 ```
 
 New terminal + start Vite frontend and connect via the link in the terminal:
@@ -105,7 +105,7 @@ python launch_public.py
 
 ```bash
 cd backend && source .venv/bin/activate
-cd mcp && MCP_HOST=127.0.0.1 MCP_PORT=8001 python server.py
+cd mcp && python server.py
 # → http://127.0.0.1:8001/mcp
 ```
 
@@ -115,7 +115,7 @@ cd mcp && MCP_HOST=127.0.0.1 MCP_PORT=8001 python server.py
 
 ```bash
 cd backend && source .venv/bin/activate
-cd agent && AGENT_PORT=8000 MCP_URL=http://127.0.0.1:8001/mcp python server.py
+cd agent && python server.py
 # → http://127.0.0.1:8000/agent/chat
 ```
 

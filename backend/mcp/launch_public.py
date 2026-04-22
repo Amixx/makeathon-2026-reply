@@ -105,7 +105,10 @@ def main() -> None:
     signal.signal(signal.SIGINT, _stop_children)
 
     try:
-        uvicorn.run("public_gateway:app", host=MCP_HOST, port=MCP_PORT)
+        # The public gateway always listens on port 8000 (or BACKEND_PORT)
+        # while the internal MCP server runs on INTERNAL_MCP_PORT (8001).
+        gateway_port = int(os.getenv("BACKEND_PORT", "8000"))
+        uvicorn.run("public_gateway:app", host=MCP_HOST, port=gateway_port)
     finally:
         _stop_children()
 

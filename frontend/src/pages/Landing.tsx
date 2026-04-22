@@ -28,6 +28,7 @@ export default function Landing() {
   async function handleDemo() {
     setLoadingDemo(true);
     try {
+      reset();
       const bootstrap = await resetDemoProfile();
       hydrate(bootstrap.profile);
       navigate("/onboarding/vision");

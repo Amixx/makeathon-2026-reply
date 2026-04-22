@@ -15,9 +15,9 @@ load_dotenv(BACKEND / ".env")
 load_dotenv(BACKEND / "mcp" / ".env")
 
 AGENT_HOST: str = os.getenv("AGENT_HOST", "0.0.0.0")
-AGENT_PORT: int = int(os.getenv("AGENT_PORT", "8002"))
+AGENT_PORT: int = int(os.getenv("AGENT_PORT", "8000"))
 
-MCP_URL: str = os.getenv("MCP_URL", "http://localhost:8000/mcp")
+MCP_URL: str = os.getenv("MCP_URL", "http://localhost:8001/mcp")
 
 AWS_REGION: str = os.getenv("AWS_REGION", "eu-north-1")
 BEDROCK_MODEL: str = os.getenv(

@@ -1,5 +1,3 @@
-.venv/
+# Voice Agent logs
 logs/*.yaml
 logs/*.yml
-*.pyc
-__pycache__/

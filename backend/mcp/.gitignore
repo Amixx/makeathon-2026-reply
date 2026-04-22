@@ -1,11 +1,3 @@
-.env
-__pycache__/
-*.pyc
-.venv/
+# MCP-specific ignores
 data/sessions/
-*.egg-info/
-dist/
-build/
-.playwright/
-
 test_*.py
