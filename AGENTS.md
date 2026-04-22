@@ -65,7 +65,6 @@ mcp/                    # WayTum MCP Server (Python)
 
 - `TUM_ENV=demo|prod` — controls target (demo.campus.tum.de vs campus.tum.de)
 - `FERNET_KEY` — encrypts session blobs
-- `GOOGLE_API_KEY` — for the agent layer (not used in MCP itself)
 
 ## Explorations
 

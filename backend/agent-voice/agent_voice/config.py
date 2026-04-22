@@ -14,8 +14,6 @@ REPO_ROOT = BACKEND_ROOT.parent
 for env_path in (
     REPO_ROOT / ".env",
     BACKEND_ROOT / ".env",
-    PACKAGE_ROOT / ".env",
-    PACKAGE_ROOT / ".env.local",
 ):
     load_dotenv(env_path, override=False)
 
@@ -25,9 +23,9 @@ class Settings:
     package_root: Path = PACKAGE_ROOT
     logs_dir: Path = PACKAGE_ROOT / "logs"
     cache_dir: Path = PACKAGE_ROOT / "cache"
-    aws_region: str = os.getenv("AWS_REGION", "us-east-1")
-    bedrock_haiku_model: str = os.getenv(
-        "BEDROCK_HAIKU_MODEL", "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+    anthropic_api_key: str = os.getenv("ANTHROPIC_API_KEY", "")
+    anthropic_model: str = os.getenv(
+        "ANTHROPIC_MODEL", "claude-3-5-haiku-20241022"
     )
     conversation_max_tokens: int = int(os.getenv("CONVERSATION_MAX_TOKENS", "300"))
     question_agent_timeout_sec: float = float(os.getenv("QUESTION_AGENT_TIMEOUT_SEC", "30"))

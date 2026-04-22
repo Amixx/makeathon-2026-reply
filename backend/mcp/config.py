@@ -12,7 +12,6 @@ REPO = BACKEND.parent
 # Load env files in priority order — last loaded wins on conflict.
 load_dotenv(REPO / ".env")
 load_dotenv(BACKEND / ".env")
-load_dotenv(ROOT / ".env")
 
 # ── TUM environment ──────────────────────────────────────────────────────────
 TUM_ENV: str = os.getenv("TUM_ENV", "demo")

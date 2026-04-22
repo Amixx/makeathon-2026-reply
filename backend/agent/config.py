@@ -1,4 +1,4 @@
-"""Configuration for the Bedrock-backed WayTum agent service."""
+"""Configuration for the WayTum agent service."""
 
 import os
 from pathlib import Path
@@ -12,19 +12,17 @@ REPO = BACKEND.parent
 # Load env files in priority order — last loaded wins on conflict.
 load_dotenv(REPO / ".env")
 load_dotenv(BACKEND / ".env")
-load_dotenv(BACKEND / "mcp" / ".env")
 
 AGENT_HOST: str = os.getenv("AGENT_HOST", "0.0.0.0")
 AGENT_PORT: int = int(os.getenv("AGENT_PORT", "8000"))
 
 MCP_URL: str = os.getenv("MCP_URL", "http://localhost:8001/mcp")
 
-AWS_REGION: str = os.getenv("AWS_REGION", "eu-north-1")
-BEDROCK_MODEL: str = os.getenv(
-    "BEDROCK_MODEL", "eu.anthropic.claude-haiku-4-5-20251001-v1:0"
+ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
+ANTHROPIC_MODEL: str = os.getenv(
+    "ANTHROPIC_MODEL", "claude-3-5-haiku-20241022"
 )
-BEDROCK_MAX_TOKENS: int = int(os.getenv("BEDROCK_MAX_TOKENS", "4096"))
-ANTHROPIC_VERSION: str = "bedrock-2023-05-31"
+ANTHROPIC_MAX_TOKENS: int = int(os.getenv("ANTHROPIC_MAX_TOKENS", "4096"))
 MAX_TOOL_ROUNDS: int = int(os.getenv("AGENT_MAX_TOOL_ROUNDS", "8"))
 
 DEMO_TUM_USERNAME: str = os.getenv("DEMO_TUM_USERNAME", "ge47lbg").strip()

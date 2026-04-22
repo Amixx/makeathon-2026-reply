@@ -6,8 +6,8 @@ Local voice-first interview loop for the WayTum career coach.
 
 - records a turn from the local microphone
 - transcribes it with ElevenLabs STT
-- runs a structured `question-agent` on Anthropic's Agent SDK over Bedrock Haiku
-- runs a lightweight `conversation-agent` on Bedrock Haiku to phrase the spoken reply
+- runs a structured `question-agent` on Anthropic Haiku
+- runs a lightweight `conversation-agent` on Anthropic Haiku to phrase the spoken reply
 - synthesizes the reply with ElevenLabs TTS
 - saves the evolving interview state to `logs/<session-id>.yaml`
 
@@ -28,10 +28,5 @@ uv run agent-voice --text-only
 
 ## Required environment
 
+- `ANTHROPIC_API_KEY`
 - `ELEVENLABS_API_KEY`
-- Bedrock credentials via standard AWS auth or `AWS_BEARER_TOKEN_BEDROCK`
-
-## Notes
-
-- The question agent uses the Anthropic Agent SDK with Bedrock enabled through `CLAUDE_CODE_USE_BEDROCK=1`.
-- The current implementation is intentionally local and terminal-first. It does not modify the existing `/agent` backend service.

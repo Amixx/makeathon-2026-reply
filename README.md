@@ -225,9 +225,8 @@ cd backend
 fly volumes create session_data --size 1 --region ams
 fly secrets set \
   FERNET_KEY="$(python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())')" \
-  GOOGLE_API_KEY="your-key" \
-  AWS_BEARER_TOKEN_BEDROCK="your-bedrock-bearer-token" \
-  AWS_REGION="eu-north-1"
+  ANTHROPIC_API_KEY="sk-..." \
+  ELEVENLABS_API_KEY="..." \
 ```
 
 Add a repository secret named `FLY_API_TOKEN` in GitHub so the workflow can run

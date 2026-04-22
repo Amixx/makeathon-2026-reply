@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 from typing import Any
 
-from anthropic import AnthropicBedrock
+from anthropic import Anthropic
 
 from .config import Settings
 from .models import QuestionDecision, SessionState
@@ -13,7 +13,7 @@ from .prompts import CONVERSATION_AGENT_SYSTEM_PROMPT, build_conversation_payloa
 class ConversationAgent:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
-        self.client = AnthropicBedrock(aws_region=settings.aws_region)
+        self.client = Anthropic(api_key=settings.anthropic_api_key)
 
     async def respond(
         self,
@@ -36,7 +36,7 @@ class ConversationAgent:
     ) -> str:
         payload = build_conversation_payload(session_view, decision, latest_user_text)
         response = self.client.messages.create(
-            model=self.settings.bedrock_haiku_model,
+            model=self.settings.anthropic_model,
             max_tokens=self.settings.conversation_max_tokens,
             system=CONVERSATION_AGENT_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": payload}],

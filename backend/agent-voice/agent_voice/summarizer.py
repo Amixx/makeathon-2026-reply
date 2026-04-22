@@ -6,15 +6,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-import boto3
+import anthropic
 
 from .config import Settings, load_settings
 from .elevenlabs_client import ElevenLabsClient
 from .models import QuestionDecision, SessionState, TranscriptResult
 from .prompts import QUESTION_AGENT_SYSTEM_PROMPT, build_question_prompt
 from .storage import SessionStore
-
-ANTHROPIC_VERSION = "bedrock-2023-05-31"
 
 
 @dataclass(frozen=True)
@@ -41,27 +39,19 @@ def _decide_sync(
     settings: Settings,
     state: SessionState,
     latest_user_text: str | None,
-    *,
-    aws_region: str | None = None,
-    model_id: str | None = None,
 ) -> QuestionDecision:
-    client = boto3.client("bedrock-runtime", region_name=aws_region or settings.aws_region)
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     prompt = build_question_prompt(state.prompt_view(), latest_user_text)
-    body = {
-        "anthropic_version": ANTHROPIC_VERSION,
-        "max_tokens": 600,
-        "system": QUESTION_AGENT_SYSTEM_PROMPT,
-        "messages": [{"role": "user", "content": prompt}],
-    }
-    response = client.invoke_model(
-        modelId=model_id or settings.bedrock_haiku_model,
-        body=json.dumps(body),
+    response = client.messages.create(
+        model=settings.anthropic_model,
+        max_tokens=600,
+        system=QUESTION_AGENT_SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": prompt}],
     )
-    payload = json.loads(response["body"].read())
     text = "\n".join(
-        block.get("text", "").strip()
-        for block in payload.get("content", [])
-        if block.get("type") == "text" and block.get("text")
+        block.text.strip()
+        for block in response.content
+        if getattr(block, "type", None) == "text" and getattr(block, "text", None)
     ).strip()
     structured = _extract_json_object(text)
     if not structured:
@@ -76,8 +66,6 @@ async def summarize_voice_memo(
     content_type: str = "audio/webm",
     initial_context: dict[str, Any] | None = None,
     session_id: str | None = None,
-    aws_region: str | None = None,
-    model_id: str | None = None,
 ) -> VoiceMemoSummary:
     settings = load_settings()
     store = SessionStore(settings.logs_dir)
@@ -96,8 +84,6 @@ async def summarize_voice_memo(
         settings,
         state,
         transcript.text,
-        aws_region=aws_region,
-        model_id=model_id,
     )
     state.apply_decision(decision)
 

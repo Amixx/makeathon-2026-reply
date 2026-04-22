@@ -4,7 +4,7 @@ import asyncio
 import json
 from typing import Any
 
-from anthropic import AnthropicBedrock
+from anthropic import Anthropic
 
 from .config import Settings
 from .models import QuestionDecision, SessionState
@@ -14,7 +14,7 @@ from .prompts import QUESTION_AGENT_SYSTEM_PROMPT, build_question_prompt
 class QuestionAgent:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
-        self.client = AnthropicBedrock(aws_region=settings.aws_region)
+        self.client = Anthropic(api_key=settings.anthropic_api_key)
 
     async def decide(self, state: SessionState, latest_user_text: str | None) -> QuestionDecision:
         try:
@@ -23,13 +23,13 @@ class QuestionAgent:
                 timeout=self.settings.question_agent_timeout_sec,
             )
         except Exception as exc:  # noqa: BLE001
-            print(f"[question-agent] Bedrock call failed, using heuristic fallback: {exc}")
+            print(f"[question-agent] Anthropic call failed, using heuristic fallback: {exc}")
             return self._heuristic_decision(state, latest_user_text)
 
     def _decide_sync(self, state: SessionState, latest_user_text: str | None) -> QuestionDecision:
         prompt = build_question_prompt(state.prompt_view(), latest_user_text)
         response = self.client.messages.create(
-            model=self.settings.bedrock_haiku_model,
+            model=self.settings.anthropic_model,
             max_tokens=600,
             system=QUESTION_AGENT_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt}],

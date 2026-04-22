@@ -1,4 +1,4 @@
-"""FastAPI agent service — streams Bedrock Anthropic Messages with tool rounds.
+"""FastAPI agent service — streams Anthropic Messages with tool rounds.
 
 Routes are mounted under /agent/* so this service can sit behind public_gateway.py
 which forwards /agent/* paths verbatim to the internal agent port.
@@ -17,7 +17,7 @@ from typing import Any, Dict, Iterator, List, Literal, Optional
 
 import io
 
-import boto3
+import anthropic
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -26,10 +26,9 @@ from pydantic import BaseModel, Field
 from config import (
     AGENT_HOST,
     AGENT_PORT,
-    ANTHROPIC_VERSION,
-    AWS_REGION,
-    BEDROCK_MAX_TOKENS,
-    BEDROCK_MODEL,
+    ANTHROPIC_API_KEY,
+    ANTHROPIC_MAX_TOKENS,
+    ANTHROPIC_MODEL,
     DEMO_TUM_USERNAME,
     MAX_TOOL_ROUNDS,
 )
@@ -46,7 +45,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-_bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
+_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
 _UPLOADS_DIR = Path(__file__).parent / "data" / "uploads"
 _VOICE_AGENT_ROOT = Path(__file__).resolve().parent.parent / "agent-voice"
@@ -96,64 +95,52 @@ def _default_system_prompt() -> str:
 def _stream_one_turn(
     messages: list, system_prompt: str, tool_decls: list
 ) -> Iterator[dict]:
-    """Single Bedrock call; yields {type, ...} events plus a final summary dict.
+    """Single Anthropic call; yields {type, ...} events plus a final summary dict.
 
     Yields:
       - {"type": "text", "delta": str}       — streaming text
       - {"type": "_done", ...}               — internal terminator with content_blocks/tool_uses/stop_reason
     """
 
-    body = {
-        "anthropic_version": ANTHROPIC_VERSION,
-        "max_tokens": BEDROCK_MAX_TOKENS,
-        "system": system_prompt,
-        "tools": tool_decls,
-        "messages": messages,
-    }
-    response = _bedrock.invoke_model_with_response_stream(
-        modelId=BEDROCK_MODEL,
-        body=json.dumps(body),
-    )
-
     content_blocks: list[dict] = []
-    current: dict | None = None
     tool_uses: list[dict] = []
     stop_reason: str | None = None
 
-    for event in response["body"]:
-        if "chunk" not in event:
-            continue
-        chunk = json.loads(event["chunk"]["bytes"])
-        ct = chunk.get("type")
+    with _client.messages.stream(
+        model=ANTHROPIC_MODEL,
+        max_tokens=ANTHROPIC_MAX_TOKENS,
+        system=system_prompt,
+        tools=tool_decls,
+        messages=messages,
+    ) as stream:
+        for event in stream:
+            if event.type == "content_block_start":
+                cb = event.content_block
+                if cb.type == "tool_use":
+                    # Tool use info is also in message_delta or content_block_stop
+                    pass
+            elif event.type == "content_block_delta":
+                d = event.delta
+                if d.type == "text_delta":
+                    yield {"type": "text", "delta": d.text}
+            elif event.type == "message_delta":
+                stop_reason = event.delta.stop_reason or stop_reason
 
-        if ct == "content_block_start":
-            cb = chunk["content_block"]
-            if cb["type"] == "text":
-                current = {"type": "text", "text": ""}
-            elif cb["type"] == "tool_use":
-                current = {"type": "tool_use", "id": cb["id"], "name": cb["name"], "_json": ""}
-            else:
-                current = {"type": cb["type"]}
-        elif ct == "content_block_delta":
-            d = chunk["delta"]
-            dt = d.get("type")
-            if dt == "text_delta" and current and current["type"] == "text":
-                t = d.get("text", "")
-                current["text"] += t
-                if t:
-                    yield {"type": "text", "delta": t}
-            elif dt == "input_json_delta" and current and current["type"] == "tool_use":
-                current["_json"] += d.get("partial_json", "")
-        elif ct == "content_block_stop":
-            if current:
-                if current["type"] == "tool_use":
-                    raw = current.pop("_json", "")
-                    current["input"] = json.loads(raw) if raw else {}
-                    tool_uses.append(current)
-                content_blocks.append(current)
-                current = None
-        elif ct == "message_delta":
-            stop_reason = chunk.get("delta", {}).get("stop_reason") or stop_reason
+        # Get final state from stream
+        final_msg = stream.get_final_message()
+        stop_reason = final_msg.stop_reason
+        for block in final_msg.content:
+            if block.type == "text":
+                content_blocks.append({"type": "text", "text": block.text})
+            elif block.type == "tool_use":
+                tu = {
+                    "type": "tool_use",
+                    "id": block.id,
+                    "name": block.name,
+                    "input": block.input,
+                }
+                content_blocks.append(tu)
+                tool_uses.append(tu)
 
     yield {
         "type": "_done",
@@ -214,7 +201,7 @@ def _run_agent(
 
 @app.get("/agent/health")
 def health() -> dict:
-    return {"ok": True, "model": BEDROCK_MODEL, "region": AWS_REGION}
+    return {"ok": True, "model": ANTHROPIC_MODEL}
 
 
 class ProfileRequest(BaseModel):
@@ -651,7 +638,7 @@ _BLOCKERS_SYSTEM_PROMPT = (
 )
 
 
-def _extract_blockers_with_bedrock(transcript: str) -> dict[str, Any]:
+def _extract_blockers_with_anthropic(transcript: str) -> dict[str, Any]:
     user_prompt = (
         "Voice memo transcript:\n"
         f"{transcript}\n\n"
@@ -664,18 +651,16 @@ def _extract_blockers_with_bedrock(transcript: str) -> dict[str, Any]:
         "IMPOSTER. You may add up to 2 short custom tags if nothing fits.\n"
         "  summary: one-line neutral paraphrase of the heaviest thing.\n"
     )
-    body = {
-        "anthropic_version": ANTHROPIC_VERSION,
-        "max_tokens": 400,
-        "system": _BLOCKERS_SYSTEM_PROMPT,
-        "messages": [{"role": "user", "content": user_prompt}],
-    }
-    response = _bedrock.invoke_model(modelId=BEDROCK_MODEL, body=json.dumps(body))
-    payload = json.loads(response["body"].read())
+    response = _client.messages.create(
+        model=ANTHROPIC_MODEL,
+        max_tokens=400,
+        system=_BLOCKERS_SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": user_prompt}],
+    )
     text = "\n".join(
-        block.get("text", "").strip()
-        for block in payload.get("content", [])
-        if block.get("type") == "text" and block.get("text")
+        block.text.strip()
+        for block in response.content
+        if block.type == "text"
     ).strip()
     start = text.find("{")
     end = text.rfind("}")
@@ -720,8 +705,6 @@ async def voice_transcribe(audio: UploadFile = File(...)) -> dict:
             filename=filename,
             content_type=content_type or "application/octet-stream",
             initial_context=initial_context,
-            aws_region=AWS_REGION,
-            model_id=BEDROCK_MODEL,
         )
     except Exception as exc:  # noqa: BLE001
         raise HTTPException(status_code=502, detail=f"Voice memo processing failed: {exc}") from exc
@@ -780,7 +763,7 @@ async def voice_transcribe_blockers(audio: UploadFile = File(...)) -> dict:
         raise HTTPException(status_code=422, detail="Could not transcribe any speech from the recording.")
 
     try:
-        extracted = _extract_blockers_with_bedrock(transcript_text)
+        extracted = _extract_blockers_with_anthropic(transcript_text)
     except Exception as exc:  # noqa: BLE001
         raise HTTPException(status_code=502, detail=f"Blocker extraction failed: {exc}") from exc
 
@@ -809,22 +792,19 @@ def extract_interests(req: ExtractInterestsRequest) -> dict:
     if len(text) < 15:
         return {"interests": []}
     try:
-        body = {
-            "anthropic_version": ANTHROPIC_VERSION,
-            "max_tokens": 100,
-            "messages": [
+        response = _client.messages.create(
+            model=ANTHROPIC_MODEL,
+            max_tokens=100,
+            messages=[
                 {
                     "role": "user",
                     "content": f"Extract 3-6 short keyword tags (1-3 words each) that capture the main career interests and themes from this text. Return ONLY a JSON array of strings, nothing else.\n\nText: {text}",
                 }
             ],
-        }
-        response = _bedrock.invoke_model(
-            modelId=BEDROCK_MODEL,
-            body=json.dumps(body),
         )
-        result = json.loads(response["body"].read())
-        raw = result.get("content", [{}])[0].get("text", "[]")
+        raw = "\n".join(
+            block.text for block in response.content if block.type == "text"
+        )
         start = raw.find("[")
         end = raw.rfind("]")
         if start >= 0 and end > start:

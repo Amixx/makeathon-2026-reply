@@ -19,7 +19,6 @@ CHILD_PROCESSES: list[subprocess.Popen] = []
 
 load_dotenv(ROOT.parent / ".env")
 load_dotenv(ROOT / ".env")
-load_dotenv(ROOT / "mcp" / ".env")
 
 
 def _dedupe(items: list[str]) -> list[str]:

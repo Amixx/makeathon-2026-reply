@@ -8,7 +8,7 @@ uvicorn
 mvg
 fastapi
 starlette
-boto3
+anthropic
 jinja2
 pyyaml
 pypdf

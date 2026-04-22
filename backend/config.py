@@ -11,7 +11,6 @@ REPO = ROOT.parent
 # Load env files in priority order — last loaded wins on conflict.
 load_dotenv(REPO / ".env")
 load_dotenv(ROOT / ".env")
-load_dotenv(ROOT / "mcp" / ".env")
 
 BACKEND_HOST: str = os.getenv("BACKEND_HOST", "0.0.0.0")
 BACKEND_PORT: int = int(os.getenv("BACKEND_PORT", "8000"))
