@@ -20,7 +20,7 @@ MCP_URL: str = os.getenv("MCP_URL", "http://localhost:8001/mcp")
 
 ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
 ANTHROPIC_MODEL: str = os.getenv(
-    "ANTHROPIC_MODEL", "claude-3-5-haiku-20241022"
+    "ANTHROPIC_MODEL", "claude-3-5-haiku-latest"
 )
 ANTHROPIC_MAX_TOKENS: int = int(os.getenv("ANTHROPIC_MAX_TOKENS", "4096"))
 MAX_TOOL_ROUNDS: int = int(os.getenv("AGENT_MAX_TOOL_ROUNDS", "8"))

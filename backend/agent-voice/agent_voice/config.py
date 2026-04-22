@@ -25,7 +25,7 @@ class Settings:
     cache_dir: Path = PACKAGE_ROOT / "cache"
     anthropic_api_key: str = os.getenv("ANTHROPIC_API_KEY", "")
     anthropic_model: str = os.getenv(
-        "ANTHROPIC_MODEL", "claude-3-5-haiku-20241022"
+        "ANTHROPIC_MODEL", "claude-3-5-haiku-latest"
     )
     conversation_max_tokens: int = int(os.getenv("CONVERSATION_MAX_TOKENS", "300"))
     question_agent_timeout_sec: float = float(os.getenv("QUESTION_AGENT_TIMEOUT_SEC", "30"))
