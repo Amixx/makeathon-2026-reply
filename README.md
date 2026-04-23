@@ -22,7 +22,7 @@ actions on the student's behalf.
 
 - **[@Amixx](https://github.com/Amixx)** — [LinkedIn](https://www.linkedin.com/in/imants-liepi%C5%86%C5%A1-358767190/)
 - **[@Grazvy](https://github.com/Grazvy)** — [LinkedIn](https://www.linkedin.com/in/grazvydas-kuras/)
-- **[@johan-github](https://github.com/johan-github)** — [LinkedIn](https://www.linkedin.com/in/johan-idler/)
+- **[@johanidler](https://github.com/johanidler)** — [LinkedIn](https://www.linkedin.com/in/johanidler/)
 - **[@bytestrom](https://github.com/bytestrom)** — [LinkedIn](https://www.linkedin.com/in/lukasfailer/)
 
 ## Architecture
